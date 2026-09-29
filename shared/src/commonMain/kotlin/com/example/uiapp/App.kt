@@ -14,7 +14,6 @@ import com.example.uiapp.navigation.LocalNavController
 import com.example.uiapp.navigation.rememberAppNavController
 import com.example.uiapp.theme.UiAppTheme
 import com.example.uiapp.ui.home.HomeSection
-import com.example.uiapp.ui.home.MenuEntries
 import com.example.uiapp.ui.adaptive.AdaptiveScreen
 import com.example.uiapp.ui.advancedinput.AdvancedInputLabScreen
 import com.example.uiapp.ui.advancedlist.AdvancedListLabScreen
@@ -261,300 +260,310 @@ fun App() {
         var selectedHomeSection by remember { mutableStateOf(HomeSection.ALL) }
         var lastTestedRoute by remember { mutableStateOf<String?>(null) }
 
+        // Setiap kembali ke Home mengembalikan filter ke Semua (71), bukan section lab yang dibuka.
+        val handleBack: () -> Unit = {
+            selectedHomeSection = HomeSection.ALL
+            navController.pop()
+        }
+        val handleExitToHome: () -> Unit = {
+            selectedHomeSection = HomeSection.ALL
+            navController.popToRoot()
+        }
+
         CompositionLocalProvider(LocalNavController provides navController) {
             BackHandler(enabled = navController.canPop) {
-                navController.pop()
+                handleBack()
             }
 
             when (navController.currentRoute) {
                 RouteAutoBlurScroll -> AutoBlurScrollScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteStickyHeader -> StickyHeaderScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteParallaxHero -> ParallaxHeroScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteShimmer -> ShimmerSkeletonScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSharedElement -> SharedElementScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteBottomSheet -> BottomSheetScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteEmptyState -> EmptyStateScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteMotionLab -> MotionLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteFormLab -> FormLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteNavLab -> NavLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAdaptive -> AdaptiveScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteGallery -> GalleryScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteFeedback -> FeedbackLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteStats -> StatsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteCharts -> ChartsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteInfiniteScroll -> InfiniteScrollScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteMultiSelect -> MultiSelectScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSearch -> SearchAutocompleteScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteThemeLab -> ThemeLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSplash -> SplashScreen(
-                    onBack = { navController.popToRoot() },
-                    onFinish = { navController.popToRoot() },
+                    onBack = handleExitToHome,
+                    onFinish = handleExitToHome,
                     onNavigateToOnboarding = { navController.navigate(RouteOnboarding) },
                 )
 
                 RouteOnboarding -> OnboardingScreen(
-                    onBack = { navController.popToRoot() },
+                    onBack = handleExitToHome,
                     onFinish = { navController.navigate(RouteAuth) },
                 )
 
                 RouteAuth -> AuthScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                     onFinish = { navController.navigate(RoutePermissions) },
                 )
 
                 RouteBiometric -> BiometricScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RoutePasscode -> PasscodeScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RoutePermissions -> PermissionsScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                     onFinish = { navController.navigate(RouteProfileSetup) },
                 )
 
                 RouteProfileSetup -> ProfileSetupScreen(
-                    onBack = { navController.pop() },
-                    onFinish = { navController.popToRoot() },
+                    onBack = handleBack,
+                    onFinish = handleExitToHome,
                 )
 
                 RouteNavStructure -> NavStructureLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAdvancedList -> AdvancedListLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteDataCards -> DataCardsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAdvancedInput -> AdvancedInputLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteOverlay -> OverlayLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteMedia -> MediaLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSettings -> SettingsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteCommerce -> CommerceLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSystemPlatform -> SystemPlatformLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteTickerCounter -> TickerCounterLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RoutePullDismiss -> PullDownDismissLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteCommandPalette -> CommandPaletteLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteConfettiParticles -> ConfettiParticlesLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteReactionsBar -> ReactionsBarLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSwipeCards -> SwipeCardsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSwipeActions -> SwipeActionsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteMorphingFab -> MorphingFabLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RoutePrivacyMasking -> PrivacyMaskingLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteBalanceMasking -> BalanceMaskingLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteScratchCard -> ScratchCardLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteStreakHeatmap -> StreakHeatmapLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteHoldToConfirm -> HoldToConfirmLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSlideToConfirm -> SlideToConfirmLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSplitComparison -> SplitComparisonLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteBentoGrid -> BentoGridLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RoutePerforatedTicket -> PerforatedTicketLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAiVoiceOrb -> AiVoiceOrbLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAiChat -> AiChatLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteSelectionToolbar -> SelectionToolbarLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteUndoQueue -> UndoQueueLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAdaptiveNavigation -> AdaptiveNavLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteExpressiveControls -> ExpressiveControlsLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAccessibilityLab -> AccessibilityLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteActivityInbox -> ActivityInboxLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteResumeForm -> ResumeFormLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteNativeSurfaces -> NativeSurfacesLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteFocusTimer -> FocusTimerLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteMasonryGrid -> MasonryGridLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteAmountKeypad -> AmountKeypadLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteCategoryScroll -> CategoryScrollLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteDataTable -> DataTableLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteGamification -> GamificationLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteDataViz -> DataVizLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteScrollMotion -> ScrollMotionLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 RouteCreateLab -> CreateLabScreen(
-                    onBack = { navController.pop() },
+                    onBack = handleBack,
                 )
 
                 else -> HomeMenuScreen(
@@ -565,10 +574,6 @@ fun App() {
                     onMenuClick = { id ->
                         if (id in KnownRoutes) {
                             lastTestedRoute = id
-                            val entry = MenuEntries.find { it.id == id }
-                            if (entry != null) {
-                                selectedHomeSection = entry.section
-                            }
                             navController.navigate(id)
                         }
                     },
