@@ -55,7 +55,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.icons.MgIosBackButton
 import kotlinx.coroutines.launch
 
@@ -90,6 +90,8 @@ private val Stays = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BottomSheetScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     var anchor by remember { mutableStateOf(SheetAnchor.PEEK) }
 
     BackHandler(enabled = true) {
@@ -99,7 +101,7 @@ fun BottomSheetScreen(onBack: () -> Unit) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(LuxuryColors.Background),
+            .background(palette.background),
     ) {
         val density = LocalDensity.current
         val fullPx = with(density) { maxHeight.toPx() }
@@ -177,8 +179,8 @@ fun BottomSheetScreen(onBack: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer { translationY = fullPx - effective }
-                .background(LuxuryColors.SurfaceWhite, sheetShape)
-                .border(BorderStroke(1.dp, LuxuryColors.SurfaceBorder), sheetShape),
+                .background(palette.surface, sheetShape)
+                .border(BorderStroke(1.dp, palette.border), sheetShape),
         ) {
             SheetHeader(
                 dragState = dragState,
@@ -229,6 +231,8 @@ private fun SheetHeader(
     onDragStopped: suspend (Float) -> Unit,
     onClick: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -246,7 +250,7 @@ private fun SheetHeader(
                 .width(44.dp)
                 .height(5.dp)
                 .clip(RoundedCornerShape(3.dp))
-                .background(LuxuryColors.SurfaceBorder),
+                .background(palette.border),
         )
         Column(modifier = Modifier.padding(horizontal = 22.dp, vertical = 14.dp)) {
             Row(
@@ -260,20 +264,20 @@ private fun SheetHeader(
                     fontWeight = FontWeight.Bold,
                     fontSize = 21.sp,
                     letterSpacing = (-0.3).sp,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Text(
                     text = "8 tersedia",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Tarik ke atas untuk melihat lebih banyak",
                 fontSize = 12.sp,
-                color = LuxuryColors.TextSecondary,
+                color = palette.textSecondary,
             )
         }
     }
@@ -294,11 +298,13 @@ private fun StayList(modifier: Modifier) {
 
 @Composable
 private fun StayRow(stay: Stay) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -330,7 +336,7 @@ private fun StayRow(stay: Stay) {
                     text = stay.name,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -338,7 +344,7 @@ private fun StayRow(stay: Stay) {
                 Text(
                     text = "${stay.area} \u00B7 ${stay.type}",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -349,7 +355,7 @@ private fun StayRow(stay: Stay) {
                     text = stay.price,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -357,7 +363,7 @@ private fun StayRow(stay: Stay) {
                     text = "\u2605 ${stay.rating}",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.AccentWarning,
+                    color = palette.warning,
                 )
             }
         }
@@ -374,6 +380,8 @@ private fun FloatingControls(
     onBack: () -> Unit,
     onSelect: (SheetAnchor) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     val live = nearestAnchor(effective, peekPx, halfPx, fullPx)
     Column(
         modifier = Modifier
@@ -384,21 +392,21 @@ private fun FloatingControls(
         Row(verticalAlignment = Alignment.CenterVertically) {
             MgIosBackButton(
                 onClick = onBack,
-                backgroundColor = LuxuryColors.SurfaceWhite,
-                borderColor = LuxuryColors.SurfaceBorder,
-                iconTint = LuxuryColors.TextPrimary,
+                backgroundColor = palette.surface,
+                borderColor = palette.border,
+                iconTint = palette.textPrimary,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = "Bottom Sheet Bertingkat",
                 modifier = Modifier
                     .clip(RoundedCornerShape(11.dp))
-                    .background(LuxuryColors.SurfaceWhite)
-                    .border(1.dp, LuxuryColors.SurfaceBorder, RoundedCornerShape(11.dp))
+                    .background(palette.surface)
+                    .border(1.dp, palette.border, RoundedCornerShape(11.dp))
                     .padding(horizontal = 12.dp, vertical = 9.dp),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -413,16 +421,16 @@ private fun FloatingControls(
                     text = entry.label,
                     modifier = Modifier
                         .clip(RoundedCornerShape(20.dp))
-                        .background(if (selected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceWhite)
+                        .background(if (selected) palette.primary else palette.surface)
                         .border(
-                            BorderStroke(1.dp, if (selected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder),
+                            BorderStroke(1.dp, if (selected) palette.primary else palette.border),
                             RoundedCornerShape(20.dp),
                         )
                         .clickable { onSelect(entry) }
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = if (selected) Color.White else LuxuryColors.TextSecondary,
+                    color = if (selected) Color.White else palette.textSecondary,
                 )
             }
         }

@@ -77,6 +77,8 @@ private val SparklineCards = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ChartsLabScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val appear = remember { Animatable(0f) }
@@ -86,7 +88,7 @@ fun ChartsLabScreen(onBack: () -> Unit) {
     val progress = appear.value
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Charts Lab",
@@ -122,9 +124,9 @@ fun ChartsLabScreen(onBack: () -> Unit) {
                 BarChart(groups = ChannelBars, progress = progress)
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
-                    LegendDot(color = LuxuryColors.TealPrimary, label = "Direct")
+                    LegendDot(color = palette.primary, label = "Direct")
                     Spacer(modifier = Modifier.width(16.dp))
-                    LegendDot(color = LuxuryColors.AccentInfo, label = "Marketplace")
+                    LegendDot(color = palette.info, label = "Marketplace")
                 }
             }
 
@@ -159,7 +161,7 @@ fun ChartsLabScreen(onBack: () -> Unit) {
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
                 modifier = Modifier.padding(bottom = 10.dp),
             )
 
@@ -180,11 +182,13 @@ private fun ChartCard(
     subtitle: String,
     content: @Composable () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -193,13 +197,13 @@ private fun ChartCard(
                 text = title,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = subtitle,
                 fontSize = 12.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
             Spacer(modifier = Modifier.height(16.dp))
             content()
@@ -209,6 +213,8 @@ private fun ChartCard(
 
 @Composable
 private fun AxisLabels(labels: List<String>) {
+    val palette = LocalAppPalette.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -217,7 +223,7 @@ private fun AxisLabels(labels: List<String>) {
             Text(
                 text = label,
                 fontSize = 10.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
         }
     }
@@ -229,6 +235,8 @@ private fun LegendDot(
     label: String,
     value: String? = null,
 ) {
+    val palette = LocalAppPalette.current
+
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
@@ -241,7 +249,7 @@ private fun LegendDot(
             text = label,
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
             modifier = if (value != null) Modifier.weight(1f, fill = false) else Modifier,
         )
         if (value != null) {
@@ -250,7 +258,7 @@ private fun LegendDot(
                 text = value,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
         }
     }
@@ -258,6 +266,8 @@ private fun LegendDot(
 
 @Composable
 private fun LineChart(data: List<Float>, progress: Float) {
+    val palette = LocalAppPalette.current
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
@@ -274,7 +284,7 @@ private fun LineChart(data: List<Float>, progress: Float) {
         repeat(4) { index ->
             val y = inset + usableH * (index / 3f)
             drawLine(
-                color = LuxuryColors.SurfaceBorder.copy(alpha = 0.7f),
+                color = palette.border.copy(alpha = 0.7f),
                 start = Offset(0f, y),
                 end = Offset(w, y),
                 strokeWidth = 1.dp.toPx(),
@@ -302,14 +312,14 @@ private fun LineChart(data: List<Float>, progress: Float) {
             path = area,
             brush = Brush.verticalGradient(
                 colors = listOf(
-                    LuxuryColors.TealPrimary.copy(alpha = 0.22f),
-                    LuxuryColors.TealPrimary.copy(alpha = 0f),
+                    palette.primary.copy(alpha = 0.22f),
+                    palette.primary.copy(alpha = 0f),
                 ),
             ),
         )
         drawPath(
             path = line,
-            color = LuxuryColors.TealPrimary,
+            color = palette.primary,
             style = Stroke(
                 width = 2.6.dp.toPx(),
                 cap = StrokeCap.Round,
@@ -317,9 +327,9 @@ private fun LineChart(data: List<Float>, progress: Float) {
             ),
         )
         points.forEach { point ->
-            drawCircle(color = LuxuryColors.SurfaceWhite, radius = 3.6.dp.toPx(), center = point)
+            drawCircle(color = palette.surface, radius = 3.6.dp.toPx(), center = point)
             drawCircle(
-                color = LuxuryColors.TealPrimary,
+                color = palette.primary,
                 radius = 3.6.dp.toPx(),
                 center = point,
                 style = Stroke(width = 2.dp.toPx()),
@@ -330,6 +340,8 @@ private fun LineChart(data: List<Float>, progress: Float) {
 
 @Composable
 private fun BarChart(groups: List<BarGroup>, progress: Float) {
+    val palette = LocalAppPalette.current
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
@@ -344,7 +356,7 @@ private fun BarChart(groups: List<BarGroup>, progress: Float) {
         val gap = groupWidth * 0.1f
 
         drawLine(
-            color = LuxuryColors.SurfaceBorder,
+            color = palette.border,
             start = Offset(0f, h),
             end = Offset(w, h),
             strokeWidth = 1.dp.toPx(),
@@ -359,13 +371,13 @@ private fun BarChart(groups: List<BarGroup>, progress: Float) {
             val bHeight = (group.b / max) * h * progress
 
             drawRoundRect(
-                color = LuxuryColors.TealPrimary,
+                color = palette.primary,
                 topLeft = Offset(leftX, h - aHeight),
                 size = Size(barWidth, aHeight),
                 cornerRadius = androidx.compose.ui.geometry.CornerRadius(barWidth / 2f, barWidth / 2f),
             )
             drawRoundRect(
-                color = LuxuryColors.AccentInfo,
+                color = palette.info,
                 topLeft = Offset(rightX, h - bHeight),
                 size = Size(barWidth, bHeight),
                 cornerRadius = androidx.compose.ui.geometry.CornerRadius(barWidth / 2f, barWidth / 2f),
@@ -376,6 +388,8 @@ private fun BarChart(groups: List<BarGroup>, progress: Float) {
 
 @Composable
 private fun DonutChart(segments: List<DonutSegment>, progress: Float) {
+    val palette = LocalAppPalette.current
+
     val total = segments.sumOf { it.value.toDouble() }.toFloat().coerceAtLeast(1f)
     Box(
         modifier = Modifier.size(128.dp),
@@ -388,7 +402,7 @@ private fun DonutChart(segments: List<DonutSegment>, progress: Float) {
             val topLeft = Offset(inset, inset)
 
             drawArc(
-                color = LuxuryColors.SurfaceMuted,
+                color = palette.surfaceMuted,
                 startAngle = 0f,
                 sweepAngle = 360f,
                 useCenter = false,
@@ -417,12 +431,12 @@ private fun DonutChart(segments: List<DonutSegment>, progress: Float) {
                 text = "${(progress * 100).toInt()}%",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
             Text(
                 text = "terisi",
                 fontSize = 11.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
         }
     }
@@ -435,11 +449,13 @@ private fun SparklineRow(
     tint: Color,
     progress: Float,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -454,13 +470,13 @@ private fun SparklineRow(
                     text = label,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "${(data.last() * 100).toInt()}%",
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
             Spacer(modifier = Modifier.width(10.dp))

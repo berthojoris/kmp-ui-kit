@@ -55,7 +55,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.FlatPrimaryButton
 import com.example.uiapp.ui.components.FlatTextField
 import com.example.uiapp.ui.components.UiTopBar
@@ -63,6 +63,8 @@ import com.example.uiapp.ui.components.UiTopBar
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthScreen(onBack: () -> Unit, onFinish: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     var mode by remember { mutableIntStateOf(0) }
@@ -91,7 +93,7 @@ fun AuthScreen(onBack: () -> Unit, onFinish: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = if (isRegister) "Buat Akun" else "Masuk",
@@ -185,7 +187,7 @@ fun AuthScreen(onBack: () -> Unit, onFinish: () -> Unit) {
                         modifier = Modifier.clickable { },
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                     )
                 }
             }
@@ -220,13 +222,15 @@ fun AuthScreen(onBack: () -> Unit, onFinish: () -> Unit) {
 
 @Composable
 private fun ModeSwitch(selected: Int, onSelect: (Int) -> Unit) {
+    val palette = LocalAppPalette.current
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(44.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(LuxuryColors.SurfaceMuted)
-            .border(1.dp, LuxuryColors.SurfaceBorder, RoundedCornerShape(12.dp)),
+            .background(palette.surfaceMuted)
+            .border(1.dp, palette.border, RoundedCornerShape(12.dp)),
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             val segmentWidth = maxWidth / 2
@@ -242,14 +246,14 @@ private fun ModeSwitch(selected: Int, onSelect: (Int) -> Unit) {
                     .fillMaxHeight()
                     .padding(4.dp)
                     .clip(RoundedCornerShape(9.dp))
-                    .background(LuxuryColors.SurfaceWhite)
-                    .border(1.dp, LuxuryColors.SurfaceBorder, RoundedCornerShape(9.dp)),
+                    .background(palette.surface)
+                    .border(1.dp, palette.border, RoundedCornerShape(9.dp)),
             )
             Row(modifier = Modifier.fillMaxSize()) {
                 listOf("Masuk", "Daftar").forEachIndexed { index, label ->
                     val active = index == selected
                     val color by animateColorAsState(
-                        targetValue = if (active) LuxuryColors.TextPrimary else LuxuryColors.TextMuted,
+                        targetValue = if (active) palette.textPrimary else palette.textMuted,
                         animationSpec = tween(200),
                         label = "authTint",
                     )
@@ -280,6 +284,8 @@ private fun CheckRow(
     label: String,
     modifier: Modifier = Modifier,
 ) {
+    val palette = LocalAppPalette.current
+
     Row(
         modifier = modifier.clickable { onCheckedChange(!checked) },
         verticalAlignment = Alignment.CenterVertically,
@@ -287,7 +293,7 @@ private fun CheckRow(
         Canvas(modifier = Modifier.size(20.dp)) {
             val radius = size.minDimension / 2f
             if (checked) {
-                drawCircle(color = LuxuryColors.TealPrimary, radius = radius)
+                drawCircle(color = palette.primary, radius = radius)
                 val check = Path().apply {
                     moveTo(size.width * 0.28f, size.height * 0.52f)
                     lineTo(size.width * 0.44f, size.height * 0.68f)
@@ -300,7 +306,7 @@ private fun CheckRow(
                 )
             } else {
                 drawCircle(
-                    color = LuxuryColors.SurfaceBorder,
+                    color = palette.border,
                     radius = radius - 1.dp.toPx(),
                     style = Stroke(width = 1.6.dp.toPx()),
                 )
@@ -310,13 +316,15 @@ private fun CheckRow(
         Text(
             text = label,
             fontSize = 12.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
     }
 }
 
 @Composable
 private fun OrDivider() {
+    val palette = LocalAppPalette.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -325,19 +333,19 @@ private fun OrDivider() {
             modifier = Modifier
                 .weight(1f)
                 .height(1.dp)
-                .background(LuxuryColors.SurfaceBorder),
+                .background(palette.border),
         )
         Text(
             text = "atau",
             modifier = Modifier.padding(horizontal = 12.dp),
             fontSize = 11.sp,
-            color = LuxuryColors.TextMuted,
+            color = palette.textMuted,
         )
         Box(
             modifier = Modifier
                 .weight(1f)
                 .height(1.dp)
-                .background(LuxuryColors.SurfaceBorder),
+                .background(palette.border),
         )
     }
 }
@@ -346,13 +354,15 @@ private enum class SocialKind(val label: String) { APPLE("Lanjutkan dengan Apple
 
 @Composable
 private fun SocialButton(kind: SocialKind, onClick: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     val isApple = kind == SocialKind.APPLE
     Surface(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = if (isApple) Color(0xFF111827) else LuxuryColors.SurfaceWhite,
-        border = if (isApple) null else BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = if (isApple) Color(0xFF111827) else palette.surface,
+        border = if (isApple) null else BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -373,7 +383,7 @@ private fun SocialButton(kind: SocialKind, onClick: () -> Unit) {
                 text = kind.label,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = if (isApple) Color.White else LuxuryColors.TextPrimary,
+                color = if (isApple) Color.White else palette.textPrimary,
             )
         }
     }

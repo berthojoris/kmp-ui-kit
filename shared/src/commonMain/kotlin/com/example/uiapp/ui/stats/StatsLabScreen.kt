@@ -109,10 +109,12 @@ private val Expandables = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun StatsLabScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Stats Lab",
@@ -135,15 +137,15 @@ fun StatsLabScreen(onBack: () -> Unit) {
                 fontSize = 11.sp,
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 1.6.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
             Spacer(modifier = Modifier.height(14.dp))
 
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                color = LuxuryColors.SurfaceWhite,
-                border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                color = palette.surface,
+                border = BorderStroke(1.dp, palette.border),
                 shadowElevation = 0.dp,
                 tonalElevation = 0.dp,
             ) {
@@ -166,7 +168,7 @@ fun StatsLabScreen(onBack: () -> Unit) {
                 fontSize = 11.sp,
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 1.6.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
             Spacer(modifier = Modifier.height(14.dp))
 
@@ -182,6 +184,8 @@ fun StatsLabScreen(onBack: () -> Unit) {
 
 @Composable
 private fun StatRing(metric: StatMetric) {
+    val palette = LocalAppPalette.current
+
     val progress = remember { Animatable(0f) }
 
     LaunchedEffect(metric) {
@@ -204,7 +208,7 @@ private fun StatRing(metric: StatMetric) {
                 val inset = strokeWidth / 2
                 val arcSize = Size(size.width - strokeWidth, size.height - strokeWidth)
                 drawArc(
-                    color = LuxuryColors.SurfaceMuted,
+                    color = palette.surfaceMuted,
                     startAngle = 0f,
                     sweepAngle = 360f,
                     useCenter = false,
@@ -228,7 +232,7 @@ private fun StatRing(metric: StatMetric) {
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
             }
         }
@@ -237,13 +241,15 @@ private fun StatRing(metric: StatMetric) {
             text = metric.label,
             fontSize = 11.sp,
             fontWeight = FontWeight.Medium,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
     }
 }
 
 @Composable
 private fun ExpandableCard(item: ExpandableItem) {
+    val palette = LocalAppPalette.current
+
     var expanded by remember { mutableStateOf(false) }
     val chevronRotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
@@ -255,8 +261,8 @@ private fun ExpandableCard(item: ExpandableItem) {
         onClick = { expanded = !expanded },
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -271,13 +277,13 @@ private fun ExpandableCard(item: ExpandableItem) {
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = item.summary,
                         fontSize = 12.sp,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -287,11 +293,11 @@ private fun ExpandableCard(item: ExpandableItem) {
                     modifier = Modifier
                         .size(30.dp)
                         .clip(RoundedCornerShape(10.dp))
-                        .background(LuxuryColors.SurfaceMuted)
+                        .background(palette.surfaceMuted)
                         .graphicsLayer { rotationZ = chevronRotation },
                     contentAlignment = Alignment.Center,
                 ) {
-                    ChevronGlyph(tint = LuxuryColors.TextPrimary)
+                    ChevronGlyph(tint = palette.textPrimary)
                 }
             }
 
@@ -306,14 +312,14 @@ private fun ExpandableCard(item: ExpandableItem) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(1.dp)
-                            .background(LuxuryColors.Divider),
+                            .background(palette.border),
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
                         text = item.detail,
                         fontSize = 13.sp,
                         lineHeight = 21.sp,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                     )
                 }
             }

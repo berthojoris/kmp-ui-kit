@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
 private enum class RowStatus { PAID, PENDING, REFUND }
@@ -71,10 +71,12 @@ private val Sections: List<Section> = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun StickyHeaderScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Sticky Header",
@@ -107,12 +109,14 @@ fun StickyHeaderScreen(onBack: () -> Unit) {
 
 @Composable
 private fun BalanceSummary() {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 8.dp),
         shape = RoundedCornerShape(22.dp),
-        color = LuxuryColors.TealPrimary,
+        color = palette.primary,
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -166,10 +170,12 @@ private fun SummaryStat(label: String, value: String) {
 
 @Composable
 private fun SectionHeader(section: Section) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(LuxuryColors.SurfaceWhite),
+            .background(palette.surface),
     ) {
         Row(
             modifier = Modifier
@@ -182,37 +188,39 @@ private fun SectionHeader(section: Section) {
                 text = section.title,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
             Text(
                 text = "${section.rows.size} item",
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
-                    .background(LuxuryColors.SurfaceMuted)
+                    .background(palette.surfaceMuted)
                     .padding(horizontal = 10.dp, vertical = 3.dp),
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Medium,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
         }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(LuxuryColors.SurfaceBorder),
+                .background(palette.border),
         )
     }
 }
 
 @Composable
 private fun ActivityCard(row: ActivityRow) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 6.dp),
         shape = RoundedCornerShape(16.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -226,14 +234,14 @@ private fun ActivityCard(row: ActivityRow) {
                 modifier = Modifier
                     .size(42.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(LuxuryColors.SurfaceMuted),
+                    .background(palette.surfaceMuted),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = "${row.id}",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
             }
 
@@ -244,7 +252,7 @@ private fun ActivityCard(row: ActivityRow) {
                     text = row.title,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -252,7 +260,7 @@ private fun ActivityCard(row: ActivityRow) {
                 Text(
                     text = row.subtitle,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -265,7 +273,7 @@ private fun ActivityCard(row: ActivityRow) {
                     text = row.amount,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(5.dp))
@@ -277,18 +285,20 @@ private fun ActivityCard(row: ActivityRow) {
 
 @Composable
 private fun StatusPill(status: RowStatus) {
+    val palette = LocalAppPalette.current
+
     val background: Color
     val foreground: Color
     val label: String
     when (status) {
         RowStatus.PAID -> {
-            background = Color(0xFFE8F5E9); foreground = LuxuryColors.Accent; label = "PAID"
+            background = Color(0xFFE8F5E9); foreground = palette.success; label = "PAID"
         }
         RowStatus.PENDING -> {
-            background = Color(0xFFFFF7ED); foreground = LuxuryColors.AccentWarning; label = "PENDING"
+            background = Color(0xFFFFF7ED); foreground = palette.warning; label = "PENDING"
         }
         RowStatus.REFUND -> {
-            background = Color(0xFFEFF6FF); foreground = LuxuryColors.AccentInfo; label = "REFUND"
+            background = Color(0xFFEFF6FF); foreground = palette.info; label = "REFUND"
         }
     }
     Text(

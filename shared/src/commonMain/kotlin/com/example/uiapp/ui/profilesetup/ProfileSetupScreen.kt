@@ -49,7 +49,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.FlatPrimaryButton
 import com.example.uiapp.ui.components.FlatSecondaryButton
 import com.example.uiapp.ui.components.FlatTextField
@@ -65,6 +65,8 @@ private val Interests = listOf(
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun ProfileSetupScreen(onBack: () -> Unit, onFinish: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     var step by remember { mutableIntStateOf(0) }
     var name by remember { mutableStateOf("") }
     var bio by remember { mutableStateOf("") }
@@ -84,7 +86,7 @@ fun ProfileSetupScreen(onBack: () -> Unit, onFinish: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Profil",
@@ -96,7 +98,7 @@ fun ProfileSetupScreen(onBack: () -> Unit, onFinish: () -> Unit) {
         },
         bottomBar = {
             Surface(
-                color = LuxuryColors.SurfaceWhite,
+                color = palette.surface,
                 modifier = Modifier
                     .fillMaxWidth()
                     .navigationBarsPadding(),
@@ -106,7 +108,7 @@ fun ProfileSetupScreen(onBack: () -> Unit, onFinish: () -> Unit) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(1.dp)
-                            .background(LuxuryColors.SurfaceBorder),
+                            .background(palette.border),
                     )
                     Row(
                         modifier = Modifier
@@ -180,12 +182,14 @@ fun ProfileSetupScreen(onBack: () -> Unit, onFinish: () -> Unit) {
 
 @Composable
 private fun StepProgress(step: Int) {
+    val palette = LocalAppPalette.current
+
     Column {
         Text(
             text = "Langkah ${step + 1} dari $TotalSteps",
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold,
-            color = LuxuryColors.TextMuted,
+            color = palette.textMuted,
         )
         Spacer(modifier = Modifier.height(10.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -196,8 +200,8 @@ private fun StepProgress(step: Int) {
                         .height(6.dp)
                         .clip(RoundedCornerShape(3.dp))
                         .background(
-                            if (index <= step) LuxuryColors.TealPrimary
-                            else LuxuryColors.SurfaceMuted,
+                            if (index <= step) palette.primary
+                            else palette.surfaceMuted,
                         ),
                 )
             }
@@ -212,6 +216,8 @@ private fun StepIdentity(
     bio: String,
     onBioChange: (String) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Column {
         StepTitle(
             title = "Perkenalkan diri",
@@ -228,8 +234,8 @@ private fun StepIdentity(
                 modifier = Modifier
                     .size(96.dp)
                     .clip(CircleShape)
-                    .background(LuxuryColors.SurfaceMuted)
-                    .border(1.dp, LuxuryColors.SurfaceBorder, CircleShape),
+                    .background(palette.surfaceMuted)
+                    .border(1.dp, palette.border, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -237,7 +243,7 @@ private fun StepIdentity(
                     fontFamily = FontFamily.Serif,
                     fontSize = 34.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
             Box(
@@ -245,8 +251,8 @@ private fun StepIdentity(
                     .align(Alignment.BottomEnd)
                     .size(30.dp)
                     .clip(CircleShape)
-                    .background(LuxuryColors.TealPrimary)
-                    .border(2.dp, LuxuryColors.SurfaceWhite, CircleShape),
+                    .background(palette.primary)
+                    .border(2.dp, palette.surface, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 Canvas(modifier = Modifier.size(15.dp)) {
@@ -295,6 +301,8 @@ private fun StepInterests(
     selected: List<String>,
     onToggle: (String) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Column {
         StepTitle(
             title = "Pilih minat Anda",
@@ -310,10 +318,10 @@ private fun StepInterests(
                 Surface(
                     onClick = { onToggle(interest) },
                     shape = RoundedCornerShape(20.dp),
-                    color = if (active) LuxuryColors.TealPrimary else LuxuryColors.SurfaceWhite,
+                    color = if (active) palette.primary else palette.surface,
                     border = BorderStroke(
                         1.dp,
-                        if (active) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+                        if (active) palette.primary else palette.border,
                     ),
                     shadowElevation = 0.dp,
                     tonalElevation = 0.dp,
@@ -323,7 +331,7 @@ private fun StepInterests(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = if (active) Color.White else LuxuryColors.TextSecondary,
+                        color = if (active) Color.White else palette.textSecondary,
                     )
                 }
             }
@@ -341,6 +349,8 @@ private fun StepPreferences(
     onLocationAccess: (Boolean) -> Unit,
     name: String,
 ) {
+    val palette = LocalAppPalette.current
+
     Column {
         StepTitle(
             title = "Atur preferensi",
@@ -374,7 +384,7 @@ private fun StepPreferences(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            color = LuxuryColors.TealLight,
+            color = palette.primaryContainer,
             shadowElevation = 0.dp,
             tonalElevation = 0.dp,
         ) {
@@ -384,19 +394,19 @@ private fun StepPreferences(
             ) {
                 Canvas(modifier = Modifier.size(26.dp)) {
                     drawCircle(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         radius = size.minDimension * 0.42f,
                         style = Stroke(width = 2.dp.toPx()),
                     )
                     drawLine(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         start = Offset(size.width * 0.32f, size.height * 0.42f),
                         end = Offset(size.width * 0.46f, size.height * 0.56f),
                         strokeWidth = 2.4.dp.toPx(),
                         cap = StrokeCap.Round,
                     )
                     drawLine(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         start = Offset(size.width * 0.46f, size.height * 0.56f),
                         end = Offset(size.width * 0.7f, size.height * 0.3f),
                         strokeWidth = 2.4.dp.toPx(),
@@ -408,7 +418,7 @@ private fun StepPreferences(
                     text = "Profil $name siap dibuat.",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
         }
@@ -422,11 +432,13 @@ private fun PreferenceRow(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -441,13 +453,13 @@ private fun PreferenceRow(
                     text = label,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = description,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
             Spacer(modifier = Modifier.width(10.dp))
@@ -458,6 +470,8 @@ private fun PreferenceRow(
 
 @Composable
 private fun StepTitle(title: String, subtitle: String) {
+    val palette = LocalAppPalette.current
+
     Column {
         Text(
             text = title,
@@ -465,13 +479,13 @@ private fun StepTitle(title: String, subtitle: String) {
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
             letterSpacing = (-0.3).sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = subtitle,
             fontSize = 13.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
     }
 }

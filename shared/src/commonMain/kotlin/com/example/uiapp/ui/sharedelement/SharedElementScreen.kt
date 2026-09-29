@@ -53,7 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.icons.MgIosBackButton
 import com.example.uiapp.ui.components.UiTopBar
 
@@ -182,8 +182,10 @@ private fun DestinationGrid(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
+    val palette = LocalAppPalette.current
+
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Shared Element",
@@ -220,13 +222,15 @@ private fun DestinationCard(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
+    val palette = LocalAppPalette.current
+
     with(sharedTransitionScope) {
         Surface(
             onClick = onClick,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
-            color = LuxuryColors.SurfaceWhite,
-            border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+            color = palette.surface,
+            border = BorderStroke(1.dp, palette.border),
             shadowElevation = 0.dp,
             tonalElevation = 0.dp,
         ) {
@@ -257,7 +261,7 @@ private fun DestinationCard(
                         fontSize = 9.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.sp,
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                     )
                 }
                 Column(modifier = Modifier.padding(13.dp)) {
@@ -271,7 +275,7 @@ private fun DestinationCard(
                         ),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -284,7 +288,7 @@ private fun DestinationCard(
                         Text(
                             text = destination.region,
                             fontSize = 11.sp,
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -292,7 +296,7 @@ private fun DestinationCard(
                             text = "\u2605 ${destination.rating}",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = LuxuryColors.TextPrimary,
+                            color = palette.textPrimary,
                         )
                     }
                 }
@@ -308,11 +312,13 @@ private fun DestinationDetail(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
+    val palette = LocalAppPalette.current
+
     with(sharedTransitionScope) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(LuxuryColors.Background)
+                .background(palette.background)
                 .verticalScroll(rememberScrollState()),
         ) {
             Box(
@@ -345,8 +351,8 @@ private fun DestinationDetail(
                         .statusBarsPadding()
                         .padding(start = 16.dp, top = 8.dp),
                     backgroundColor = Color.White.copy(alpha = 0.92f),
-                    borderColor = LuxuryColors.SurfaceBorder,
-                    iconTint = LuxuryColors.TextPrimary,
+                    borderColor = palette.border,
+                    iconTint = palette.textPrimary,
                 )
             }
 
@@ -360,7 +366,7 @@ private fun DestinationDetail(
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     letterSpacing = 1.6.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -375,7 +381,7 @@ private fun DestinationDetail(
                     fontWeight = FontWeight.Bold,
                     fontSize = 28.sp,
                     letterSpacing = (-0.4).sp,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -383,15 +389,15 @@ private fun DestinationDetail(
                         text = "\u2605 ${destination.rating}",
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "\u00B7", fontSize = 13.sp, color = LuxuryColors.TextMuted)
+                    Text(text = "\u00B7", fontSize = 13.sp, color = palette.textMuted)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
                         text = destination.region,
                         fontSize = 13.sp,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                     )
                 }
 
@@ -401,7 +407,7 @@ private fun DestinationDetail(
                     text = destination.description,
                     fontSize = 14.sp,
                     lineHeight = 22.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
 
                 Spacer(modifier = Modifier.height(26.dp))
@@ -417,8 +423,8 @@ private fun DestinationDetail(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
-                    color = LuxuryColors.SurfaceWhite,
-                    border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                    color = palette.surface,
+                    border = BorderStroke(1.dp, palette.border),
                     shadowElevation = 0.dp,
                     tonalElevation = 0.dp,
                 ) {
@@ -433,21 +439,21 @@ private fun DestinationDetail(
                             Text(
                                 text = "Mulai dari",
                                 fontSize = 11.sp,
-                                color = LuxuryColors.TextMuted,
+                                color = palette.textMuted,
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = destination.price,
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = LuxuryColors.TextPrimary,
+                                color = palette.textPrimary,
                             )
                         }
                         Text(
                             text = "Pesan",
                             modifier = Modifier
                                 .clip(RoundedCornerShape(12.dp))
-                                .background(LuxuryColors.TealPrimary)
+                                .background(palette.primary)
                                 .padding(horizontal = 22.dp, vertical = 12.dp),
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -464,15 +470,17 @@ private fun DestinationDetail(
 
 @Composable
 private fun DetailChip(text: String) {
+    val palette = LocalAppPalette.current
+
     Text(
         text = text,
         modifier = Modifier
             .clip(RoundedCornerShape(20.dp))
-            .background(LuxuryColors.SurfaceMuted)
+            .background(palette.surfaceMuted)
             .padding(horizontal = 13.dp, vertical = 7.dp),
         fontSize = 11.sp,
         fontWeight = FontWeight.Medium,
-        color = LuxuryColors.TextSecondary,
+        color = palette.textSecondary,
     )
 }
 

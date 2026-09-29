@@ -55,7 +55,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlin.math.roundToInt
 
@@ -66,6 +66,8 @@ private val AllInterests = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FormLabScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     var name by remember { mutableStateOf("") }
@@ -84,7 +86,7 @@ fun FormLabScreen(onBack: () -> Unit) {
     val showSuccess = submitted && formValid
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Form Lab",
@@ -140,8 +142,8 @@ fun FormLabScreen(onBack: () -> Unit) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
-                color = LuxuryColors.SurfaceWhite,
-                border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                color = palette.surface,
+                border = BorderStroke(1.dp, palette.border),
                 shadowElevation = 0.dp,
                 tonalElevation = 0.dp,
             ) {
@@ -151,20 +153,20 @@ fun FormLabScreen(onBack: () -> Unit) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Column {
-                            Text("Anggaran per malam", fontSize = 12.sp, color = LuxuryColors.TextMuted)
+                            Text("Anggaran per malam", fontSize = 12.sp, color = palette.textMuted)
                             Spacer(modifier = Modifier.height(3.dp))
                             Text(
                                 text = "Rp ${budget.start.roundToInt()}jt \u2013 Rp ${budget.endInclusive.roundToInt()}jt",
                                 fontFamily = FontFamily.Serif,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 19.sp,
-                                color = LuxuryColors.TextPrimary,
+                                color = palette.textPrimary,
                             )
                         }
                         Text(
                             text = "0 \u2013 20jt",
                             fontSize = 11.sp,
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -174,9 +176,9 @@ fun FormLabScreen(onBack: () -> Unit) {
                         valueRange = 0f..20f,
                         onValueChangeFinished = {},
                         colors = SliderDefaults.colors(
-                            thumbColor = LuxuryColors.TealPrimary,
-                            activeTrackColor = LuxuryColors.TealPrimary,
-                            inactiveTrackColor = LuxuryColors.SurfaceMuted,
+                            thumbColor = palette.primary,
+                            activeTrackColor = palette.primary,
+                            inactiveTrackColor = palette.surfaceMuted,
                         ),
                     )
                 }
@@ -210,7 +212,7 @@ fun FormLabScreen(onBack: () -> Unit) {
                 onClick = { submitted = true },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp),
-                color = LuxuryColors.TealPrimary,
+                color = palette.primary,
                 shadowElevation = 0.dp,
                 tonalElevation = 0.dp,
             ) {
@@ -231,13 +233,15 @@ fun FormLabScreen(onBack: () -> Unit) {
 
 @Composable
 private fun SectionLabel(text: String) {
+    val palette = LocalAppPalette.current
+
     Text(
         text = text,
         modifier = Modifier.padding(bottom = 12.dp, start = 2.dp),
         fontSize = 11.sp,
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 1.6.sp,
-        color = LuxuryColors.TextMuted,
+        color = palette.textMuted,
     )
 }
 
@@ -251,12 +255,14 @@ private fun FormField(
     errorText: String,
     keyboardType: KeyboardType = KeyboardType.Text,
 ) {
+    val palette = LocalAppPalette.current
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
         label = { Text(label) },
-        placeholder = { Text(placeholder, color = LuxuryColors.TextMuted) },
+        placeholder = { Text(placeholder, color = palette.textMuted) },
         isError = isError,
         singleLine = true,
         shape = RoundedCornerShape(14.dp),
@@ -265,22 +271,22 @@ private fun FormField(
             imeAction = ImeAction.Next,
         ),
         supportingText = if (isError) {
-            { Text(errorText, color = LuxuryColors.AccentDanger) }
+            { Text(errorText, color = palette.danger) }
         } else {
             null
         },
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = LuxuryColors.TealPrimary,
-            unfocusedBorderColor = LuxuryColors.SurfaceBorder,
-            errorBorderColor = LuxuryColors.AccentDanger,
-            focusedLabelColor = LuxuryColors.TealPrimary,
-            unfocusedLabelColor = LuxuryColors.TextSecondary,
-            cursorColor = LuxuryColors.TealPrimary,
-            focusedTextColor = LuxuryColors.TextPrimary,
-            unfocusedTextColor = LuxuryColors.TextPrimary,
-            focusedContainerColor = LuxuryColors.SurfaceWhite,
-            unfocusedContainerColor = LuxuryColors.SurfaceWhite,
-            errorContainerColor = LuxuryColors.SurfaceWhite,
+            focusedBorderColor = palette.primary,
+            unfocusedBorderColor = palette.border,
+            errorBorderColor = palette.danger,
+            focusedLabelColor = palette.primary,
+            unfocusedLabelColor = palette.textSecondary,
+            cursorColor = palette.primary,
+            focusedTextColor = palette.textPrimary,
+            unfocusedTextColor = palette.textPrimary,
+            focusedContainerColor = palette.surface,
+            unfocusedContainerColor = palette.surface,
+            errorContainerColor = palette.surface,
         ),
     )
 }
@@ -291,18 +297,20 @@ private fun FlowChips(
     selected: List<String>,
     onToggle: (String) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         options.chunked(3).forEach { rowItems ->
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 rowItems.forEach { option ->
                     val isSelected = option in selected
                     val background by animateColorAsState(
-                        targetValue = if (isSelected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceWhite,
+                        targetValue = if (isSelected) palette.primary else palette.surface,
                         animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
                         label = "chipBg",
                     )
                     val border by animateColorAsState(
-                        targetValue = if (isSelected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+                        targetValue = if (isSelected) palette.primary else palette.border,
                         animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
                         label = "chipBorder",
                     )
@@ -328,7 +336,7 @@ private fun FlowChips(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 9.dp),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (isSelected) Color.White else LuxuryColors.TextSecondary,
+                            color = if (isSelected) Color.White else palette.textSecondary,
                         )
                     }
                 }
@@ -339,6 +347,8 @@ private fun FlowChips(
 
 @Composable
 private fun OtpInput(value: String, onValueChange: (String) -> Unit) {
+    val palette = LocalAppPalette.current
+
     val focusRequester = remember { FocusRequester() }
     val activeIndex = value.length.coerceAtMost(5)
 
@@ -357,10 +367,10 @@ private fun OtpInput(value: String, onValueChange: (String) -> Unit) {
                         .weight(1f)
                         .height(56.dp),
                     shape = RoundedCornerShape(14.dp),
-                    color = LuxuryColors.SurfaceWhite,
+                    color = palette.surface,
                     border = BorderStroke(
                         if (isActive) 1.6.dp else 1.dp,
-                        if (isActive) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+                        if (isActive) palette.primary else palette.border,
                     ),
                     shadowElevation = 0.dp,
                     tonalElevation = 0.dp,
@@ -371,7 +381,7 @@ private fun OtpInput(value: String, onValueChange: (String) -> Unit) {
                             fontFamily = FontFamily.Serif,
                             fontWeight = FontWeight.Bold,
                             fontSize = 22.sp,
-                            color = LuxuryColors.TextPrimary,
+                            color = palette.textPrimary,
                         )
                     }
                 }
@@ -399,11 +409,13 @@ private fun OtpInput(value: String, onValueChange: (String) -> Unit) {
 
 @Composable
 private fun SuccessBanner() {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = LuxuryColors.TealLight,
-        border = BorderStroke(1.dp, LuxuryColors.Accent.copy(alpha = 0.3f)),
+        color = palette.primaryContainer,
+        border = BorderStroke(1.dp, palette.success.copy(alpha = 0.3f)),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -415,7 +427,7 @@ private fun SuccessBanner() {
                 modifier = Modifier
                     .size(26.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(LuxuryColors.Accent),
+                    .background(palette.success),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -431,12 +443,12 @@ private fun SuccessBanner() {
                     text = "Data valid",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
                 Text(
                     text = "Formulir siap dikirim.",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
             }
         }

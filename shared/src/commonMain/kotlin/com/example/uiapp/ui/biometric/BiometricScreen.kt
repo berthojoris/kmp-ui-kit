@@ -49,7 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.FlatPrimaryButton
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
@@ -64,6 +64,8 @@ private enum class BioState(val title: String, val message: String) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BiometricScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     var state by remember { mutableStateOf(BioState.LOCKED) }
@@ -78,7 +80,7 @@ fun BiometricScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Biometric",
@@ -120,6 +122,8 @@ fun BiometricScreen(onBack: () -> Unit) {
 
 @Composable
 private fun LockedContent() {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier.padding(horizontal = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -128,8 +132,8 @@ private fun LockedContent() {
             modifier = Modifier
                 .size(96.dp)
                 .clip(CircleShape)
-                .background(LuxuryColors.SurfaceMuted)
-                .border(1.dp, LuxuryColors.SurfaceBorder, CircleShape),
+                .background(palette.surfaceMuted)
+                .border(1.dp, palette.border, CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             Canvas(modifier = Modifier.size(38.dp)) {
@@ -137,7 +141,7 @@ private fun LockedContent() {
                 val w = size.width
                 val h = size.height
                 drawRoundRect(
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     topLeft = Offset(w * 0.24f, h * 0.38f),
                     size = androidx.compose.ui.geometry.Size(w * 0.52f, h * 0.44f),
                     cornerRadius = androidx.compose.ui.geometry.CornerRadius(w * 0.08f, w * 0.08f),
@@ -149,8 +153,8 @@ private fun LockedContent() {
                     cubicTo(w * 0.34f, h * 0.06f, w * 0.66f, h * 0.06f, w * 0.66f, h * 0.26f)
                     lineTo(w * 0.66f, h * 0.38f)
                 }
-                drawPath(shackle, LuxuryColors.TextPrimary, style = stroke)
-                drawCircle(color = LuxuryColors.TextPrimary, radius = w * 0.05f, center = Offset(w * 0.5f, h * 0.6f))
+                drawPath(shackle, palette.textPrimary, style = stroke)
+                drawCircle(color = palette.textPrimary, radius = w * 0.05f, center = Offset(w * 0.5f, h * 0.6f))
             }
         }
         Spacer(modifier = Modifier.height(22.dp))
@@ -159,14 +163,14 @@ private fun LockedContent() {
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Aktifkan autentikasi biometrik untuk membuka data akun Anda.",
             fontSize = 13.sp,
             lineHeight = 20.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
             textAlign = TextAlign.Center,
         )
     }
@@ -174,6 +178,8 @@ private fun LockedContent() {
 
 @Composable
 private fun UnlockedContent() {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -184,12 +190,12 @@ private fun UnlockedContent() {
             modifier = Modifier
                 .size(84.dp)
                 .clip(CircleShape)
-                .background(LuxuryColors.TealLight),
+                .background(palette.primaryContainer),
             contentAlignment = Alignment.Center,
         ) {
             Canvas(modifier = Modifier.size(42.dp)) {
                 drawCircle(
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     radius = size.minDimension * 0.44f,
                     style = Stroke(width = 2.6.dp.toPx()),
                 )
@@ -200,7 +206,7 @@ private fun UnlockedContent() {
                 }
                 drawPath(
                     path = check,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     style = Stroke(width = 2.8.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
                 )
             }
@@ -211,13 +217,13 @@ private fun UnlockedContent() {
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Data akun kini dapat diakses.",
             fontSize = 13.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
     }
 }
@@ -229,11 +235,13 @@ private fun BiometricSheet(
     onRetry: () -> Unit,
     onPin: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -248,7 +256,7 @@ private fun BiometricSheet(
                     .width(40.dp)
                     .height(4.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(LuxuryColors.SurfaceBorder),
+                    .background(palette.border),
             )
             Spacer(modifier = Modifier.height(22.dp))
 
@@ -263,13 +271,13 @@ private fun BiometricSheet(
                 text = state.title,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = if (state == BioState.FAILED) LuxuryColors.AccentDanger else LuxuryColors.TextPrimary,
+                color = if (state == BioState.FAILED) palette.danger else palette.textPrimary,
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = state.message,
                 fontSize = 13.sp,
-                color = LuxuryColors.TextSecondary,
+                color = palette.textSecondary,
                 textAlign = TextAlign.Center,
             )
 
@@ -302,12 +310,14 @@ private fun BiometricSheet(
 
 @Composable
 private fun FlatTextButton(text: String, onClick: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -317,7 +327,7 @@ private fun FlatTextButton(text: String, onClick: () -> Unit) {
             textAlign = TextAlign.Center,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -326,6 +336,8 @@ private fun FlatTextButton(text: String, onClick: () -> Unit) {
 
 @Composable
 private fun FaceIdIcon(state: BioState, modifier: Modifier = Modifier) {
+    val palette = LocalAppPalette.current
+
     val transition = rememberInfiniteTransition(label = "faceScan")
     val pulse by transition.animateFloat(
         initialValue = 0f,
@@ -337,9 +349,9 @@ private fun FaceIdIcon(state: BioState, modifier: Modifier = Modifier) {
         label = "facePulse",
     )
     val tint = when (state) {
-        BioState.SUCCESS -> LuxuryColors.Accent
-        BioState.FAILED -> LuxuryColors.AccentDanger
-        else -> LuxuryColors.TealPrimary
+        BioState.SUCCESS -> palette.success
+        BioState.FAILED -> palette.danger
+        else -> palette.primary
     }
 
     Canvas(modifier = modifier) {

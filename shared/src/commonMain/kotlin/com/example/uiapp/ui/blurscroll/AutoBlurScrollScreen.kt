@@ -44,7 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.icons.MgIosBackButton
 
 private val HeaderClearance = 72.dp
@@ -56,6 +56,8 @@ private val MaxDrift = 12.dp
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AutoBlurScrollScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val density = LocalDensity.current
@@ -68,7 +70,7 @@ fun AutoBlurScrollScreen(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LuxuryColors.Background),
+            .background(palette.background),
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -136,6 +138,8 @@ private fun AutoBlurEdgeItem(
 
 @Composable
 private fun TransparentHeader(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -146,8 +150,8 @@ private fun TransparentHeader(onBack: () -> Unit) {
             MgIosBackButton(
                 onClick = onBack,
                 backgroundColor = Color.White.copy(alpha = 0.85f),
-                borderColor = LuxuryColors.SurfaceBorder,
-                iconTint = LuxuryColors.TextPrimary,
+                borderColor = palette.border,
+                iconTint = palette.textPrimary,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column {
@@ -155,14 +159,14 @@ private fun TransparentHeader(onBack: () -> Unit) {
                     text = "Auto-blur Scroll",
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = "Data memudar di tepi atas layar",
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -173,11 +177,13 @@ private fun TransparentHeader(onBack: () -> Unit) {
 
 @Composable
 private fun TransactionCard(item: DemoItem) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -191,14 +197,14 @@ private fun TransactionCard(item: DemoItem) {
                 modifier = Modifier
                     .size(44.dp)
                     .clip(RoundedCornerShape(13.dp))
-                    .background(LuxuryColors.SurfaceMuted),
+                    .background(palette.surfaceMuted),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = "${item.id}",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
             }
 
@@ -209,7 +215,7 @@ private fun TransactionCard(item: DemoItem) {
                     text = item.title,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -217,7 +223,7 @@ private fun TransactionCard(item: DemoItem) {
                 Text(
                     text = item.subtitle,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -230,7 +236,7 @@ private fun TransactionCard(item: DemoItem) {
                     text = item.amount,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(5.dp))
@@ -242,18 +248,20 @@ private fun TransactionCard(item: DemoItem) {
 
 @Composable
 private fun StatusBadge(status: DemoStatus) {
+    val palette = LocalAppPalette.current
+
     val background: Color
     val foreground: Color
     val label: String
     when (status) {
         DemoStatus.PAID -> {
-            background = Color(0xFFE8F5E9); foreground = LuxuryColors.Accent; label = "PAID"
+            background = Color(0xFFE8F5E9); foreground = palette.success; label = "PAID"
         }
         DemoStatus.PENDING -> {
-            background = Color(0xFFFFF7ED); foreground = LuxuryColors.AccentWarning; label = "PENDING"
+            background = Color(0xFFFFF7ED); foreground = palette.warning; label = "PENDING"
         }
         DemoStatus.REFUND -> {
-            background = Color(0xFFEFF6FF); foreground = LuxuryColors.AccentInfo; label = "REFUND"
+            background = Color(0xFFEFF6FF); foreground = palette.info; label = "REFUND"
         }
     }
     Box(

@@ -42,7 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -77,6 +77,8 @@ private fun pageItems(page: Int): List<FeedItem> {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InfiniteScrollScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val listState = rememberLazyListState()
@@ -120,7 +122,7 @@ fun InfiniteScrollScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Infinite Scroll",
@@ -141,7 +143,7 @@ fun InfiniteScrollScreen(onBack: () -> Unit) {
                 Text(
                     text = "$page dari $TotalPages halaman \u00B7 ${items.size} properti",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     modifier = Modifier.padding(vertical = 10.dp),
                 )
             }
@@ -167,11 +169,13 @@ fun InfiniteScrollScreen(onBack: () -> Unit) {
 
 @Composable
 private fun FeedRow(item: FeedItem) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -185,14 +189,14 @@ private fun FeedRow(item: FeedItem) {
                 modifier = Modifier
                     .size(44.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(LuxuryColors.TealLight),
+                    .background(palette.primaryContainer),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = item.title.removePrefix("Villa ").take(1),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
             Spacer(modifier = Modifier.width(14.dp))
@@ -201,7 +205,7 @@ private fun FeedRow(item: FeedItem) {
                     text = item.title,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -209,7 +213,7 @@ private fun FeedRow(item: FeedItem) {
                 Text(
                     text = item.subtitle,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -225,6 +229,8 @@ private fun LoadMoreFooter(
     endReached: Boolean,
     onRetry: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -235,14 +241,14 @@ private fun LoadMoreFooter(
             loading -> Row(verticalAlignment = Alignment.CenterVertically) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(18.dp),
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     strokeWidth = 2.dp,
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = "Memuat properti lain\u2026",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
             }
 
@@ -250,13 +256,13 @@ private fun LoadMoreFooter(
                 Text(
                     text = "Gagal memuat. Periksa koneksi Anda.",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Surface(
                     onClick = onRetry,
                     shape = RoundedCornerShape(12.dp),
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     shadowElevation = 0.dp,
                     tonalElevation = 0.dp,
                 ) {
@@ -275,13 +281,13 @@ private fun LoadMoreFooter(
                     modifier = Modifier
                         .size(6.dp)
                         .clip(CircleShape)
-                        .background(LuxuryColors.TealPrimary),
+                        .background(palette.primary),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Semua data sudah dimuat",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
         }

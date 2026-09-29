@@ -65,7 +65,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
 private data class NavTab(val label: String, val glyph: NavGlyph)
@@ -75,6 +75,8 @@ private enum class SegTab(val label: String) { EXPLORE("Jelajahi"), SAVED("Simpa
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NavLabScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     var segment by remember { mutableIntStateOf(0) }
@@ -88,7 +90,7 @@ fun NavLabScreen(onBack: () -> Unit) {
     )
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Navigation Lab",
@@ -144,14 +146,16 @@ private fun SegmentedControl(
     selected: Int,
     onSelect: (Int) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 12.dp)
             .height(42.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(LuxuryColors.SurfaceMuted)
-            .border(1.dp, LuxuryColors.SurfaceBorder, RoundedCornerShape(12.dp)),
+            .background(palette.surfaceMuted)
+            .border(1.dp, palette.border, RoundedCornerShape(12.dp)),
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             val segmentWidth = maxWidth / tabs.size
@@ -168,15 +172,15 @@ private fun SegmentedControl(
                     .fillMaxHeight()
                     .padding(4.dp)
                     .clip(RoundedCornerShape(9.dp))
-                    .background(LuxuryColors.SurfaceWhite)
-                    .border(1.dp, LuxuryColors.SurfaceBorder, RoundedCornerShape(9.dp)),
+                    .background(palette.surface)
+                    .border(1.dp, palette.border, RoundedCornerShape(9.dp)),
             )
 
             Row(modifier = Modifier.fillMaxSize()) {
                 tabs.forEachIndexed { index, label ->
                     val active = index == selected
                     val textColor by animateColorAsState(
-                        targetValue = if (active) LuxuryColors.TextPrimary else LuxuryColors.TextMuted,
+                        targetValue = if (active) palette.textPrimary else palette.textMuted,
                         animationSpec = tween(200),
                         label = "segmentTint",
                     )
@@ -207,6 +211,8 @@ private fun SegmentedControl(
 
 @Composable
 private fun ExploreContent() {
+    val palette = LocalAppPalette.current
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 6.dp),
@@ -216,8 +222,8 @@ private fun ExploreContent() {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
-                color = LuxuryColors.SurfaceWhite,
-                border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                color = palette.surface,
+                border = BorderStroke(1.dp, palette.border),
                 shadowElevation = 0.dp,
                 tonalElevation = 0.dp,
             ) {
@@ -231,10 +237,10 @@ private fun ExploreContent() {
                         modifier = Modifier
                             .size(46.dp)
                             .clip(RoundedCornerShape(13.dp))
-                            .background(LuxuryColors.TealLight),
+                            .background(palette.primaryContainer),
                         contentAlignment = Alignment.Center,
                     ) {
-                        NavGlyphIcon(glyph = NavGlyph.EXPLORE, tint = LuxuryColors.TealPrimary)
+                        NavGlyphIcon(glyph = NavGlyph.EXPLORE, tint = palette.primary)
                     }
                     Spacer(modifier = Modifier.width(14.dp))
                     Column(modifier = Modifier.weight(1f)) {
@@ -242,13 +248,13 @@ private fun ExploreContent() {
                             text = "Destinasi pilihan ${index + 1}",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = LuxuryColors.TextPrimary,
+                            color = palette.textPrimary,
                         )
                         Spacer(modifier = Modifier.height(3.dp))
                         Text(
                             text = "Kurasi minggu ini \u00B7 12 properti",
                             fontSize = 12.sp,
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                         )
                     }
                 }
@@ -259,6 +265,8 @@ private fun ExploreContent() {
 
 @Composable
 private fun SavedContent() {
+    val palette = LocalAppPalette.current
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 6.dp),
@@ -268,8 +276,8 @@ private fun SavedContent() {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
-                color = LuxuryColors.SurfaceWhite,
-                border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                color = palette.surface,
+                border = BorderStroke(1.dp, palette.border),
                 shadowElevation = 0.dp,
                 tonalElevation = 0.dp,
             ) {
@@ -279,13 +287,13 @@ private fun SavedContent() {
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "${(index + 2) * 3} properti tersimpan",
                         fontSize = 12.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                     )
                 }
             }
@@ -295,6 +303,8 @@ private fun SavedContent() {
 
 @Composable
 private fun ProfileContent() {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -306,10 +316,10 @@ private fun ProfileContent() {
             modifier = Modifier
                 .size(84.dp)
                 .clip(CircleShape)
-                .background(LuxuryColors.SurfaceMuted),
+                .background(palette.surfaceMuted),
             contentAlignment = Alignment.Center,
         ) {
-            NavGlyphIcon(glyph = NavGlyph.PROFILE, tint = LuxuryColors.TealPrimary, size = 40.dp)
+            NavGlyphIcon(glyph = NavGlyph.PROFILE, tint = palette.primary, size = 40.dp)
         }
         Spacer(modifier = Modifier.height(14.dp))
         Text(
@@ -317,13 +327,13 @@ private fun ProfileContent() {
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = "ayu@email.com",
             fontSize = 13.sp,
-            color = LuxuryColors.TextMuted,
+            color = palette.textMuted,
         )
     }
 }
@@ -335,16 +345,18 @@ private fun BottomNavBar(
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(LuxuryColors.SurfaceWhite),
+            .background(palette.surface),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(LuxuryColors.SurfaceBorder),
+                .background(palette.border),
         )
         BoxWithConstraints(
             modifier = Modifier
@@ -371,7 +383,7 @@ private fun BottomNavBar(
                         .padding(top = 7.dp)
                         .size(width = 54.dp, height = 30.dp)
                         .clip(RoundedCornerShape(15.dp))
-                        .background(LuxuryColors.TealLight),
+                        .background(palette.primaryContainer),
                 )
             }
 
@@ -379,7 +391,7 @@ private fun BottomNavBar(
                 tabs.forEachIndexed { index, tab ->
                     val isSelected = index == selected
                     val tint by animateColorAsState(
-                        targetValue = if (isSelected) LuxuryColors.TealPrimary else LuxuryColors.TextMuted,
+                        targetValue = if (isSelected) palette.primary else palette.textMuted,
                         animationSpec = tween(220),
                         label = "navTint",
                     )
@@ -417,6 +429,8 @@ private fun BottomNavBar(
 
 @Composable
 private fun SpeedDial(modifier: Modifier) {
+    val palette = LocalAppPalette.current
+
     var expanded by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 45f else 0f,
@@ -425,9 +439,9 @@ private fun SpeedDial(modifier: Modifier) {
     )
 
     val actions = listOf(
-        Triple("Tulis", NavGlyph.WRITE, LuxuryColors.AccentInfo),
-        Triple("Foto", NavGlyph.CAMERA, LuxuryColors.AccentWarning),
-        Triple("Suara", NavGlyph.VOICE, LuxuryColors.Accent),
+        Triple("Tulis", NavGlyph.WRITE, palette.info),
+        Triple("Foto", NavGlyph.CAMERA, palette.warning),
+        Triple("Suara", NavGlyph.VOICE, palette.success),
     )
 
     Column(
@@ -450,12 +464,12 @@ private fun SpeedDial(modifier: Modifier) {
                         text = action.first,
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
-                            .background(LuxuryColors.SurfaceWhite)
-                            .border(1.dp, LuxuryColors.SurfaceBorder, RoundedCornerShape(10.dp))
+                            .background(palette.surface)
+                            .border(1.dp, palette.border, RoundedCornerShape(10.dp))
                             .padding(horizontal = 12.dp, vertical = 7.dp),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Surface(
@@ -463,7 +477,7 @@ private fun SpeedDial(modifier: Modifier) {
                         modifier = Modifier.size(46.dp),
                         shape = CircleShape,
                         color = action.third,
-                        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                        border = BorderStroke(1.dp, palette.border),
                         shadowElevation = 0.dp,
                         tonalElevation = 0.dp,
                     ) {
@@ -479,7 +493,7 @@ private fun SpeedDial(modifier: Modifier) {
             onClick = { expanded = !expanded },
             modifier = Modifier.size(58.dp),
             shape = CircleShape,
-            color = LuxuryColors.TealPrimary,
+            color = palette.primary,
             shadowElevation = 0.dp,
             tonalElevation = 0.dp,
         ) {

@@ -54,7 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
 private data class MailItem(
@@ -81,6 +81,8 @@ private val Inbox = listOf(
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MultiSelectScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     var editMode by remember { mutableStateOf(false) }
     val selected = remember { mutableStateListOf<Int>() }
 
@@ -94,7 +96,7 @@ fun MultiSelectScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = if (editMode) "${selected.size} dipilih" else "Kotak Masuk",
@@ -115,7 +117,7 @@ fun MultiSelectScreen(onBack: () -> Unit) {
                             .padding(horizontal = 12.dp, vertical = 7.dp),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                     )
                 },
             )
@@ -181,16 +183,18 @@ private fun MailRow(
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .combinedClickable(onClick = onClick, onLongClick = onLongClick),
         shape = RoundedCornerShape(16.dp),
-        color = if (selected) LuxuryColors.TealLight else LuxuryColors.SurfaceWhite,
+        color = if (selected) palette.primaryContainer else palette.surface,
         border = BorderStroke(
             1.dp,
-            if (selected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+            if (selected) palette.primary else palette.border,
         ),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
@@ -212,14 +216,14 @@ private fun MailRow(
                 modifier = Modifier
                     .size(42.dp)
                     .clip(CircleShape)
-                    .background(LuxuryColors.SurfaceMuted),
+                    .background(palette.surfaceMuted),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = item.sender.take(1),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
@@ -230,7 +234,7 @@ private fun MailRow(
                         modifier = Modifier.weight(1f),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -250,7 +254,7 @@ private fun MailRow(
                     text = item.subject,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -258,7 +262,7 @@ private fun MailRow(
                 Text(
                     text = item.preview,
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -269,10 +273,12 @@ private fun MailRow(
 
 @Composable
 private fun SelectIndicator(selected: Boolean) {
+    val palette = LocalAppPalette.current
+
     Canvas(modifier = Modifier.size(22.dp)) {
         val radius = size.minDimension / 2f
         if (selected) {
-            drawCircle(color = LuxuryColors.TealPrimary, radius = radius)
+            drawCircle(color = palette.primary, radius = radius)
             val check = Path().apply {
                 moveTo(size.width * 0.28f, size.height * 0.52f)
                 lineTo(size.width * 0.44f, size.height * 0.68f)
@@ -289,7 +295,7 @@ private fun SelectIndicator(selected: Boolean) {
             )
         } else {
             drawCircle(
-                color = LuxuryColors.SurfaceBorder,
+                color = palette.border,
                 radius = radius - 0.8.dp.toPx(),
                 style = Stroke(width = 1.6.dp.toPx()),
             )
@@ -306,17 +312,19 @@ private fun BulkActionBar(
     onDelete: () -> Unit,
     onShare: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(LuxuryColors.SurfaceWhite)
+            .background(palette.surface)
             .navigationBarsPadding(),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(LuxuryColors.SurfaceBorder),
+                .background(palette.border),
         )
         Row(
             modifier = Modifier
@@ -368,10 +376,12 @@ private fun BulkAction(
     modifier: Modifier = Modifier,
     danger: Boolean = false,
 ) {
+    val palette = LocalAppPalette.current
+
     val tint = when {
-        !enabled -> LuxuryColors.TextMuted.copy(alpha = 0.5f)
-        danger -> LuxuryColors.AccentDanger
-        else -> LuxuryColors.TextPrimary
+        !enabled -> palette.textMuted.copy(alpha = 0.5f)
+        danger -> palette.danger
+        else -> palette.textPrimary
     }
     Column(
         modifier = modifier

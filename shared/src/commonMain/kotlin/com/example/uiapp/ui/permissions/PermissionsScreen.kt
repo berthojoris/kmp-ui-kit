@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.FlatPrimaryButton
 import com.example.uiapp.ui.components.UiTopBar
 
@@ -82,6 +82,8 @@ private val Permissions = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PermissionsScreen(onBack: () -> Unit, onFinish: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val statuses = remember {
@@ -93,7 +95,7 @@ fun PermissionsScreen(onBack: () -> Unit, onFinish: () -> Unit) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
-            containerColor = LuxuryColors.Background,
+            containerColor = palette.background,
             topBar = {
                 UiTopBar(
                     title = "Izin Aplikasi",
@@ -155,11 +157,13 @@ fun PermissionsScreen(onBack: () -> Unit, onFinish: () -> Unit) {
 
 @Composable
 private fun ProgressHeader(granted: Int, total: Int) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -170,13 +174,13 @@ private fun ProgressHeader(granted: Int, total: Int) {
                     modifier = Modifier.weight(1f),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Text(
                     text = "${(granted * 100) / total}%",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
             Spacer(modifier = Modifier.height(12.dp))
@@ -185,14 +189,14 @@ private fun ProgressHeader(granted: Int, total: Int) {
                     .fillMaxWidth()
                     .height(8.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(LuxuryColors.SurfaceMuted),
+                    .background(palette.surfaceMuted),
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(granted.toFloat() / total)
                         .height(8.dp)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(LuxuryColors.TealPrimary),
+                        .background(palette.primary),
                 )
             }
         }
@@ -206,11 +210,13 @@ private fun PermissionCard(
     onAllow: () -> Unit,
     onOpenSettings: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -220,10 +226,10 @@ private fun PermissionCard(
                     modifier = Modifier
                         .size(44.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(LuxuryColors.TealLight),
+                        .background(palette.primaryContainer),
                     contentAlignment = Alignment.Center,
                 ) {
-                    PermissionIcon(glyph = item.glyph, tint = LuxuryColors.TealPrimary)
+                    PermissionIcon(glyph = item.glyph, tint = palette.primary)
                 }
                 Spacer(modifier = Modifier.width(14.dp))
                 Column(modifier = Modifier.weight(1f)) {
@@ -231,14 +237,14 @@ private fun PermissionCard(
                         text = item.title,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                     Spacer(modifier = Modifier.height(3.dp))
                     Text(
                         text = item.rationale,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                     )
                 }
             }
@@ -248,18 +254,18 @@ private fun PermissionCard(
             when (status) {
                 PermStatus.NOT_REQUESTED -> ActionChip(
                     label = "Izinkan",
-                    background = LuxuryColors.TealPrimary,
+                    background = palette.primary,
                     content = Color.White,
                     onClick = onAllow,
                 )
 
                 PermStatus.DENIED -> Row(verticalAlignment = Alignment.CenterVertically) {
-                    StatusChip(label = "Ditolak", color = LuxuryColors.AccentDanger, background = Color(0xFFFEF2F2))
+                    StatusChip(label = "Ditolak", color = palette.danger, background = Color(0xFFFEF2F2))
                     Spacer(modifier = Modifier.width(10.dp))
                     ActionChip(
                         label = "Buka Pengaturan",
-                        background = LuxuryColors.SurfaceWhite,
-                        content = LuxuryColors.TextPrimary,
+                        background = palette.surface,
+                        content = palette.textPrimary,
                         outlined = true,
                         onClick = onOpenSettings,
                     )
@@ -267,8 +273,8 @@ private fun PermissionCard(
 
                 PermStatus.GRANTED -> StatusChip(
                     label = "Diizinkan",
-                    color = LuxuryColors.Accent,
-                    background = LuxuryColors.TealLight,
+                    color = palette.success,
+                    background = palette.primaryContainer,
                 )
             }
         }
@@ -283,11 +289,13 @@ private fun ActionChip(
     onClick: () -> Unit,
     outlined: Boolean = false,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(10.dp),
         color = background,
-        border = if (outlined) BorderStroke(1.dp, LuxuryColors.SurfaceBorder) else null,
+        border = if (outlined) BorderStroke(1.dp, palette.border) else null,
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -323,6 +331,8 @@ private fun SystemPermissionDialog(
     onDeny: () -> Unit,
     onGrant: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -334,8 +344,8 @@ private fun SystemPermissionDialog(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
-            color = LuxuryColors.SurfaceWhite,
-            border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+            color = palette.surface,
+            border = BorderStroke(1.dp, palette.border),
             shadowElevation = 0.dp,
             tonalElevation = 0.dp,
         ) {
@@ -347,7 +357,7 @@ private fun SystemPermissionDialog(
                     modifier = Modifier
                         .size(52.dp)
                         .clip(RoundedCornerShape(14.dp))
-                        .background(LuxuryColors.TealPrimary),
+                        .background(palette.primary),
                     contentAlignment = Alignment.Center,
                 ) {
                     PermissionIcon(glyph = item.glyph, tint = Color.White, size = 26.dp)
@@ -357,7 +367,7 @@ private fun SystemPermissionDialog(
                     text = "Izinkan \u201CTesting UI\u201D mengakses ${item.title.lowercase()}?",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -365,7 +375,7 @@ private fun SystemPermissionDialog(
                     text = item.rationale,
                     fontSize = 13.sp,
                     lineHeight = 19.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.height(22.dp))
@@ -375,8 +385,8 @@ private fun SystemPermissionDialog(
                     onClick = onDeny,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(14.dp),
-                    color = LuxuryColors.SurfaceWhite,
-                    border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                    color = palette.surface,
+                    border = BorderStroke(1.dp, palette.border),
                     shadowElevation = 0.dp,
                     tonalElevation = 0.dp,
                 ) {
@@ -386,7 +396,7 @@ private fun SystemPermissionDialog(
                         textAlign = TextAlign.Center,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                 }
             }

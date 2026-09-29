@@ -53,13 +53,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ShimmerSkeletonScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val shimmer = rememberShimmerOffset()
@@ -73,7 +75,7 @@ fun ShimmerSkeletonScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Shimmer Skeleton",
@@ -84,12 +86,12 @@ fun ShimmerSkeletonScreen(onBack: () -> Unit) {
                         text = "Muat Ulang",
                         modifier = Modifier
                             .clip(RoundedCornerShape(11.dp))
-                            .background(LuxuryColors.SurfaceMuted)
+                            .background(palette.surfaceMuted)
                             .clickable { reloadKey++ }
                             .padding(horizontal = 12.dp, vertical = 8.dp),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         maxLines = 1,
                     )
                 },
@@ -173,11 +175,13 @@ private fun SkeletonList(shimmer: State<Float>) {
 
 @Composable
 private fun FeaturedSkeleton(shimmer: State<Float>, modifier: Modifier) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -219,11 +223,13 @@ private fun FeaturedSkeleton(shimmer: State<Float>, modifier: Modifier) {
 
 @Composable
 private fun SkeletonCard(shimmer: State<Float>, modifier: Modifier) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -290,6 +296,8 @@ private val Feed: List<FeedItem> = listOf(
 
 @Composable
 private fun ContentList() {
+    val palette = LocalAppPalette.current
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 28.dp),
@@ -301,13 +309,13 @@ private fun ContentList() {
                     text = "Aktivitas Terbaru",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Data berhasil dimuat \u00B7 7 pembaruan",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
         }
@@ -319,11 +327,13 @@ private fun ContentList() {
 
 @Composable
 private fun FeedCard(item: FeedItem) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -337,14 +347,14 @@ private fun FeedCard(item: FeedItem) {
                 modifier = Modifier
                     .size(46.dp)
                     .clip(CircleShape)
-                    .background(LuxuryColors.SurfaceMuted),
+                    .background(palette.surfaceMuted),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = item.name.take(1),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
             Spacer(modifier = Modifier.width(14.dp))
@@ -353,7 +363,7 @@ private fun FeedCard(item: FeedItem) {
                     text = item.name,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -361,7 +371,7 @@ private fun FeedCard(item: FeedItem) {
                 Text(
                     text = item.message,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -371,7 +381,7 @@ private fun FeedCard(item: FeedItem) {
                 Text(
                     text = item.time,
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(6.dp))

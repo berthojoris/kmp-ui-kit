@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -52,7 +53,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.text.KeyboardOptions
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
 
@@ -83,6 +84,8 @@ private val PopularSearches = listOf("Tebing", "Pegunungan", "Pantai", "Sawah")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAutocompleteScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val focusManager = LocalFocusManager.current
@@ -118,7 +121,7 @@ fun SearchAutocompleteScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Pencarian",
@@ -157,7 +160,7 @@ fun SearchAutocompleteScreen(onBack: () -> Unit) {
                             text = "${results.size} hasil untuk \"$query\"",
                             modifier = Modifier.padding(vertical = 8.dp),
                             fontSize = 12.sp,
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                         )
                     }
                     items(results, key = { it.title }) { suggestion ->
@@ -181,11 +184,13 @@ private fun SearchBar(
     focusRequester: FocusRequester,
     modifier: Modifier = Modifier,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -201,13 +206,13 @@ private fun SearchBar(
                     cap = StrokeCap.Round,
                 )
                 drawCircle(
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     radius = size.minDimension * 0.34f,
                     center = Offset(size.width * 0.42f, size.height * 0.42f),
                     style = stroke,
                 )
                 drawLine(
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     start = Offset(size.width * 0.66f, size.height * 0.66f),
                     end = Offset(size.width * 0.9f, size.height * 0.9f),
                     strokeWidth = 1.8.dp.toPx(),
@@ -225,7 +230,7 @@ private fun SearchBar(
                     Text(
                         text = "Cari destinasi atau wilayah\u2026",
                         fontSize = 14.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                     )
                 }
                 BasicTextField(
@@ -234,10 +239,10 @@ private fun SearchBar(
                     singleLine = true,
                     textStyle = TextStyle(
                         fontSize = 14.sp,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         fontWeight = FontWeight.Medium,
                     ),
-                    cursorBrush = SolidColor(LuxuryColors.TealPrimary),
+                    cursorBrush = SolidColor(palette.primary),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -250,18 +255,18 @@ private fun SearchBar(
                         .clickable(onClick = onClear),
                 ) {
                     drawCircle(
-                        color = LuxuryColors.SurfaceMuted,
+                        color = palette.surfaceMuted,
                         radius = size.minDimension * 0.5f,
                     )
                     drawLine(
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                         start = Offset(size.width * 0.34f, size.height * 0.34f),
                         end = Offset(size.width * 0.66f, size.height * 0.66f),
                         strokeWidth = 1.9.dp.toPx(),
                         cap = StrokeCap.Round,
                     )
                     drawLine(
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                         start = Offset(size.width * 0.66f, size.height * 0.34f),
                         end = Offset(size.width * 0.34f, size.height * 0.66f),
                         strokeWidth = 1.9.dp.toPx(),
@@ -278,14 +283,14 @@ private fun SearchBar(
                 val w = size.width
                 val h = size.height
                 drawRoundRect(
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     topLeft = Offset(w * 0.4f, h * 0.1f),
                     size = androidx.compose.ui.geometry.Size(w * 0.2f, h * 0.42f),
                     cornerRadius = androidx.compose.ui.geometry.CornerRadius(w * 0.1f, w * 0.1f),
                     style = stroke,
                 )
                 drawArc(
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     startAngle = 0f,
                     sweepAngle = 180f,
                     useCenter = false,
@@ -294,7 +299,7 @@ private fun SearchBar(
                     style = stroke,
                 )
                 drawLine(
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     start = Offset(w * 0.5f, h * 0.72f),
                     end = Offset(w * 0.5f, h * 0.88f),
                     strokeWidth = 1.8.dp.toPx(),
@@ -307,6 +312,8 @@ private fun SearchBar(
 
 @Composable
 private fun DiscoveryPanel(onPick: (String) -> Unit) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -325,20 +332,20 @@ private fun DiscoveryPanel(onPick: (String) -> Unit) {
                 ) {
                     Canvas(modifier = Modifier.size(16.dp)) {
                         drawCircle(
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                             radius = size.minDimension * 0.4f,
                             center = Offset(size.width * 0.5f, size.height * 0.5f),
                             style = Stroke(width = 1.6.dp.toPx()),
                         )
                         drawLine(
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                             start = Offset(size.width * 0.5f, size.height * 0.5f),
                             end = Offset(size.width * 0.5f, size.height * 0.28f),
                             strokeWidth = 1.6.dp.toPx(),
                             cap = StrokeCap.Round,
                         )
                         drawLine(
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                             start = Offset(size.width * 0.5f, size.height * 0.5f),
                             end = Offset(size.width * 0.68f, size.height * 0.58f),
                             strokeWidth = 1.6.dp.toPx(),
@@ -350,14 +357,14 @@ private fun DiscoveryPanel(onPick: (String) -> Unit) {
                         text = term,
                         modifier = Modifier.weight(1f),
                         fontSize = 14.sp,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
                         text = "Terbaru",
                         fontSize = 11.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                     )
                 }
             }
@@ -373,8 +380,8 @@ private fun DiscoveryPanel(onPick: (String) -> Unit) {
                 Surface(
                     onClick = { onPick(term) },
                     shape = RoundedCornerShape(20.dp),
-                    color = LuxuryColors.SurfaceWhite,
-                    border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+                    color = palette.surface,
+                    border = BorderStroke(1.dp, palette.border),
                     shadowElevation = 0.dp,
                     tonalElevation = 0.dp,
                 ) {
@@ -383,7 +390,7 @@ private fun DiscoveryPanel(onPick: (String) -> Unit) {
                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 9.dp),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                     )
                 }
             }
@@ -393,17 +400,21 @@ private fun DiscoveryPanel(onPick: (String) -> Unit) {
 
 @Composable
 private fun SectionLabel(text: String) {
+    val palette = LocalAppPalette.current
+
     Text(
         text = text,
         modifier = Modifier.padding(bottom = 8.dp),
         fontSize = 12.sp,
         fontWeight = FontWeight.SemiBold,
-        color = LuxuryColors.TextMuted,
+        color = palette.textMuted,
     )
 }
 
 @Composable
 private fun SearchingState() {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -416,7 +427,7 @@ private fun SearchingState() {
                     .fillMaxWidth()
                     .height(60.dp)
                     .clip(RoundedCornerShape(14.dp))
-                    .background(LuxuryColors.SurfaceMuted.copy(alpha = 0.7f)),
+                    .background(palette.surfaceMuted.copy(alpha = 0.7f)),
             )
         }
     }
@@ -424,6 +435,8 @@ private fun SearchingState() {
 
 @Composable
 private fun NoResultsState(query: String) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -434,13 +447,13 @@ private fun NoResultsState(query: String) {
         Canvas(modifier = Modifier.size(56.dp)) {
             val stroke = Stroke(width = 2.2.dp.toPx(), cap = StrokeCap.Round)
             drawCircle(
-                color = LuxuryColors.TextMuted.copy(alpha = 0.6f),
+                color = palette.textMuted.copy(alpha = 0.6f),
                 radius = size.minDimension * 0.34f,
                 center = Offset(size.width * 0.42f, size.height * 0.42f),
                 style = stroke,
             )
             drawLine(
-                color = LuxuryColors.TextMuted.copy(alpha = 0.6f),
+                color = palette.textMuted.copy(alpha = 0.6f),
                 start = Offset(size.width * 0.66f, size.height * 0.66f),
                 end = Offset(size.width * 0.9f, size.height * 0.9f),
                 strokeWidth = 2.2.dp.toPx(),
@@ -452,13 +465,13 @@ private fun NoResultsState(query: String) {
             text = "Tidak ada hasil",
             fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = "Tidak ditemukan destinasi untuk \"$query\". Coba kata kunci lain.",
             fontSize = 13.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center,
         )
     }
@@ -470,13 +483,14 @@ private fun SuggestionRow(
     query: String,
     onClick: () -> Unit,
 ) {
+
     val palette = LocalAppPalette.current
     Surface(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -490,18 +504,18 @@ private fun SuggestionRow(
                 modifier = Modifier
                     .size(38.dp)
                     .clip(RoundedCornerShape(11.dp))
-                    .background(LuxuryColors.TealLight),
+                    .background(palette.primaryContainer),
                 contentAlignment = Alignment.Center,
             ) {
                 Canvas(modifier = Modifier.size(16.dp)) {
                     drawCircle(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         radius = size.minDimension * 0.4f,
                         center = Offset(size.width * 0.5f, size.height * 0.5f),
                         style = Stroke(width = 1.7.dp.toPx()),
                     )
                     drawCircle(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         radius = size.minDimension * 0.12f,
                         center = Offset(size.width * 0.5f, size.height * 0.5f),
                     )
@@ -513,7 +527,7 @@ private fun SuggestionRow(
                     text = highlight(suggestion.title, query, palette.primary),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -521,7 +535,7 @@ private fun SuggestionRow(
                 Text(
                     text = suggestion.region,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -531,11 +545,11 @@ private fun SuggestionRow(
                 text = suggestion.kind,
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .background(LuxuryColors.SurfaceMuted)
+                    .background(palette.surfaceMuted)
                     .padding(horizontal = 8.dp, vertical = 3.dp),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = LuxuryColors.TextSecondary,
+                color = palette.textSecondary,
             )
         }
     }

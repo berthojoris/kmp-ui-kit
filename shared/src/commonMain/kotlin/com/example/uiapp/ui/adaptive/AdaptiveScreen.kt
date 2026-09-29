@@ -46,7 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
 private data class ResponsiveItem(
@@ -70,12 +70,14 @@ private val ResponsiveItems = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AdaptiveScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     var selectedId by remember { mutableIntStateOf(1) }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Adaptive Layout",
@@ -147,11 +149,13 @@ fun AdaptiveScreen(onBack: () -> Unit) {
 
 @Composable
 private fun BreakpointBanner(breakpoint: String, widthDp: Int, columns: Int) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.TealLight,
-        border = BorderStroke(1.dp, LuxuryColors.Accent.copy(alpha = 0.25f)),
+        color = palette.primaryContainer,
+        border = BorderStroke(1.dp, palette.success.copy(alpha = 0.25f)),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -167,7 +171,7 @@ private fun BreakpointBanner(breakpoint: String, widthDp: Int, columns: Int) {
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     letterSpacing = 1.4.sp,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
@@ -175,13 +179,13 @@ private fun BreakpointBanner(breakpoint: String, widthDp: Int, columns: Int) {
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     text = "Putar perangkat atau ubah ukuran jendela untuk melihat adaptasi.",
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
             }
             Canvas(modifier = Modifier.size(46.dp)) {
@@ -190,7 +194,7 @@ private fun BreakpointBanner(breakpoint: String, widthDp: Int, columns: Int) {
                 repeat(columns.coerceAtMost(4)) { index ->
                     val colWidth = (w - 8f) / 4
                     drawRoundRect(
-                        color = LuxuryColors.TealPrimary.copy(alpha = if (index < columns) 0.85f else 0.18f),
+                        color = palette.primary.copy(alpha = if (index < columns) 0.85f else 0.18f),
                         topLeft = Offset(index * (colWidth + 2f), h * 0.2f),
                         size = androidx.compose.ui.geometry.Size(colWidth, h * 0.6f),
                         cornerRadius = androidx.compose.ui.geometry.CornerRadius(6f, 6f),
@@ -207,8 +211,10 @@ private fun ResponsiveCard(
     selected: Boolean,
     onClick: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     val border by animateColorAsState(
-        targetValue = if (selected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+        targetValue = if (selected) palette.primary else palette.border,
         animationSpec = tween(220),
         label = "cardBorder",
     )
@@ -217,7 +223,7 @@ private fun ResponsiveCard(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
+        color = palette.surface,
         border = BorderStroke(if (selected) 1.6.dp else 1.dp, border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
@@ -243,7 +249,7 @@ private fun ResponsiveCard(
                     text = item.title,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -255,13 +261,13 @@ private fun ResponsiveCard(
                     Text(
                         text = item.region,
                         fontSize = 11.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                     )
                     Text(
                         text = item.price,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                     )
                 }
             }
@@ -271,9 +277,11 @@ private fun ResponsiveCard(
 
 @Composable
 private fun DetailPane(item: ResponsiveItem, modifier: Modifier) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = modifier
-            .background(LuxuryColors.SurfaceWhite)
+            .background(palette.surface)
             .padding(20.dp),
     ) {
         Text(
@@ -281,7 +289,7 @@ private fun DetailPane(item: ResponsiveItem, modifier: Modifier) {
             fontSize = 11.sp,
             fontWeight = FontWeight.SemiBold,
             letterSpacing = 1.6.sp,
-            color = LuxuryColors.TextMuted,
+            color = palette.textMuted,
         )
         Spacer(modifier = Modifier.height(12.dp))
         Box(
@@ -305,13 +313,13 @@ private fun DetailPane(item: ResponsiveItem, modifier: Modifier) {
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = "${item.region} \u00B7 ${item.price} / malam",
             fontSize = 12.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -319,7 +327,7 @@ private fun DetailPane(item: ResponsiveItem, modifier: Modifier) {
                 "portrait, daftar tampil satu kolom penuh.",
             fontSize = 12.sp,
             lineHeight = 19.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
     }
 }

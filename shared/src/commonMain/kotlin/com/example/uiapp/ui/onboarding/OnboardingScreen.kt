@@ -40,7 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.FlatPrimaryButton
 import kotlinx.coroutines.launch
 
@@ -69,13 +69,15 @@ private val Pages = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OnboardingScreen(onBack: () -> Unit, onFinish: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val pagerState = rememberPagerState(pageCount = { Pages.size })
     val scope = rememberCoroutineScope()
     val isLast = pagerState.currentPage == Pages.lastIndex
 
-    Scaffold(containerColor = LuxuryColors.Background) { innerPadding ->
+    Scaffold(containerColor = palette.background) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -95,7 +97,7 @@ fun OnboardingScreen(onBack: () -> Unit, onFinish: () -> Unit) {
                         .padding(horizontal = 12.dp, vertical = 8.dp),
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
 
@@ -141,7 +143,7 @@ fun OnboardingScreen(onBack: () -> Unit, onFinish: () -> Unit) {
                 Text(
                     text = "Sudah punya akun?",
                     fontSize = 13.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
@@ -149,7 +151,7 @@ fun OnboardingScreen(onBack: () -> Unit, onFinish: () -> Unit) {
                     modifier = Modifier.clickable { onFinish() },
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
         }
@@ -158,6 +160,8 @@ fun OnboardingScreen(onBack: () -> Unit, onFinish: () -> Unit) {
 
 @Composable
 private fun OnboardPageContent(page: OnboardPage) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -169,7 +173,7 @@ private fun OnboardPageContent(page: OnboardPage) {
             modifier = Modifier
                 .size(184.dp)
                 .clip(RoundedCornerShape(48.dp))
-                .background(LuxuryColors.TealLight),
+                .background(palette.primaryContainer),
             contentAlignment = Alignment.Center,
         ) {
             OnboardArtwork(art = page.art)
@@ -183,7 +187,7 @@ private fun OnboardPageContent(page: OnboardPage) {
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             letterSpacing = (-0.3).sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
             textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -191,7 +195,7 @@ private fun OnboardPageContent(page: OnboardPage) {
             text = page.desc,
             fontSize = 14.sp,
             lineHeight = 22.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
             textAlign = TextAlign.Center,
         )
     }
@@ -199,6 +203,8 @@ private fun OnboardPageContent(page: OnboardPage) {
 
 @Composable
 private fun PagerIndicator(count: Int, current: Int, modifier: Modifier = Modifier) {
+    val palette = LocalAppPalette.current
+
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
@@ -218,8 +224,8 @@ private fun PagerIndicator(count: Int, current: Int, modifier: Modifier = Modifi
                     .height(8.dp)
                     .clip(CircleShape)
                     .background(
-                        if (active) LuxuryColors.TealPrimary
-                        else LuxuryColors.SurfaceBorder,
+                        if (active) palette.primary
+                        else palette.border,
                     ),
             )
         }
@@ -228,6 +234,8 @@ private fun PagerIndicator(count: Int, current: Int, modifier: Modifier = Modifi
 
 @Composable
 private fun OnboardArtwork(art: OnboardArt) {
+    val palette = LocalAppPalette.current
+
     Canvas(modifier = Modifier.size(96.dp)) {
         val w = size.width
         val h = size.height
@@ -239,7 +247,7 @@ private fun OnboardArtwork(art: OnboardArt) {
         when (art) {
             OnboardArt.EXPLORE -> {
                 drawCircle(
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     radius = w * 0.42f,
                     center = Offset(w / 2, h / 2),
                     style = stroke,
@@ -250,14 +258,14 @@ private fun OnboardArtwork(art: OnboardArt) {
                     lineTo(w * 0.36f, h * 0.50f)
                     close()
                 }
-                drawPath(north, LuxuryColors.TealPrimary)
+                drawPath(north, palette.primary)
                 val south = Path().apply {
                     moveTo(w * 0.50f, h * 0.80f)
                     lineTo(w * 0.36f, h * 0.50f)
                     lineTo(w * 0.64f, h * 0.50f)
                     close()
                 }
-                drawPath(south, LuxuryColors.TealPrimary.copy(alpha = 0.35f))
+                drawPath(south, palette.primary.copy(alpha = 0.35f))
             }
 
             OnboardArt.SAVE -> {
@@ -269,18 +277,18 @@ private fun OnboardArtwork(art: OnboardArt) {
                     lineTo(w * 0.28f, h * 0.86f)
                     close()
                 }
-                drawPath(bookmark, LuxuryColors.TealPrimary.copy(alpha = 0.16f))
-                drawPath(bookmark, LuxuryColors.TealPrimary, style = stroke)
+                drawPath(bookmark, palette.primary.copy(alpha = 0.16f))
+                drawPath(bookmark, palette.primary, style = stroke)
             }
 
             OnboardArt.CONFIRM -> {
                 drawCircle(
-                    color = LuxuryColors.TealPrimary.copy(alpha = 0.16f),
+                    color = palette.primary.copy(alpha = 0.16f),
                     radius = w * 0.42f,
                     center = Offset(w / 2, h / 2),
                 )
                 drawCircle(
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     radius = w * 0.42f,
                     center = Offset(w / 2, h / 2),
                     style = stroke,
@@ -290,7 +298,7 @@ private fun OnboardArtwork(art: OnboardArt) {
                     lineTo(w * 0.46f, h * 0.66f)
                     lineTo(w * 0.70f, h * 0.36f)
                 }
-                drawPath(check, LuxuryColors.TealPrimary, style = stroke)
+                drawPath(check, palette.primary, style = stroke)
             }
         }
     }

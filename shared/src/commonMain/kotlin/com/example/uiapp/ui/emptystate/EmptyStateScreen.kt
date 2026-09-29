@@ -58,7 +58,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
 private enum class DemoState(val label: String) {
@@ -88,12 +88,14 @@ private val Activities = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmptyStateScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     var state by remember { mutableStateOf(DemoState.EMPTY) }
 
     Scaffold(
-        containerColor = LuxuryColors.Background,
+        containerColor = palette.background,
         topBar = {
             UiTopBar(
                 title = "Empty & Error State",
@@ -139,6 +141,8 @@ private fun StateSwitcher(
     selected: DemoState,
     onSelect: (DemoState) -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -150,10 +154,10 @@ private fun StateSwitcher(
             Surface(
                 onClick = { onSelect(entry) },
                 shape = RoundedCornerShape(20.dp),
-                color = if (isSelected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceWhite,
+                color = if (isSelected) palette.primary else palette.surface,
                 border = BorderStroke(
                     1.dp,
-                    if (isSelected) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+                    if (isSelected) palette.primary else palette.border,
                 ),
                 shadowElevation = 0.dp,
                 tonalElevation = 0.dp,
@@ -165,7 +169,7 @@ private fun StateSwitcher(
                     textAlign = TextAlign.Center,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = if (isSelected) Color.White else LuxuryColors.TextSecondary,
+                    color = if (isSelected) Color.White else palette.textSecondary,
                     maxLines = 1,
                 )
             }
@@ -201,10 +205,12 @@ private fun LoadingState() {
 
 @Composable
 private fun PulseBlock(alpha: Float, modifier: Modifier) {
+    val palette = LocalAppPalette.current
+
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(18.dp))
-            .background(LuxuryColors.SurfaceMuted.copy(alpha = alpha)),
+            .background(palette.surfaceMuted.copy(alpha = alpha)),
     )
 }
 
@@ -247,6 +253,8 @@ private fun CenteredState(
     secondaryLabel: String,
     onSecondary: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     val enter by animateFloatAsState(
         targetValue = 1f,
         animationSpec = spring(
@@ -263,7 +271,7 @@ private fun CenteredState(
             .drawBehind {
                 val a = enter.coerceIn(0f, 1f)
                 drawCircle(
-                    color = LuxuryColors.TealLight.copy(alpha = a * 0.5f),
+                    color = palette.primaryContainer.copy(alpha = a * 0.5f),
                     radius = size.minDimension * 0.34f,
                     center = Offset(size.width * 0.5f, size.height * 0.34f),
                 )
@@ -280,7 +288,7 @@ private fun CenteredState(
             fontSize = 11.sp,
             fontWeight = FontWeight.SemiBold,
             letterSpacing = 1.6.sp,
-            color = LuxuryColors.TextMuted,
+            color = palette.textMuted,
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
@@ -289,7 +297,7 @@ private fun CenteredState(
             fontWeight = FontWeight.Bold,
             fontSize = 25.sp,
             letterSpacing = (-0.3).sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
             textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -297,7 +305,7 @@ private fun CenteredState(
             text = message,
             fontSize = 14.sp,
             lineHeight = 21.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
             textAlign = TextAlign.Center,
         )
 
@@ -313,10 +321,12 @@ private fun CenteredState(
 
 @Composable
 private fun PrimaryButton(label: String, onClick: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.TealPrimary,
+        color = palette.primary,
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
         modifier = Modifier.fillMaxWidth(),
@@ -334,11 +344,13 @@ private fun PrimaryButton(label: String, onClick: () -> Unit) {
 
 @Composable
 private fun GhostButton(label: String, onClick: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
         modifier = Modifier.fillMaxWidth(),
@@ -349,7 +361,7 @@ private fun GhostButton(label: String, onClick: () -> Unit) {
             textAlign = TextAlign.Center,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
     }
 }
@@ -358,11 +370,13 @@ private enum class IllustrationKind { EMPTY, ERROR }
 
 @Composable
 private fun StatusIllustration(kind: IllustrationKind) {
+    val palette = LocalAppPalette.current
+
     Surface(
         shape = CircleShape,
-        color = LuxuryColors.SurfaceMuted,
+        color = palette.surfaceMuted,
         modifier = Modifier.size(122.dp),
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -379,28 +393,28 @@ private fun StatusIllustration(kind: IllustrationKind) {
                 when (kind) {
                     IllustrationKind.EMPTY -> {
                         drawRoundRect(
-                            color = LuxuryColors.TextMuted.copy(alpha = 0.75f),
+                            color = palette.textMuted.copy(alpha = 0.75f),
                             topLeft = Offset(w * 0.06f, h * 0.24f),
                             size = Size(w * 0.88f, h * 0.62f),
                             cornerRadius = CornerRadius(w * 0.12f, w * 0.12f),
                             style = stroke,
                         )
                         drawLine(
-                            color = LuxuryColors.TextMuted.copy(alpha = 0.75f),
+                            color = palette.textMuted.copy(alpha = 0.75f),
                             start = Offset(w * 0.06f, h * 0.42f),
                             end = Offset(w * 0.94f, h * 0.42f),
                             strokeWidth = 2.4.dp.toPx(),
                             cap = StrokeCap.Round,
                         )
                         drawLine(
-                            color = LuxuryColors.TealPrimary,
+                            color = palette.primary,
                             start = Offset(w * 0.5f, h * 0.52f),
                             end = Offset(w * 0.5f, h * 0.76f),
                             strokeWidth = 2.8.dp.toPx(),
                             cap = StrokeCap.Round,
                         )
                         drawLine(
-                            color = LuxuryColors.TealPrimary,
+                            color = palette.primary,
                             start = Offset(w * 0.36f, h * 0.64f),
                             end = Offset(w * 0.64f, h * 0.64f),
                             strokeWidth = 2.8.dp.toPx(),
@@ -410,20 +424,20 @@ private fun StatusIllustration(kind: IllustrationKind) {
 
                     IllustrationKind.ERROR -> {
                         drawCircle(
-                            color = LuxuryColors.AccentDanger.copy(alpha = 0.9f),
+                            color = palette.danger.copy(alpha = 0.9f),
                             radius = w * 0.44f,
                             center = Offset(w * 0.5f, h * 0.5f),
                             style = stroke,
                         )
                         drawLine(
-                            color = LuxuryColors.AccentDanger,
+                            color = palette.danger,
                             start = Offset(w * 0.5f, h * 0.28f),
                             end = Offset(w * 0.5f, h * 0.56f),
                             strokeWidth = 3.dp.toPx(),
                             cap = StrokeCap.Round,
                         )
                         drawCircle(
-                            color = LuxuryColors.AccentDanger,
+                            color = palette.danger,
                             radius = 2.2.dp.toPx(),
                             center = Offset(w * 0.5f, h * 0.72f),
                         )
@@ -436,6 +450,8 @@ private fun StatusIllustration(kind: IllustrationKind) {
 
 @Composable
 private fun ContentState() {
+    val palette = LocalAppPalette.current
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 28.dp),
@@ -447,13 +463,13 @@ private fun ContentState() {
                     text = "Aktivitas Terbaru",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Data berhasil dimuat \u00B7 4 pembaruan",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
         }
@@ -465,11 +481,13 @@ private fun ContentState() {
 
 @Composable
 private fun ActivityRow(item: ActivityItem) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -483,14 +501,14 @@ private fun ActivityRow(item: ActivityItem) {
                 modifier = Modifier
                     .size(46.dp)
                     .clip(CircleShape)
-                    .background(LuxuryColors.SurfaceMuted),
+                    .background(palette.surfaceMuted),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = item.name.take(1),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
             Spacer(modifier = Modifier.width(14.dp))
@@ -499,7 +517,7 @@ private fun ActivityRow(item: ActivityItem) {
                     text = item.name,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TextPrimary,
+                    color = palette.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -507,7 +525,7 @@ private fun ActivityRow(item: ActivityItem) {
                 Text(
                     text = item.message,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -517,7 +535,7 @@ private fun ActivityRow(item: ActivityItem) {
                 Text(
                     text = item.time,
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(6.dp))

@@ -49,7 +49,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.icons.MgIosBackButton
 
 private val HeroHeight = 340.dp
@@ -58,6 +58,8 @@ private val BarFadeDistance = 340f
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ParallaxHeroScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val scrollState = rememberScrollState()
@@ -68,7 +70,7 @@ fun ParallaxHeroScreen(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LuxuryColors.Background),
+            .background(palette.background),
     ) {
         Column(
             modifier = Modifier
@@ -95,7 +97,7 @@ fun ParallaxHeroScreen(onBack: () -> Unit) {
                     .fillMaxWidth()
                     .offset(y = (-28).dp)
                     .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                    .background(LuxuryColors.SurfaceWhite)
+                    .background(palette.surface)
                     .padding(horizontal = 24.dp, vertical = 26.dp),
             )
         }
@@ -197,6 +199,8 @@ private fun CollapsingBar(
     statusBarTop: Dp,
     onBack: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     Box(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier
@@ -209,13 +213,13 @@ private fun CollapsingBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(statusBarTop + 56.dp)
-                    .background(LuxuryColors.SurfaceWhite),
+                    .background(palette.surface),
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(LuxuryColors.SurfaceBorder),
+                    .background(palette.border),
             )
         }
 
@@ -230,8 +234,8 @@ private fun CollapsingBar(
             MgIosBackButton(
                 onClick = onBack,
                 backgroundColor = Color.White.copy(alpha = 0.9f),
-                borderColor = LuxuryColors.SurfaceBorder,
-                iconTint = LuxuryColors.TextPrimary,
+                borderColor = palette.border,
+                iconTint = palette.textPrimary,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -241,7 +245,7 @@ private fun CollapsingBar(
                 },
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -251,13 +255,15 @@ private fun CollapsingBar(
 
 @Composable
 private fun DetailSheet(modifier: Modifier) {
+    val palette = LocalAppPalette.current
+
     Column(modifier = modifier) {
         Text(
             text = "RINGKASAN",
             fontSize = 11.sp,
             fontWeight = FontWeight.SemiBold,
             letterSpacing = 1.5.sp,
-            color = LuxuryColors.TextMuted,
+            color = palette.textMuted,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -267,7 +273,7 @@ private fun DetailSheet(modifier: Modifier) {
             fontSize = 23.sp,
             lineHeight = 29.sp,
             letterSpacing = (-0.3).sp,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(12.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -275,25 +281,25 @@ private fun DetailSheet(modifier: Modifier) {
                 text = "\u2605 4.9",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = "(128 ulasan)",
                 fontSize = 13.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = "\u00B7",
                 fontSize = 13.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = "Uluwatu, Bali",
                 fontSize = 13.sp,
-                color = LuxuryColors.TextSecondary,
+                color = palette.textSecondary,
             )
         }
 
@@ -314,7 +320,7 @@ private fun DetailSheet(modifier: Modifier) {
             text = "Fasilitas",
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
         )
         Spacer(modifier = Modifier.height(6.dp))
         FeatureRow("Private infinity pool menghadap samudra")
@@ -332,7 +338,7 @@ private fun DetailSheet(modifier: Modifier) {
                 "langsung ke cakrawala.",
             fontSize = 13.sp,
             lineHeight = 21.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
 
         Spacer(modifier = Modifier.height(36.dp))
@@ -341,11 +347,13 @@ private fun DetailSheet(modifier: Modifier) {
 
 @Composable
 private fun RowScope.StatCard(value: String, label: String) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.weight(1f),
         shape = RoundedCornerShape(16.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -359,13 +367,13 @@ private fun RowScope.StatCard(value: String, label: String) {
                 text = value,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = label,
                 fontSize = 11.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
         }
     }
@@ -373,6 +381,8 @@ private fun RowScope.StatCard(value: String, label: String) {
 
 @Composable
 private fun FeatureRow(text: String) {
+    val palette = LocalAppPalette.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -383,7 +393,7 @@ private fun FeatureRow(text: String) {
             modifier = Modifier
                 .size(28.dp)
                 .clip(CircleShape)
-                .background(LuxuryColors.TealLight),
+                .background(palette.primaryContainer),
             contentAlignment = Alignment.Center,
         ) {
             Canvas(modifier = Modifier.size(14.dp)) {
@@ -394,7 +404,7 @@ private fun FeatureRow(text: String) {
                 }
                 drawPath(
                     path = path,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                     style = Stroke(
                         width = 2.dp.toPx(),
                         cap = StrokeCap.Round,
@@ -407,7 +417,7 @@ private fun FeatureRow(text: String) {
         Text(
             text = text,
             fontSize = 14.sp,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
         )
     }
 }

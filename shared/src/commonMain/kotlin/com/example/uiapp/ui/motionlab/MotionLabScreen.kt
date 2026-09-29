@@ -71,7 +71,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.icons.MgIosBackButton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -101,6 +101,8 @@ private val SeedInbox = listOf(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MotionLabScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val items = remember { mutableStateListOf<InboxItem>().apply { addAll(SeedInbox) } }
@@ -183,7 +185,7 @@ fun MotionLabScreen(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LuxuryColors.Background),
+            .background(palette.background),
     ) {
         CollapsingHero(
             collapse = collapse,
@@ -210,7 +212,7 @@ fun MotionLabScreen(onBack: () -> Unit) {
                     text = "Geser kartu ke kiri untuk mengarsipkan \u00B7 tarik ke bawah untuk menyegarkan",
                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp),
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
             items(items, key = { it.id }) { item ->
@@ -262,9 +264,9 @@ fun MotionLabScreen(onBack: () -> Unit) {
             Snackbar(
                 snackbarData = data,
                 shape = RoundedCornerShape(14.dp),
-                containerColor = LuxuryColors.TextPrimary,
+                containerColor = palette.textPrimary,
                 contentColor = Color.White,
-                actionColor = LuxuryColors.Accent,
+                actionColor = palette.success,
             )
         }
     }
@@ -332,11 +334,13 @@ private fun CollapsingHero(collapse: Float, modifier: Modifier) {
 
 @Composable
 private fun CompactTopBar(collapse: Float, onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                LuxuryColors.SurfaceWhite.copy(alpha = collapse),
+                palette.surface.copy(alpha = collapse),
             )
             .statusBarsPadding(),
     ) {
@@ -349,9 +353,9 @@ private fun CompactTopBar(collapse: Float, onBack: () -> Unit) {
         ) {
             MgIosBackButton(
                 onClick = onBack,
-                backgroundColor = LuxuryColors.SurfaceMuted.copy(alpha = 0.4f + collapse * 0.6f),
-                borderColor = LuxuryColors.SurfaceBorder,
-                iconTint = LuxuryColors.TextPrimary,
+                backgroundColor = palette.surfaceMuted.copy(alpha = 0.4f + collapse * 0.6f),
+                borderColor = palette.border,
+                iconTint = palette.textPrimary,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
@@ -359,7 +363,7 @@ private fun CompactTopBar(collapse: Float, onBack: () -> Unit) {
                 modifier = Modifier.graphicsLayer { alpha = collapse },
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -368,7 +372,7 @@ private fun CompactTopBar(collapse: Float, onBack: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
-                .background(LuxuryColors.SurfaceBorder.copy(alpha = collapse)),
+                .background(palette.border.copy(alpha = collapse)),
         )
     }
 }
@@ -380,6 +384,8 @@ private fun PullIndicator(
     refreshing: Boolean,
     modifier: Modifier,
 ) {
+    val palette = LocalAppPalette.current
+
     val transition = rememberInfiniteTransition(label = "pull-spin")
     val spin by transition.animateFloat(
         initialValue = 0f,
@@ -403,8 +409,8 @@ private fun PullIndicator(
             }
             .size(44.dp),
         shape = CircleShape,
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -414,7 +420,7 @@ private fun PullIndicator(
                 val inset = 1.5.dp.toPx()
                 if (refreshing) {
                     drawArc(
-                        color = LuxuryColors.SurfaceMuted,
+                        color = palette.surfaceMuted,
                         startAngle = 0f,
                         sweepAngle = 360f,
                         useCenter = false,
@@ -426,7 +432,7 @@ private fun PullIndicator(
                         style = stroke,
                     )
                     drawArc(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         startAngle = spin,
                         sweepAngle = 90f,
                         useCenter = false,
@@ -439,7 +445,7 @@ private fun PullIndicator(
                     )
                 } else {
                     drawArc(
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                         startAngle = -90f,
                         sweepAngle = 320f * fraction,
                         useCenter = false,
@@ -458,6 +464,8 @@ private fun PullIndicator(
 
 @Composable
 private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
             if (value == SwipeToDismissBoxValue.EndToStart) {
@@ -477,7 +485,7 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(18.dp))
-                    .background(LuxuryColors.TextPrimary)
+                    .background(palette.textPrimary)
                     .padding(horizontal = 22.dp),
                 contentAlignment = Alignment.CenterEnd,
             ) {
@@ -497,8 +505,8 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
-            color = LuxuryColors.SurfaceWhite,
-            border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+            color = palette.surface,
+            border = BorderStroke(1.dp, palette.border),
             shadowElevation = 0.dp,
             tonalElevation = 0.dp,
         ) {
@@ -512,14 +520,14 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                     modifier = Modifier
                         .size(46.dp)
                         .clip(CircleShape)
-                        .background(LuxuryColors.SurfaceMuted),
+                        .background(palette.surfaceMuted),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = item.sender.take(1),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        color = LuxuryColors.TealPrimary,
+                        color = palette.primary,
                     )
                 }
                 Spacer(modifier = Modifier.width(14.dp))
@@ -528,7 +536,7 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                         text = item.sender,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -536,7 +544,7 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                     Text(
                         text = item.subject,
                         fontSize = 12.sp,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -544,7 +552,7 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                     Text(
                         text = item.preview,
                         fontSize = 11.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -553,7 +561,7 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                 Text(
                     text = item.time,
                     fontSize = 11.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                     maxLines = 1,
                 )
             }

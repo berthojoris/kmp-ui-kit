@@ -84,6 +84,8 @@ private class ToastMessage(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FeedbackLabScreen(onBack: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     BackHandler(enabled = true) { onBack() }
 
     val toasts = remember { mutableStateListOf<ToastMessage>() }
@@ -107,7 +109,7 @@ fun FeedbackLabScreen(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LuxuryColors.Background),
+            .background(palette.background),
     ) {
         Scaffold(
             containerColor = Color.Transparent,
@@ -132,38 +134,38 @@ fun FeedbackLabScreen(onBack: () -> Unit) {
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     letterSpacing = 1.6.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "Ketuk beberapa kali berturut-turut untuk melihat antrean toast bertumpuk.",
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
                 Spacer(modifier = Modifier.height(14.dp))
 
                 FeedbackButton(
                     label = "Tampilkan Toast Sukses",
-                    accent = LuxuryColors.Accent,
+                    accent = palette.success,
                     onClick = { pushToast(ToastKind.SUCCESS, "Perubahan berhasil disimpan.") },
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 FeedbackButton(
                     label = "Tampilkan Toast Informasi",
-                    accent = LuxuryColors.AccentInfo,
+                    accent = palette.info,
                     onClick = { pushToast(ToastKind.INFO, "Sinkronisasi berjalan di latar belakang.") },
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 FeedbackButton(
                     label = "Tampilkan Toast Peringatan",
-                    accent = LuxuryColors.AccentWarning,
+                    accent = palette.warning,
                     onClick = { pushToast(ToastKind.WARNING, "Kuota penyimpanan hampir penuh.") },
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 FeedbackButton(
                     label = "Tampilkan Toast Gagal",
-                    accent = LuxuryColors.AccentDanger,
+                    accent = palette.danger,
                     onClick = { pushToast(ToastKind.DANGER, "Koneksi gagal. Coba lagi nanti.") },
                 )
 
@@ -173,18 +175,18 @@ fun FeedbackLabScreen(onBack: () -> Unit) {
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     letterSpacing = 1.6.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "Banner gaya iOS turun dari atas dengan hitungan waktu.",
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                 )
                 Spacer(modifier = Modifier.height(14.dp))
                 FeedbackButton(
                     label = "Tampilkan Banner",
-                    accent = LuxuryColors.TealPrimary,
+                    accent = palette.primary,
                     onClick = {
                         bannerKey++
                         bannerVisible = true
@@ -234,12 +236,14 @@ fun FeedbackLabScreen(onBack: () -> Unit) {
 
 @Composable
 private fun FeedbackButton(label: String, accent: Color, onClick: () -> Unit) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -259,12 +263,12 @@ private fun FeedbackButton(label: String, accent: Color, onClick: () -> Unit) {
                 modifier = Modifier.weight(1f),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = LuxuryColors.TextPrimary,
+                color = palette.textPrimary,
             )
             Text(
                 text = "\u203A",
                 fontSize = 18.sp,
-                color = LuxuryColors.TextMuted,
+                color = palette.textMuted,
             )
         }
     }
@@ -272,11 +276,13 @@ private fun FeedbackButton(label: String, accent: Color, onClick: () -> Unit) {
 
 @Composable
 private fun ToastCard(toast: ToastMessage) {
+    val palette = LocalAppPalette.current
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -307,7 +313,7 @@ private fun ToastCard(toast: ToastMessage) {
                 Text(
                     text = toast.text,
                     fontSize = 12.sp,
-                    color = LuxuryColors.TextSecondary,
+                    color = palette.textSecondary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -323,7 +329,7 @@ private fun ToastCard(toast: ToastMessage) {
                 Text(
                     text = "\u00D7",
                     fontSize = 16.sp,
-                    color = LuxuryColors.TextMuted,
+                    color = palette.textMuted,
                 )
             }
         }
@@ -336,6 +342,8 @@ private fun NotificationBanner(
     onClose: () -> Unit,
     onFinished: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
+
     val progress = remember { Animatable(1f) }
 
     LaunchedEffect(key) {
@@ -350,8 +358,8 @@ private fun NotificationBanner(
             .statusBarsPadding()
             .padding(horizontal = 14.dp, vertical = 10.dp),
         shape = RoundedCornerShape(20.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -366,7 +374,7 @@ private fun NotificationBanner(
                     modifier = Modifier
                         .size(38.dp)
                         .clip(RoundedCornerShape(11.dp))
-                        .background(LuxuryColors.TealPrimary),
+                        .background(palette.primary),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -387,13 +395,13 @@ private fun NotificationBanner(
                             text = "Testing UI",
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
-                            color = LuxuryColors.TextPrimary,
+                            color = palette.textPrimary,
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
                             text = "sekarang",
                             fontSize = 11.sp,
-                            color = LuxuryColors.TextMuted,
+                            color = palette.textMuted,
                         )
                     }
                     Spacer(modifier = Modifier.height(3.dp))
@@ -401,7 +409,7 @@ private fun NotificationBanner(
                         text = "Reservasi baru dikonfirmasi untuk Villa Ubud pada 12 Sep.",
                         fontSize = 12.sp,
                         lineHeight = 17.sp,
-                        color = LuxuryColors.TextSecondary,
+                        color = palette.textSecondary,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -417,7 +425,7 @@ private fun NotificationBanner(
                     Text(
                         text = "\u00D7",
                         fontSize = 16.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                     )
                 }
             }
@@ -432,7 +440,7 @@ private fun NotificationBanner(
                         .fillMaxWidth(progress.value)
                         .height(2.dp)
                         .clip(RoundedCornerShape(1.dp))
-                        .background(LuxuryColors.TealPrimary),
+                        .background(palette.primary),
                 )
             }
             Spacer(modifier = Modifier.height(12.dp))

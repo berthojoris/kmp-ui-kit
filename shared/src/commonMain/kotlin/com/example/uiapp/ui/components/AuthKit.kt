@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LocalAppPalette
 
 @Composable
 fun FlatTextField(
@@ -56,6 +56,8 @@ fun FlatTextField(
     imeAction: ImeAction = ImeAction.Next,
     singleLine: Boolean = true,
 ) {
+    val palette = LocalAppPalette.current
+
     var revealed by remember { mutableStateOf(false) }
 
     Column(modifier = modifier.fillMaxWidth()) {
@@ -63,17 +65,17 @@ fun FlatTextField(
             text = label,
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold,
-            color = LuxuryColors.TextSecondary,
+            color = palette.textSecondary,
             modifier = Modifier.padding(bottom = 7.dp),
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
-                .background(LuxuryColors.SurfaceWhite)
+                .background(palette.surface)
                 .border(
                     1.dp,
-                    if (error != null) LuxuryColors.AccentDanger else LuxuryColors.SurfaceBorder,
+                    if (error != null) palette.danger else palette.border,
                     RoundedCornerShape(12.dp),
                 )
                 .padding(horizontal = 14.dp, vertical = 13.dp),
@@ -84,7 +86,7 @@ fun FlatTextField(
                     Text(
                         text = placeholder,
                         fontSize = 14.sp,
-                        color = LuxuryColors.TextMuted,
+                        color = palette.textMuted,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -95,10 +97,10 @@ fun FlatTextField(
                     singleLine = singleLine,
                     textStyle = TextStyle(
                         fontSize = 14.sp,
-                        color = LuxuryColors.TextPrimary,
+                        color = palette.textPrimary,
                         fontWeight = FontWeight.Medium,
                     ),
-                    cursorBrush = SolidColor(LuxuryColors.TealPrimary),
+                    cursorBrush = SolidColor(palette.primary),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType,
                         imeAction = imeAction,
@@ -119,7 +121,7 @@ fun FlatTextField(
                         .padding(start = 8.dp),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = LuxuryColors.TealPrimary,
+                    color = palette.primary,
                 )
             }
         }
@@ -128,7 +130,7 @@ fun FlatTextField(
                 text = error,
                 modifier = Modifier.padding(top = 6.dp, start = 2.dp),
                 fontSize = 11.sp,
-                color = LuxuryColors.AccentDanger,
+                color = palette.danger,
             )
         }
     }
@@ -141,12 +143,14 @@ fun FlatPrimaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = if (enabled) LuxuryColors.TealPrimary else LuxuryColors.TealPrimary.copy(alpha = 0.4f),
+        color = if (enabled) palette.primary else palette.primary.copy(alpha = 0.4f),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -170,13 +174,15 @@ fun FlatSecondaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
+    val palette = LocalAppPalette.current
+
     Surface(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
-        color = LuxuryColors.SurfaceWhite,
-        border = androidx.compose.foundation.BorderStroke(1.dp, LuxuryColors.SurfaceBorder),
+        color = palette.surface,
+        border = androidx.compose.foundation.BorderStroke(1.dp, palette.border),
         shadowElevation = 0.dp,
         tonalElevation = 0.dp,
     ) {
@@ -186,7 +192,7 @@ fun FlatSecondaryButton(
             textAlign = TextAlign.Center,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = LuxuryColors.TextPrimary,
+            color = palette.textPrimary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -199,8 +205,10 @@ fun FlatToggle(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val palette = LocalAppPalette.current
+
     val track by animateColorAsState(
-        targetValue = if (checked) LuxuryColors.TealPrimary else LuxuryColors.SurfaceBorder,
+        targetValue = if (checked) palette.primary else palette.border,
         animationSpec = tween(200),
         label = "flatToggleTrack",
     )

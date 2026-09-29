@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.theme.LocalAppPalette
+import com.example.uiapp.ui.components.icons.MgIosBackButton
 
 @Composable
 fun UiTopBar(
