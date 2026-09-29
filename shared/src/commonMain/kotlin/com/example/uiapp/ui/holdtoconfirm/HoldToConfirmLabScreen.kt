@@ -52,14 +52,19 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HoldToConfirmLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     var lastActionMessage by remember { mutableStateOf<String?>(null) }
     var holdDurationMs by remember { mutableStateOf(1500) }

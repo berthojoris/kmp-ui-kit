@@ -48,11 +48,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BentoGridLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
 
     // State interaktif widget

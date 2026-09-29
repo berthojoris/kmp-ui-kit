@@ -46,12 +46,17 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AccessibilityLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
 
     // Accessibility state modifiers

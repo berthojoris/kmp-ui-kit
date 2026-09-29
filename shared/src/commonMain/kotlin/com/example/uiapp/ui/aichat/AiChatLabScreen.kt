@@ -56,6 +56,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.Job
@@ -79,8 +81,11 @@ data class ChatMessage(
     val timestamp: String = "15:42",
 )
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AiChatLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()

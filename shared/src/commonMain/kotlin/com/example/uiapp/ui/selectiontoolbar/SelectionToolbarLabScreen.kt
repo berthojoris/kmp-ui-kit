@@ -44,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -51,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
@@ -76,6 +78,7 @@ data class MediaItem(
     val colorAccent: Color,
 )
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SelectionToolbarLabScreen(onBack: () -> Unit) {
     val palette = LocalAppPalette.current
@@ -116,6 +119,14 @@ fun SelectionToolbarLabScreen(onBack: () -> Unit) {
         ContextSelectionMode.MEDIA -> selectedMediaIds.isNotEmpty()
         ContextSelectionMode.TEXT -> textSelectedRange != null
     }
+
+    // Back saat mode seleksi aktif harus keluar dari seleksi dulu, bukan menutup lab.
+    BackHandler(enabled = isInSelection) {
+        selectedItemIds.clear()
+        selectedMediaIds.clear()
+        textSelectedRange = null
+    }
+    BackHandler(enabled = true) { onBack() }
 
     val selectedCount = when (selectedMode) {
         ContextSelectionMode.LIST -> selectedItemIds.size

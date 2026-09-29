@@ -54,13 +54,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SlideToConfirmLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     var lastActionResult by remember { mutableStateOf<String?>(null) }
 

@@ -43,6 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
@@ -70,8 +72,11 @@ data class EmailConversation(
     val category: String = "Pekerjaan",
 )
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AdaptiveNavLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     var simulatedSize by remember { mutableStateOf(SimulatedWindowSize.MEDIUM) }
     var foldPosture by remember { mutableStateOf(FoldPosture.BOOK) }

@@ -50,6 +50,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlin.math.PI
@@ -62,8 +64,11 @@ enum class AiVoiceState(val label: String, val badge: String) {
     SPEAKING("Menjawab Pertanyaan...", "🔊"),
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AiVoiceOrbLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     var currentState by remember { mutableStateOf(AiVoiceState.LISTENING) }
     var selectedPrompt by remember { mutableStateOf<String?>(null) }

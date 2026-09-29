@@ -44,6 +44,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
@@ -67,8 +69,11 @@ enum class AutosaveStatus(val label: String, val color: Color) {
     ERROR("Gagal Menyimpan", Color(0xFFEF4444)),
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ResumeFormLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     val scope = rememberCoroutineScope()
 

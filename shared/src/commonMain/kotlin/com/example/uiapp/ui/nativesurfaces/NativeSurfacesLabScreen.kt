@@ -41,6 +41,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
@@ -56,8 +58,11 @@ enum class BackgroundType(val title: String) {
     MINIMAL("Solid Minimalis"),
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NativeSurfacesLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     val listState = rememberLazyListState()
 

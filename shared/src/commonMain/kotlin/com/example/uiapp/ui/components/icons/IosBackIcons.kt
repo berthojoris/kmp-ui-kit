@@ -26,7 +26,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.uiapp.theme.LightAppPalette
-import com.example.uiapp.theme.LocalAppPalette
 
 @Composable
 fun MgIosBackChevron(

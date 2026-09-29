@@ -56,6 +56,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.Job
@@ -70,8 +72,11 @@ private class FractionClipShape(private val fraction: Float) : Shape {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SplitComparisonLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     val scope = rememberCoroutineScope()
     val splitFraction = remember { Animatable(0.5f) }

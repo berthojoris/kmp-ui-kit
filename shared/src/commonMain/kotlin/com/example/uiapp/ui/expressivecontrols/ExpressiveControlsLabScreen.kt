@@ -58,6 +58,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.launch
@@ -70,8 +72,11 @@ enum class MotionIntensity(val title: String) {
     EXPRESSIVE("Expressive (Tinggi)"),
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ExpressiveControlsLabScreen(onBack: () -> Unit) {
+    BackHandler(enabled = true) { onBack() }
+
     val palette = LocalAppPalette.current
     val scope = rememberCoroutineScope()
 
