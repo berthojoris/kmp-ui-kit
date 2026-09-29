@@ -23,7 +23,7 @@ Dokumen ini adalah **aturan induk (governance)** untuk setiap AI agent / develop
 | Target | Android (min SDK 29, target/compile SDK 37) + iOS (arm64 & simulator arm64, iOS 16+ tersirat) |
 | Package | `com.example.uiapp` (shared: `com.example.uiapp.shared`) |
 | Bahasa UI | Indonesia (teks tombol, judul, label hardcoded) |
-| Tujuan repo | Kit eksperimen / laboratorium komponen UI mobile berisi **67 lab** dalam satu aplikasi demo |
+| Tujuan repo | Kit eksperimen / laboratorium komponen UI mobile berisi **71 lab** dalam satu aplikasi demo |
 | Ada PRD? | **Tidak ada.** Roadmap satu-satunya adalah `TODO.md` |
 | Ada test? | **Tidak ada file test** (dependensi `kotlin-test` tersedia, belum dipakai) |
 | Image/network lib | **Tidak ada** (tanpa Coil/Ktor/Room/SQLDelight/Serialization) |
@@ -56,7 +56,8 @@ testingUI/
 │  │  ├─ navigation/AppNavigation.kt
 │  │  ├─ theme/{UiAppTheme,AppPalette,LuxuryColors}.kt
 │  │  └─ ui/
-│  │     ├─ components/            # komponen bersama (UiTopBar, UiIcons, AuthKit)
+│  │     ├─ components/            # komponen bersama (UiTopBar, AuthKit) + icons/
+│  │     │  └─ icons/              # ikon Canvas per bagian Home (dulu UiIcons.kt)
 │  │     └─ <feature>/<Feature>Screen.kt   # satu folder per lab
 │  ├─ src/androidMain/             # actual Android (Platform.android.kt)
 │  └─ src/iosMain/                 # actual iOS + MainViewController.kt
@@ -118,7 +119,7 @@ Navigasi dikelola manual di `navigation/AppNavigation.kt`:
 3. Tambahkan route tersebut ke himpunan `KnownRoutes` di `App.kt`.
 4. Tambahkan cabang `Route<Nama> -> <Nama>Screen(onBack = { navController.pop() })` di dalam `when`.
 5. Tambahkan `MenuEntry(id, title, subtitle, enabled = true)` di `HomeMenuScreen.kt` (`MenuEntries`), lengkap dengan `subtitle` berbahasa Indonesia.
-6. Tambahkan ikon menu khusus `<Nama>MenuIcon(tint: Color)` di `ui/components/UiIcons.kt` dan pasang cabangnya di `when (entry.id)` pada `MenuGridCard`.
+6. Tambahkan ikon menu khusus `<Nama>MenuIcon(tint: Color)` di `ui/components/icons/` (file sesuai bagian Home lab tersebut) dan pasang cabangnya di `when (entry.id)` pada `MenuGridCard`.
 7. Perbarui status lab di `TODO.md`.
 8. Jangan mengubah signature screen lain atau menghapus route yang sudah ada.
 
@@ -142,7 +143,7 @@ Sistem tema: `UiAppTheme` menyediakan `LocalAppPalette` (`AppPalette`) dan `Loca
 
 - **Wajib**: ambil warna lewat `val palette = LocalAppPalette.current` di setiap composable yang butuh warna. Gunakan field `AppPalette` (`background`, `surface`, `surfaceMuted`, `border`, `textPrimary`, `textSecondary`, `textMuted`, `primary`, `onPrimary`, `primaryContainer`, `onPrimaryContainer`, `success`, `warning`, `info`, `danger`).
 - **Dilarang** menulis warna hardcoded baru (`Color(0xFF...)`) untuk permukaan, teks, atau border pada kode baru. Warna hardcoded hanya boleh untuk kasus sangat spesifik: data visual buatan (gradien ilustrasi mock, palet chart) dan warna status pill pada data mock.
-- `theme/LuxuryColors.kt` adalah **palet legacy statis (light-only)**. Jangan gunakan pada kode baru. Saat menyentuh file yang masih memakainya, migrasikan ke `LocalAppPalette` (§14).
+- `theme/LuxuryColors.kt` adalah **palet legacy statis (light-only)** dan sudah tidak dipakai sebagai sumber warna. Jangan gunakan pada kode baru; pemakainya yang terakhir hanya label opsi kuis di `GamificationLabScreen`. Warna diambil dari `LightAppPalette` bila memang perlu nilai statis (mis. warna seri chart di data mock top-level, karena top-level tidak bisa membaca `LocalAppPalette.current`).
 - Setiap layar baru **wajib** benar di mode Terang dan Gelap. Uji dengan mengubah mode di `ThemeLabScreen` (`theme_lab`).
 
 ### 6.4 State Management
@@ -158,9 +159,9 @@ Sistem tema: `UiAppTheme` menyediakan `LocalAppPalette` (`AppPalette`) dan `Loca
 Sebelum membuat komponen baru, periksa `ui/components/`:
 
 - `UiTopBar(title, subtitle, onBack, action)` — **wajib** dipakai sebagai top bar standar setiap layar. Jangan membuat top bar baru.
-- `UiIcons.kt` — seluruh ikon berupa vektor `Canvas` (`StrokeCap.Round`, `StrokeJoin.Round`), tidak memakai font/ikon bitmap. Setiap entry Home punya ikon sendiri; ikon wajib menerima parameter `tint`.
+- `ui/components/icons/` — seluruh ikon berupa vektor `Canvas` (`StrokeCap.Round`, `StrokeJoin.Round`), tidak memakai font/ikon bitmap. Setiap entry Home punya ikon sendiri; ikon wajib menerima parameter `tint`. File dipecah per bagian Home: `CoreLabIcons.kt`, `AuthFlowIcons.kt`, `AdvancedLabIcons.kt`, `WorldClassIcons.kt`, `TrendingLabIcons.kt`, `ModernLabIcons.kt`, `ProfessionalLabIcons.kt`, `GamificationLabIcons.kt`, plus `IosBackIcons.kt` (tombol kembali iOS dan placeholder).
 - `MgIosBackButton` / `MgIosBackChevron` — tombol kembali bergaya iOS (38dp, 1px border, zero shadow, `contentDescription = "Kembali"`).
-- `AuthKit.kt` (`FlatTextField`, `FlatPrimaryButton`, `FlatSecondaryButton`, `FlatToggle`) — komponen form Flat UI. Catatan: file ini masih terikat `LuxuryColors` statis.
+- `AuthKit.kt` (`FlatTextField`, `FlatPrimaryButton`, `FlatSecondaryButton`, `FlatToggle`) — komponen form Flat UI. Warna diambil dari `LocalAppPalette.current` di dalam body komponen.
 
 Larangan: memakai komponen Material3 bergaya default yang membawa elevasi/shadow (`ElevatedCard`, `Card` dengan elevation, `ElevatedButton`, `FilledTonalButton` dengan tonal elevation). Bila memakai `Surface`, **wajib** menetapkan `shadowElevation = 0.dp` dan `tonalElevation = 0.dp`.
 
@@ -234,7 +235,7 @@ Larangan: memakai komponen Material3 bergaya default yang membawa elevasi/shadow
 ## 10. Ikon & Aset
 
 - **Semua ilustrasi/ikon adalah vektor Canvas lokal.** Tidak ada aset piksel, tidak ada image loader, tidak ada akses jaringan. Pertahankan keadaan ini.
-- Ikon baru: fungsi `@Composable fun <Nama>MenuIcon(tint: Color = ..., size: Dp = ...)` di `ui/components/UiIcons.kt`, digambar dengan `Canvas`/`Path`/`drawPath`, memakai `StrokeCap.Round` & `StrokeJoin.Round`, dan memakai `tint` (bukan warna hardcoded).
+- Ikon baru: fungsi `@Composable fun <Nama>MenuIcon(tint: Color = ..., size: Dp = ...)` di `ui/components/icons/` (file sesuai bagian Home), digambar dengan `Canvas`/`Path`/`drawPath`, memakai `StrokeCap.Round` & `StrokeJoin.Round`, dan memakai `tint` (bukan warna hardcoded).
 - Ilustrasi mock (foto pengganti) dibuat dengan gradien (`Brush.linearGradient`) + bentuk geometris, bukan gambar bitmap.
 - **Deteksi field gambar API**: setiap field model/entitas yang bernama `imageUrl`, `avatarUrl`, `thumbnailUrl`, `bannerUrl`, `photoUrl`, `iconUrl`, atau sejenisnya **tidak boleh** dibiarkan `null`/`""`.
   - Selama repo tanpa jaringan: isi dengan **sumber visual mock lokal** (gradien/palet) dan tandai sebagai simulasi.
@@ -278,7 +279,7 @@ Jalankan perintah dari root repositori (Windows: gunakan `.\gradlew.bat`, jangan
 
 ```powershell
 .\gradlew.bat :androidApp:assembleDebug              # build APK debug (validasi utama Android)
-.\gradlew.bat :shared:compileAndroidMain             # kompilasi cepat shared untuk Android
+.\gradlew.bat :shared:compileKotlinAndroid           # kompilasi cepat shared untuk Android (plugin android-multiplatform)
 .\gradlew.bat :shared:compileKotlinIosSimulatorArm64 # validasi iOS simulator (Apple Silicon)
 .\gradlew.bat :shared:compileKotlinIosArm64          # validasi iOS device
 .\gradlew.bat :shared:check                           # semua check yang tersedia
@@ -303,7 +304,7 @@ Sebuah lab dinyatakan selesai hanya bila **semua** poin berikut terpenuhi:
 
 - [ ] Route terdaftar di `App.kt` (`Route<X>`, `KnownRoutes`, cabang `when`) dan dapat dibuka dari Home.
 - [ ] Entry `MenuEntry` ada di `HomeMenuScreen.kt` dengan judul + subtitle Indonesia.
-- [ ] Ikon khusus tersedia di `UiIcons.kt` dan terpasang di `MenuGridCard`.
+- [ ] Ikon khusus tersedia di `ui/components/icons/` dan terpasang di `MenuGridCard`.
 - [ ] `BackHandler` aktif dan `onBack` bekerja.
 - [ ] Demo memiliki interaksi nyata dengan state: normal, loading, kosong, sukses, gagal, dan disabled (sesuai relevansi).
 - [ ] Warna berasal dari `LocalAppPalette`; tampilan benar di mode terang **dan** gelap.
@@ -339,14 +340,16 @@ Ini kondisi **saat ini** yang menyimpang dari aturan di atas. Jangan menganggapn
 
 | # | Deviasi | Dampak | Tindakan saat menyentuh file |
 | --- | --- | --- | --- |
-| 1 | 27 file di `ui/` masih memakai `LuxuryColors` (light-only) — termasuk `home`, `auth`, `permissions`, `passcode`, `onboarding`, `biometric`, `profilesetup`, `adaptive`, `charts`, `formlab`, `emptystate`, `multiselect`, `components/AuthKit`, `components/UiIcons`, dll. | Lab tersebut tidak ikut mode gelap walau `TODO.md` mengklaim rollout penuh | Migrasikan ke `LocalAppPalette` |
-| 2 | `AndroidManifest.xml` belum menetapkan `android:windowSoftInputMode="adjustResize"` dan memakai tema `Theme.Material.Light.NoActionBar` (light-only, bukan Material3) | Keyboard bisa menutupi input; status bar Android tidak mengikuti tema app | Tambahkan `adjustResize` dan tema Material3 saat tugas menyentuh Android |
-| 3 | `navigationBarsPadding()` / `imePadding()` belum diterapkan merata (baru ±20 file lab) | Tombol di dasar layar berisiko tertutup navigation bar / keyboard pada lab lama | Terapkan saat menyentuh layar terkait |
-| 4 | `TODO.md` menandai item §6 sebagai `WAIT` padahal sudah diimplementasikan (`ai_chat`, `selection_toolbar`, `undo_queue`, `adaptive_navigation`, `expressive_controls`, `accessibility_lab`, `activity_inbox`, `resume_form`, `native_surfaces`) | Roadmap menyesatkan | Perbarui status pada perubahan berikutnya |
+| 1 | Beberapa lab masih menyimpan warna pada konstanta statis `LightAppPalette` untuk data mock top-level (mis. warna seri di `charts`, `stats`, `feedback`) karena data tersebut bukan `@Composable` sehingga tidak bisa membaca `LocalAppPalette.current`. Permukaan, teks, dan border sudah penuh memakai palet aktif. | Warna seri chart/status pill tetap sama di mode terang dan gelap (memang disengaja untuk identitas data), berbeda dari palet yang beradaptasi | Biarkan; kalau seri chart ingin ikut tema, ubah jadi parameter `tint` yang diisi dari composable pemanggil |
+| 2 | `AndroidManifest.xml` sudah menetapkan `android:windowSoftInputMode="adjustResize"` dan tema `Theme.UIApp`, tetapi tema XML masih `Material` (bukan Material3) karena aplikasi 100% Compose dan dependensi Material3 XML tidak dideklarasikan di `androidApp`. | Status bar Android tidak benar-benar meniru status bar Material3; warna ikon status bar dikendalikan manual dari `MainActivity` | Tambahkan tema Material3 hanya jika `androidApp` juga memakai komponen XML Material3 |
+| 3 | `navigationBarsPadding()` / `imePadding()` belum diterapkan merata (baru ±20 file lab). `imePadding()` sudah ada di semua layar berinput teks: `auth`, `profilesetup`, `search`, `command_palette`, `formlab`, `create_lab`, `aichat`, `resume_form`. | Tombol di dasar layar berisiko tertutup navigation bar / keyboard pada lab lama | Terapkan saat menyentuh layar terkait |
+| 4 | `TODO.md` sudah menandai seluruh item §6 sebagai `DONE`, sinkron dengan kode. | Tidak lagi menyesatkan | Jaga tetap sinkron setiap menutup lab |
 | 5 | Belum ada satu pun test; `kotlin-test` + konfigurasi host/device test sudah disiapkan | Regresi tidak terdeteksi otomatis | Tambahkan test `commonTest` bila mengerjakan logika non-UI |
 | 6 | `Greeting.kt`, `GreetingUtil.kt` adalah sisa template; `platform` hanya dipakai untuk teks header Home | Kode mati | Hapus hanya jika diminta |
 | 7 | `iosArm64X64` dan `iosX64` tidak ditargetkan (hanya arm64 + simulator arm64) | Build iOS di Mac Intel tidak didukung | Jangan tambah target tanpa diminta |
 | 8 | Komponen hanya didefinisikan di file layar (banyak `private` duplikat antar lab, mis. bottom bar/segmented control dibuat ulang) | Duplikasi kode | Ekstrak ke `ui/components/` saat komponen yang sama muncul minimal tiga kali |
+| 9 | `theme/LuxuryColors.kt` masih ada walaupun hanya dipakai oleh opsi jawaban kuis di `GamificationLabScreen` (bukan lagi sumber warna) | Palet legacy tercampur dengan `AppPalette` aktif dan mudah terpakai keliru tanpa sengaja | Hapus saat file gamification tidak lagi menyebutnya, atau ganti label kuis dengan teks lain |
+| 10 | Ukuran `ui/components/icons/` masih 317–676 baris per file dibanding `UiIcons.kt` yang tadinya 2.409 baris | Lebih mudah dibaca, tetapi masih bisa dipecah lagi bila melewati ±800 baris | Pertahankan pembagian per bagian Home saat menambah ikon baru |
 
 ---
 
@@ -370,7 +373,7 @@ Ini kondisi **saat ini** yang menyimpang dari aturan di atas. Jangan menganggapn
 5. Layout: BoxWithConstraints untuk adaptive, verticalScroll anti-clipping,
    navigationBarsPadding di bawah, imePadding di form, statusBarsPadding jika tanpa UiTopBar.
 6. State: remember/mutableStateOf/LaunchedEffect; tanpa GlobalScope/runBlocking/network.
-7. Lab baru: layar + route di App.kt + KnownRoutes + when + MenuEntry Home + ikon UiIcons + TODO.md.
+7. Lab baru: layar + route di App.kt + KnownRoutes + when + MenuEntry Home + ikon di `ui/components/icons/` + TODO.md.
 8. Aksesibilitas: contentDescription, status jangan hanya warna, tahan font besar.
 9. Validasi: .\gradlew.bat :androidApp:assembleDebug (+ cek mode gelap & keyboard).
 10. Jangan ubah build/versi/struktur modul, jangan push, jangan hapus pekerjaan pengguna.
@@ -428,7 +431,7 @@ Jangan aktifkan atau terapkan skill berikut tanpa izin eksplisit. Jika diaktifka
 | `compose-flat-modal-notification`, `compose-luxury-clean-ui` | Konstanta hex tetap dan `Icons.Rounded.*` / Material Icon | §6.3 warna via `LocalAppPalette`; §10 ikon wajib Canvas lokal, tanpa `material-icons-extended` |
 | `cmp-prd-generator` | Gradle 9.6 + AGP 9.4+, modul `composeApp/`, `composeResources/` | §5: versi mengikuti `libs.versions.toml` (AGP 9.1.1) dan modul `shared/` |
 
-**d. Boleh dipakai dengan adaptasi (bukan ditolak):** resep komponen dari `compose-luxury-clean-ui`, `compose-flat-modal-notification`, dan `kotlin-compose-ios-notification-banner` tetap berguna untuk struktur/layout. Adaptasi wajib: ganti seluruh warna hardcoded ke `LocalAppPalette`, ganti `Icons.*` ke ikon Canvas di `UiIcons.kt`, dan pastikan komponen benar di mode terang dan gelap.
+**d. Boleh dipakai dengan adaptasi (bukan ditolak):** resep komponen dari `compose-luxury-clean-ui`, `compose-flat-modal-notification`, dan `kotlin-compose-ios-notification-banner` tetap berguna untuk struktur/layout. Adaptasi wajib: ganti seluruh warna hardcoded ke `LocalAppPalette`, ganti `Icons.*` ke ikon Canvas di `ui/components/icons/`, dan pastikan komponen benar di mode terang dan gelap.
 
 ### 19.4 Kewajiban Melaporkan
 
