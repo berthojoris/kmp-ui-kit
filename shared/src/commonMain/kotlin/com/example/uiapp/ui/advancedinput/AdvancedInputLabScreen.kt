@@ -125,108 +125,28 @@ fun AdvancedInputLabScreen(onBack: () -> Unit) {
 
 @Composable
 private fun PickersAndSlidersView(palette: com.example.uiapp.theme.AppPalette) {
-    var selectedHour by remember { mutableIntStateOf(9) }
-    var selectedMinute by remember { mutableIntStateOf(30) }
     var quantity by remember { mutableIntStateOf(2) }
     var sliderRange by remember { mutableStateOf(20f..80f) }
 
+    // Padding horizontal sengaja tidak dipasang di sini supaya horizontal date strip
+    // tetap bisa menggulir edge-to-edge; setiap kartu memakai padding sendiri.
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        // Wheel Time Picker Simulation
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = palette.surface,
-            border = BorderStroke(1.dp, palette.border),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text("Wheel Time Picker (iOS Style)", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = palette.textPrimary)
-                Text("Pilih jam dan menit dengan stepper putar", fontSize = 12.sp, color = palette.textMuted)
-                Spacer(modifier = Modifier.height(14.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    // Hours Wheel
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Jam", fontSize = 11.sp, color = palette.textMuted)
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Surface(
-                                onClick = { if (selectedHour > 0) selectedHour-- else selectedHour = 23 },
-                                shape = RoundedCornerShape(8.dp),
-                                color = palette.surfaceMuted,
-                                border = BorderStroke(1.dp, palette.border),
-                            ) {
-                                Text("-", modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp), fontWeight = FontWeight.Bold)
-                            }
-                            Text(
-                                text = selectedHour.toString().padStart(2, '0'),
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = palette.primary,
-                                modifier = Modifier.padding(horizontal = 14.dp),
-                            )
-                            Surface(
-                                onClick = { if (selectedHour < 23) selectedHour++ else selectedHour = 0 },
-                                shape = RoundedCornerShape(8.dp),
-                                color = palette.surfaceMuted,
-                                border = BorderStroke(1.dp, palette.border),
-                            ) {
-                                Text("+", modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp), fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
-
-                    Text(":", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = palette.textMuted, modifier = Modifier.padding(horizontal = 14.dp))
-
-                    // Minutes Wheel
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Menit", fontSize = 11.sp, color = palette.textMuted)
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Surface(
-                                onClick = { if (selectedMinute > 0) selectedMinute -= 5 else selectedMinute = 55 },
-                                shape = RoundedCornerShape(8.dp),
-                                color = palette.surfaceMuted,
-                                border = BorderStroke(1.dp, palette.border),
-                            ) {
-                                Text("-", modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp), fontWeight = FontWeight.Bold)
-                            }
-                            Text(
-                                text = selectedMinute.toString().padStart(2, '0'),
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = palette.primary,
-                                modifier = Modifier.padding(horizontal = 14.dp),
-                            )
-                            Surface(
-                                onClick = { if (selectedMinute < 55) selectedMinute += 5 else selectedMinute = 0 },
-                                shape = RoundedCornerShape(8.dp),
-                                color = palette.surfaceMuted,
-                                border = BorderStroke(1.dp, palette.border),
-                            ) {
-                                Text("+", modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp), fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        IosDatePickerSection()
 
         // Stepper Quantity Control
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = palette.surface,
             border = BorderStroke(1.dp, palette.border),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
         ) {
             Row(
                 modifier = Modifier
@@ -272,7 +192,9 @@ private fun PickersAndSlidersView(palette: com.example.uiapp.theme.AppPalette) {
             shape = RoundedCornerShape(16.dp),
             color = palette.surface,
             border = BorderStroke(1.dp, palette.border),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text("Dual-Thumb Range Slider", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = palette.textPrimary)

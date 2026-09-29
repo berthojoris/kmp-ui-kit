@@ -82,7 +82,11 @@ Alur terhubung: `splash → onboarding → auth → permissions → profile_setu
 ### 3.4 Input & Kontrol Lanjutan (`advanced_input`)
 | Komponen | Status |
 |----------|--------|
-| iOS-style wheel date & time picker | DONE (`advanced_input`) |
+| iOS wheel date picker (kolom tanggal/bulan/tahun, snapping + band seleksi) | DONE (`advanced_input`) |
+| iOS wheel time picker (jam & menit diputar, bukan tombol +/-) | DONE (`advanced_input`) |
+| Horizontal date strip + kalender penuh tersinkron | DONE (`advanced_input`) |
+| Inline graphical calendar (geser bulan, tombol Hari Ini, mode rentang) | DONE (`advanced_input`) |
+| Compact date picker (field ringkas + popover kalender) | DONE (`advanced_input`) |
 | Dual-thumb range slider, stepper & quantity control | DONE (`advanced_input`) |
 | Tag/chip input with deletion + @mention autocomplete | DONE (`advanced_input`) |
 | Canvas signature pad (interactive finger drawing) | DONE (`advanced_input`) |

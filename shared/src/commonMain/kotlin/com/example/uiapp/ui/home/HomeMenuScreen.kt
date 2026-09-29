@@ -174,7 +174,7 @@ val MenuEntries = listOf(
     MenuEntry("nav_structure", "Nav & Struktur", "Drawer, Rail, Floating Pill, Badges", true, HomeSection.ADVANCED),
     MenuEntry("advanced_list", "Konten & List", "Reorder, A–Z, Chat, Timeline", true, HomeSection.ADVANCED),
     MenuEntry("data_cards", "Kartu & Data", "Kalender, Kanban, Pricing, Review", true, HomeSection.ADVANCED),
-    MenuEntry("advanced_input", "Input Lanjutan", "Wheel Picker, Tag, Signature Pad", true, HomeSection.ADVANCED),
+    MenuEntry("advanced_input", "Input Lanjutan", "Date Picker iOS, Slider, Tag, Signature", true, HomeSection.ADVANCED),
     MenuEntry("overlay_lab", "Overlay & Feedback", "Action Sheet, Spotlight, Tooltip", true, HomeSection.ADVANCED),
     MenuEntry("media_lab", "Media & Immersive", "Video, Mini Player, Stories, Waveform", true, HomeSection.ADVANCED),
     MenuEntry("settings_lab", "Pengaturan & Akun", "Grouped List, Bahasa, Paywall", true, HomeSection.ADVANCED),
