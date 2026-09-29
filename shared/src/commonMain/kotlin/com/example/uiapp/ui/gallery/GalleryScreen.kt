@@ -51,8 +51,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
-import com.example.uiapp.ui.components.MgIosBackButton
+import com.example.uiapp.ui.components.icons.MgIosBackButton
 import kotlinx.coroutines.launch
 
 private data class Photo(

@@ -44,7 +44,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LightAppPalette
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
 private val Revenue = listOf(42f, 58f, 51f, 74f, 66f, 88f, 79f)
@@ -62,15 +63,15 @@ private val ChannelBars = listOf(
 private data class DonutSegment(val label: String, val value: Float, val color: Color)
 
 private val DonutSegments = listOf(
-    DonutSegment("Direct", 46f, LuxuryColors.TealPrimary),
-    DonutSegment("Marketplace", 34f, LuxuryColors.AccentInfo),
-    DonutSegment("Mitra", 20f, LuxuryColors.AccentWarning),
+    DonutSegment("Direct", 46f, LightAppPalette.primary),
+    DonutSegment("Marketplace", 34f, LightAppPalette.info),
+    DonutSegment("Mitra", 20f, LightAppPalette.warning),
 )
 
 private val SparklineCards = listOf(
-    Triple("Okupansi", listOf(0.4f, 0.62f, 0.48f, 0.7f, 0.58f, 0.84f, 0.78f), LuxuryColors.TealPrimary),
-    Triple("Pesanan", listOf(0.3f, 0.45f, 0.6f, 0.52f, 0.7f, 0.66f, 0.9f), LuxuryColors.AccentInfo),
-    Triple("Kepuasan", listOf(0.7f, 0.66f, 0.72f, 0.8f, 0.76f, 0.88f, 0.92f), LuxuryColors.Accent),
+    Triple("Okupansi", listOf(0.4f, 0.62f, 0.48f, 0.7f, 0.58f, 0.84f, 0.78f), LightAppPalette.primary),
+    Triple("Pesanan", listOf(0.3f, 0.45f, 0.6f, 0.52f, 0.7f, 0.66f, 0.9f), LightAppPalette.info),
+    Triple("Kepuasan", listOf(0.7f, 0.66f, 0.72f, 0.8f, 0.76f, 0.88f, 0.92f), LightAppPalette.success),
 )
 
 @OptIn(ExperimentalComposeUiApi::class)

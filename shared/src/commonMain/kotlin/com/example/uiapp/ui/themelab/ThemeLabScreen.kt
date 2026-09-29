@@ -59,7 +59,7 @@ import com.example.uiapp.theme.LightAppPalette
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.theme.LocalThemeController
 import com.example.uiapp.theme.ThemeMode
-import com.example.uiapp.ui.components.MgIosBackButton
+import com.example.uiapp.ui.components.icons.MgIosBackButton
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

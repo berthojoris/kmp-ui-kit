@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.theme.LuxuryColors
-import com.example.uiapp.ui.components.MgIosBackButton
+import com.example.uiapp.ui.components.icons.MgIosBackButton
 
 private val HeroHeight = 340.dp
 private val BarFadeDistance = 340f

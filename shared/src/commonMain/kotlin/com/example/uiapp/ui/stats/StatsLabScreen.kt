@@ -55,7 +55,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LightAppPalette
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlin.math.roundToInt
 
@@ -66,9 +67,9 @@ private data class StatMetric(
 )
 
 private val Metrics = listOf(
-    StatMetric("Okupansi", 0.78f, LuxuryColors.TealPrimary),
-    StatMetric("Kepuasan", 0.92f, LuxuryColors.Accent),
-    StatMetric("Penyelesaian", 0.64f, LuxuryColors.AccentInfo),
+    StatMetric("Okupansi", 0.78f, LightAppPalette.primary),
+    StatMetric("Kepuasan", 0.92f, LightAppPalette.success),
+    StatMetric("Penyelesaian", 0.64f, LightAppPalette.info),
 )
 
 private data class ExpandableItem(

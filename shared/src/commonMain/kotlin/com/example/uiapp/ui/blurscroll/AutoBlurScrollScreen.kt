@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.theme.LuxuryColors
-import com.example.uiapp.ui.components.MgIosBackButton
+import com.example.uiapp.ui.components.icons.MgIosBackButton
 
 private val HeaderClearance = 72.dp
 private val FadeZone = 72.dp

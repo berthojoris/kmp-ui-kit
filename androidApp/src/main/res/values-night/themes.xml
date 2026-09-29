@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Variant gelap: kontras system bar mengikuti AppPalette dark.
+         Warna ikon/teks status bar disetel dari MainActivity (WindowInsetsControllerCompat). -->
+    <style name="Theme.UIApp" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

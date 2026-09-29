@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dasar jendela sebelum Compose dipasang. Nilai sink dengan
+         AppPalette light (background) di shared; varian gelap di values-night. -->
+    <color name="window_background">#F8F9FA</color>
+
+</resources>

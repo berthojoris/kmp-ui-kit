@@ -60,16 +60,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.uiapp.theme.LuxuryColors
+import com.example.uiapp.theme.LightAppPalette
+import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private enum class ToastKind(val accent: Color, val label: String) {
-    SUCCESS(LuxuryColors.Accent, "Berhasil"),
-    INFO(LuxuryColors.AccentInfo, "Informasi"),
-    WARNING(LuxuryColors.AccentWarning, "Peringatan"),
-    DANGER(LuxuryColors.AccentDanger, "Gagal"),
+    SUCCESS(LightAppPalette.success, "Berhasil"),
+    INFO(LightAppPalette.info, "Informasi"),
+    WARNING(LightAppPalette.warning, "Peringatan"),
+    DANGER(LightAppPalette.danger, "Gagal"),
 }
 
 private class ToastMessage(

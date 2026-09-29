@@ -470,6 +470,7 @@ private fun SuggestionRow(
     query: String,
     onClick: () -> Unit,
 ) {
+    val palette = LocalAppPalette.current
     Surface(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
@@ -509,7 +510,7 @@ private fun SuggestionRow(
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = highlight(suggestion.title, query),
+                    text = highlight(suggestion.title, query, palette.primary),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = LuxuryColors.TextPrimary,
@@ -540,7 +541,7 @@ private fun SuggestionRow(
     }
 }
 
-private fun highlight(text: String, query: String) = buildAnnotatedString {
+private fun highlight(text: String, query: String, tint: Color) = buildAnnotatedString {
     val q = query.trim()
     val start = if (q.isEmpty()) -1 else text.indexOf(q, ignoreCase = true)
     if (start < 0) {
@@ -550,7 +551,7 @@ private fun highlight(text: String, query: String) = buildAnnotatedString {
     append(text.substring(0, start))
     withStyle(
         SpanStyle(
-            color = LuxuryColors.TealPrimary,
+            color = tint,
             fontWeight = FontWeight.Bold,
         ),
     ) {
