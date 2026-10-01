@@ -371,7 +371,7 @@ fun AdaptiveNavLabScreen(onBack: () -> Unit) {
                                                 modifier = Modifier.padding(bottom = 4.dp),
                                             )
                                         }
-                                        items(conversations) { item ->
+                                        items(conversations, key = { it.id }) { item ->
                                             EmailListItem(
                                                 item = item,
                                                 isSelected = false,
@@ -467,7 +467,7 @@ fun AdaptiveNavLabScreen(onBack: () -> Unit) {
                                     contentPadding = PaddingValues(10.dp),
                                     verticalArrangement = Arrangement.spacedBy(6.dp),
                                 ) {
-                                    items(conversations) { item ->
+                                    items(conversations, key = { it.id }) { item ->
                                         EmailListItem(
                                             item = item,
                                             isSelected = selectedEmailId == item.id,

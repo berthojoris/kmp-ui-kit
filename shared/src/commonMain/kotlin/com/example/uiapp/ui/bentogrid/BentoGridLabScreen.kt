@@ -181,7 +181,7 @@ fun BentoGridLabScreen(onBack: () -> Unit) {
                                         text = mode,
                                         fontSize = 10.sp,
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                        color = if (isSelected) Color.White else palette.textPrimary,
+                                        color = if (isSelected) palette.onPrimary else palette.textPrimary,
                                     )
                                 }
                             }
@@ -422,7 +422,7 @@ fun BentoGridLabScreen(onBack: () -> Unit) {
                                 onCheckedChange = { focusShieldActive = it },
                                 modifier = Modifier.scale(0.75f),
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color.White,
+                                    checkedThumbColor = palette.onPrimary,
                                     checkedTrackColor = palette.primary,
                                     uncheckedThumbColor = palette.textSecondary,
                                     uncheckedTrackColor = palette.surface,

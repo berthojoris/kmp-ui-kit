@@ -109,7 +109,7 @@ fun MediaLabScreen(onBack: () -> Unit) {
                             text = tab.title,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }
@@ -341,7 +341,7 @@ private fun MiniPlayerView(palette: com.example.uiapp.theme.AppPalette) {
                         Text(
                             text = if (isPlayingAudio) "❚❚" else "▶",
                             fontSize = 12.sp,
-                            color = Color.White,
+                            color = palette.onPrimary,
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -543,7 +543,7 @@ private fun AudioWaveformPlayerView(palette: com.example.uiapp.theme.AppPalette)
                             Text(
                                 text = if (isPlayingWave) "❚❚" else "▶",
                                 fontSize = 14.sp,
-                                color = Color.White,
+                                color = palette.onPrimary,
                                 fontWeight = FontWeight.Bold,
                             )
                         }

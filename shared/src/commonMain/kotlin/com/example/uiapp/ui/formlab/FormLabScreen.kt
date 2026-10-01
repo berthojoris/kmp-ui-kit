@@ -222,7 +222,7 @@ fun FormLabScreen(onBack: () -> Unit) {
                     textAlign = TextAlign.Center,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White,
+                    color = palette.onPrimary,
                 )
             }
 
@@ -336,7 +336,7 @@ private fun FlowChips(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 9.dp),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (isSelected) Color.White else palette.textSecondary,
+                            color = if (isSelected) palette.onPrimary else palette.textSecondary,
                         )
                     }
                 }

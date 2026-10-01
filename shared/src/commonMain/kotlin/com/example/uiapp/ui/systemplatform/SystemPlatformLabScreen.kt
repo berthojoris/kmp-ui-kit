@@ -105,7 +105,7 @@ fun SystemPlatformLabScreen(onBack: () -> Unit) {
                             text = tab.title,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }
@@ -253,7 +253,7 @@ private fun MapSheetView(palette: com.example.uiapp.theme.AppPalette) {
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                            Text("Mulai Navigasi Arah", fontSize = 12.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                            Text("Mulai Navigasi Arah", fontSize = 12.sp, color = palette.onPrimary, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

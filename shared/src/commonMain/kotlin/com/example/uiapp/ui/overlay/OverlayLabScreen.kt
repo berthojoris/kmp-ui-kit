@@ -99,7 +99,7 @@ fun OverlayLabScreen(onBack: () -> Unit) {
                         ) {
                             Text(
                                 "Tampilkan Action Sheet",
-                                color = Color.White,
+                                color = palette.onPrimary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 12.sp,
                                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
@@ -167,7 +167,7 @@ fun OverlayLabScreen(onBack: () -> Unit) {
                                         text = direction,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Medium,
-                                        color = if (isSelected) Color.White else palette.textPrimary,
+                                        color = if (isSelected) palette.onPrimary else palette.textPrimary,
                                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
                                     )
                                 }
@@ -192,7 +192,7 @@ fun OverlayLabScreen(onBack: () -> Unit) {
                             ) {
                                 Text(
                                     text = "Tooltip Arah: $activeTooltip \u00B7 Flat UI Zero-Shadow",
-                                    color = Color.White,
+                                    color = palette.onPrimary,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -350,7 +350,7 @@ fun OverlayLabScreen(onBack: () -> Unit) {
                             shape = RoundedCornerShape(8.dp),
                             color = palette.primary,
                         ) {
-                            Text("Saya Mengerti", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
+                            Text("Saya Mengerti", color = palette.onPrimary, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
                         }
                     }
                 }

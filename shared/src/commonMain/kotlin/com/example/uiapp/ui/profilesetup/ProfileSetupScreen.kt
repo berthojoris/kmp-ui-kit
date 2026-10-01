@@ -262,14 +262,14 @@ private fun StepIdentity(
                     val h = size.height
                     val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round)
                     drawRoundRect(
-                        color = Color.White,
+                        color = palette.onPrimary,
                         topLeft = Offset(w * 0.1f, h * 0.3f),
                         size = Size(w * 0.8f, h * 0.5f),
                         cornerRadius = CornerRadius(w * 0.14f, w * 0.14f),
                         style = stroke,
                     )
                     drawCircle(
-                        color = Color.White,
+                        color = palette.onPrimary,
                         radius = w * 0.14f,
                         center = Offset(w * 0.5f, h * 0.55f),
                         style = stroke,
@@ -333,7 +333,7 @@ private fun StepInterests(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = if (active) Color.White else palette.textSecondary,
+                        color = if (active) palette.onPrimary else palette.textSecondary,
                     )
                 }
             }

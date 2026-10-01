@@ -134,7 +134,7 @@ fun PrivacyMaskingLabScreen(onBack: () -> Unit) {
                                 text = "Simulasi Masuk App Switcher / Recent Apps 🔒",
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White,
+                                color = palette.onPrimary,
                                 modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
                             )
                         }
@@ -285,7 +285,7 @@ fun PrivacyMaskingLabScreen(onBack: () -> Unit) {
                                 "Buka Kunci Tampilan",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White,
+                                color = palette.onPrimary,
                                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
                             )
                         }

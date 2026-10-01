@@ -373,7 +373,7 @@ fun AiChatLabScreen(onBack: () -> Unit) {
                     .padding(horizontal = 16.dp, vertical = 6.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                items(quickPrompts) { prompt ->
+                items(quickPrompts, key = { it }) { prompt ->
                     Surface(
                         onClick = {
                             inputText = prompt

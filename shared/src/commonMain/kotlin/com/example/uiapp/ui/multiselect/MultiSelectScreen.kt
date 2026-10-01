@@ -286,7 +286,7 @@ private fun SelectIndicator(selected: Boolean) {
             }
             drawPath(
                 path = check,
-                color = Color.White,
+                color = palette.onPrimary,
                 style = Stroke(
                     width = 2.2.dp.toPx(),
                     cap = StrokeCap.Round,

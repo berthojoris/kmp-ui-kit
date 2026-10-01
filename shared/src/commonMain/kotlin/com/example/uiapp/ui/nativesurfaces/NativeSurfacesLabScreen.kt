@@ -184,7 +184,7 @@ fun NativeSurfacesLabScreen(onBack: () -> Unit) {
                 }
 
                 // Feed Cards to demonstrate scrolling
-                items(8) { index ->
+                items(8, key = { it }) { index ->
                     Surface(
                         shape = RoundedCornerShape(12.dp),
                         color = surfaceBackground,

@@ -109,7 +109,7 @@ fun AdvancedListLabScreen(onBack: () -> Unit) {
                             text = tab.title,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }
@@ -256,7 +256,7 @@ private fun AzScrubberView(palette: com.example.uiapp.theme.AppPalette) {
             contentPadding = PaddingValues(start = 16.dp, end = 40.dp, top = 16.dp, bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            itemsIndexed(contacts) { _, contact ->
+            itemsIndexed(contacts, key = { _, contact -> contact }) { _, contact ->
                 Surface(
                     shape = RoundedCornerShape(10.dp),
                     color = palette.surface,
@@ -343,7 +343,7 @@ private fun ChatBubbleView(palette: com.example.uiapp.theme.AppPalette) {
             verticalArrangement = Arrangement.spacedBy(10.dp),
             contentPadding = PaddingValues(vertical = 16.dp),
         ) {
-            itemsIndexed(messages) { _, msg ->
+            itemsIndexed(messages, key = { _, msg -> msg.id }) { _, msg ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = if (msg.isMe) Arrangement.End else Arrangement.Start,
@@ -363,13 +363,13 @@ private fun ChatBubbleView(palette: com.example.uiapp.theme.AppPalette) {
                             Text(
                                 text = msg.text,
                                 fontSize = 13.sp,
-                                color = if (msg.isMe) Color.White else palette.textPrimary,
+                                color = if (msg.isMe) palette.onPrimary else palette.textPrimary,
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = msg.time,
                                 fontSize = 10.sp,
-                                color = if (msg.isMe) Color.White.copy(alpha = 0.7f) else palette.textMuted,
+                                color = if (msg.isMe) palette.onPrimary.copy(alpha = 0.7f) else palette.textMuted,
                                 modifier = Modifier.align(Alignment.End),
                             )
                         }
@@ -436,7 +436,7 @@ private fun ChatBubbleView(palette: com.example.uiapp.theme.AppPalette) {
                         text = "Kirim",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = palette.onPrimary,
                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
                     )
                 }
@@ -498,7 +498,7 @@ private fun TimelineActivityView(palette: com.example.uiapp.theme.AppPalette) {
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        itemsIndexed(timelineData) { index, item ->
+        itemsIndexed(timelineData, key = { _, item -> "${item.time}-${item.title}" }) { index, item ->
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,

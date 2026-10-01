@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import com.example.uiapp.ApplySystemBarAppearance
 
 private fun createColorScheme(palette: AppPalette, isDark: Boolean) = if (isDark) {
     darkColorScheme(
@@ -59,6 +60,8 @@ fun UiAppTheme(
 
     val palette = if (isDark) DarkAppPalette else LightAppPalette
     val colorScheme = remember(isDark, palette) { createColorScheme(palette, isDark) }
+
+    ApplySystemBarAppearance(isDark)
 
     val controller = remember {
         object : ThemeController {

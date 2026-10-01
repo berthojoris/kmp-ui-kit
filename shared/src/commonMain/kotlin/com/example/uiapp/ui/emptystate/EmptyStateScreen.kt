@@ -169,7 +169,7 @@ private fun StateSwitcher(
                     textAlign = TextAlign.Center,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = if (isSelected) Color.White else palette.textSecondary,
+                    color = if (isSelected) palette.onPrimary else palette.textSecondary,
                     maxLines = 1,
                 )
             }
@@ -337,7 +337,7 @@ private fun PrimaryButton(label: String, onClick: () -> Unit) {
             textAlign = TextAlign.Center,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color.White,
+            color = palette.onPrimary,
         )
     }
 }

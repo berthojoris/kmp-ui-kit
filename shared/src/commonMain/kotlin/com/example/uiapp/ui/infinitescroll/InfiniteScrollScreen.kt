@@ -271,7 +271,7 @@ private fun LoadMoreFooter(
                         modifier = Modifier.padding(horizontal = 22.dp, vertical = 9.dp),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White,
+                        color = palette.onPrimary,
                     )
                 }
             }

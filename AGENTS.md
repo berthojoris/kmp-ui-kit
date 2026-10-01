@@ -23,9 +23,9 @@ Dokumen ini adalah **aturan induk (governance)** untuk setiap AI agent / develop
 | Target | Android (min SDK 29, target/compile SDK 37) + iOS (arm64 & simulator arm64, iOS 16+ tersirat) |
 | Package | `com.example.uiapp` (shared: `com.example.uiapp.shared`) |
 | Bahasa UI | Indonesia (teks tombol, judul, label hardcoded) |
-| Tujuan repo | Kit eksperimen / laboratorium komponen UI mobile berisi **71 lab** dalam satu aplikasi demo |
+| Tujuan repo | Kit eksperimen / laboratorium komponen UI mobile berisi **117 lab** dalam satu aplikasi demo |
 | Ada PRD? | **Tidak ada.** Roadmap satu-satunya adalah `TODO.md` |
-| Ada test? | **Tidak ada file test** (dependensi `kotlin-test` tersedia, belum dipakai) |
+| Ada test? | **Ada, terbatas pada logika murni.** `shared/src/commonTest/` berisi `CalendarMathTest` dan `AppNavigationTest`; seluruh UI belum diuji |
 | Image/network lib | **Tidak ada** (tanpa Coil/Ktor/Room/SQLDelight/Serialization) |
 
 Aplikasi ini adalah galeri komponen, bukan aplikasi bisnis: setiap lab berdiri sendiri, memakai data mock lokal, dan harus dapat dibuka dari Home. Tidak ada backend, tidak ada autentikasi nyata, tidak ada penyimpanan persisten.
@@ -38,7 +38,7 @@ Aplikasi ini adalah galeri komponen, bukan aplikasi bisnis: setiap lab berdiri s
 2. **Dilarang mengarang** route baru, lab baru, endpoint, model data, atau dependensi yang tidak diminta pengguna. Jika lab yang diminta belum ada di `TODO.md`, tanyakan lebih dulu atau tambahkan entri `TODO.md` terlebih dahulu.
 3. **Dilarang mengklaim integrasi nyata.** Semua perilaku yang menyerupai layanan platform (kamera, biometrik, push notification, pembayaran, AI, peta) wajib diberi label **simulasi** di UI dan tidak boleh diklaim terhubung ke layanan sungguhan.
 4. Jika nanti repositori ini berkembang menjadi produk nyata dan sebuah PRD ditambahkan (`docs/PRD.md` atau `PRD.md`), **PRD tersebut mengambil alih** posisi `TODO.md` sebagai sumber kebenaran, dan setiap field/model/aturan di PRD harus diikuti byte-for-byte.
-5. `TODO.md` saat ini **belum sinkron** dengan kode: seluruh item §6 sudah diimplementasikan dan terdaftar di `App.kt`, tetapi masih ditandai `WAIT`. Setiap kali mengerjakan/menutup sebuah lab, **perbarui statusnya di `TODO.md` pada commit yang sama**.
+5. `TODO.md` sudah **sinkron** dengan kode: seluruh lab di §1–§8 terdaftar di `App.kt` dan ditandai `DONE`. Setiap kali mengerjakan/menutup sebuah lab, **perbarui statusnya di `TODO.md` pada commit yang sama**.
 
 ---
 
@@ -54,7 +54,7 @@ testingUI/
 │  ├─ src/commonMain/kotlin/com/example/uiapp/
 │  │  ├─ App.kt                    # root composable + tabel routing
 │  │  ├─ navigation/AppNavigation.kt
-│  │  ├─ theme/{UiAppTheme,AppPalette,LuxuryColors}.kt
+│  │  ├─ theme/{UiAppTheme,AppPalette}.kt
 │  │  └─ ui/
 │  │     ├─ components/            # komponen bersama (UiTopBar, AuthKit) + icons/
 │  │     │  └─ icons/              # ikon Canvas per bagian Home (dulu UiIcons.kt)
@@ -70,7 +70,7 @@ Aturan batas modul:
 
 - **Seluruh UI wajib di `commonMain`.** Dilarang menambah layar Compose/SwiftUI baru khusus satu platform.
 - `androidApp/` dan `iosApp/` hanya boleh berisi kode bootstrap. Jangan menaruh logika atau layar di sana.
-- Kode `androidMain` / `iosMain` hanya untuk `expect`/`actual` yang benar-benar dibutuhkan (saat ini hanya `getPlatform()` di `Platform.kt`).
+- Kode `androidMain` / `iosMain` hanya untuk `expect`/`actual` yang benar-benar dibutuhkan: saat ini `getPlatform()` dan `ApplySystemBarAppearance(isDark)` di `Platform.kt`. Yang kedua diperlukan karena `enableEdgeToEdge()` hanya mengikuti setelan gelap sistem, bukan `ThemeMode` aplikasi.
 - Setiap lab baru = **satu folder** `ui/<namalab>/` berisi satu file layar utama (dan opsional satu file data mock), tidak menyentuh folder lab lain.
 
 ---
@@ -142,9 +142,11 @@ Aturan tambahan:
 Sistem tema: `UiAppTheme` menyediakan `LocalAppPalette` (`AppPalette`) dan `LocalThemeController` (`ThemeMode.LIGHT|DARK|SYSTEM`), lalu meneruskannya ke `MaterialTheme`.
 
 - **Wajib**: ambil warna lewat `val palette = LocalAppPalette.current` di setiap composable yang butuh warna. Gunakan field `AppPalette` (`background`, `surface`, `surfaceMuted`, `border`, `textPrimary`, `textSecondary`, `textMuted`, `primary`, `onPrimary`, `primaryContainer`, `onPrimaryContainer`, `success`, `warning`, `info`, `danger`).
+- **Wajib**: teks, ikon, garis Canvas, dan elemen dekoratif yang berada di atas `palette.primary` memakai `palette.onPrimary` — **bukan** `Color.White`. Palet gelap memakai `primary` terang (`#4FD1B5`), sehingga putih di atasnya hanya ±1,9:1 kontras (gagal WCAG AA) sementara `onPrimary` mencapai ±8,8:1. Untuk lapisan transparan gunakan `palette.onPrimary.copy(alpha = …)`.
 - **Dilarang** menulis warna hardcoded baru (`Color(0xFF...)`) untuk permukaan, teks, atau border pada kode baru. Warna hardcoded hanya boleh untuk kasus sangat spesifik: data visual buatan (gradien ilustrasi mock, palet chart) dan warna status pill pada data mock.
-- `theme/LuxuryColors.kt` adalah **palet legacy statis (light-only)** dan sudah tidak dipakai sebagai sumber warna. Jangan gunakan pada kode baru; pemakainya yang terakhir hanya label opsi kuis di `GamificationLabScreen`. Warna diambil dari `LightAppPalette` bila memang perlu nilai statis (mis. warna seri chart di data mock top-level, karena top-level tidak bisa membaca `LocalAppPalette.current`).
+- Untuk nilai warna statis yang tidak bisa membaca `LocalAppPalette.current` (data mock top-level, mis. warna seri chart), ambil dari `LightAppPalette`; jangan menulis hex baru dan jangan membuat palet statis baru.
 - Setiap layar baru **wajib** benar di mode Terang dan Gelap. Uji dengan mengubah mode di `ThemeLabScreen` (`theme_lab`).
+- System bar Android mengikuti `ThemeMode`, bukan hanya setelan gelap sistem: `UiAppTheme` memanggil `ApplySystemBarAppearance(isDark)` (§4) untuk menyetel warna ikon status & navigation bar. Jangan menghapus pemanggilan itu atau menggantinya dengan warna statis.
 
 ### 6.4 State Management
 
@@ -191,7 +193,7 @@ Larangan: memakai komponen Material3 bergaya default yang membawa elevasi/shadow
 ### 8.1 Insets & edge-to-edge
 
 - Android: `MainActivity` memanggil `enableEdgeToEdge()`. iOS: `ContentView` memakai `.ignoresSafeArea()`. Artinya **konten mengalir di bawah system bar** dan insets harus ditangani manual.
-- Top bar: `UiTopBar` sudah menangani `statusBarsPadding()`. Layar yang tidak memakai `UiTopBar` (splash, gallery full screen, dsb.) wajib menambahkan `statusBarsPadding()` atau membaca `WindowInsets.statusBars` sendiri.
+- Top bar: `UiTopBar` sudah menangani `statusBarsPadding()`. Layar yang tidak memakai `UiTopBar` (gallery layar penuh, overlay immersive, dsb.) wajib menambahkan `statusBarsPadding()` atau membaca `WindowInsets.statusBars` sendiri.
 - **Wajib**: setiap elemen aksi/konten yang menyentuh dasar layar (bottom bar, action bar, tombol submit, FAB, sheet) harus memakai `Modifier.navigationBarsPadding()` agar tidak tertutup navigation bar 3-tombol / home indicator. Jangan mengandalkan padding tetap seperti `padding(bottom = 16.dp)` saja.
 - Alternatif yang diterima: `Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))` seperti pada `MotionLabScreen`, `GalleryScreen`, `FeedbackLabScreen`.
 
@@ -199,7 +201,7 @@ Larangan: memakai komponen Material3 bergaya default yang membawa elevasi/shadow
 
 - Setiap layar dengan input teks (form, chat, search, komentar) **wajib** memberi `Modifier.imePadding()` pada container yang menampung tombol aksi/konten bawah. Contoh acuan: `FormLabScreen`, `AiChatLabScreen`.
 - Di Compose Multiplatform, `Modifier.safeDrawingPadding()` juga mencakup insets IME (keyboard) pada iOS. Di Android tetap gunakan `imePadding()`. Jangan menumpuk keduanya pada container yang sama agar padding tidak dobel.
-- `AndroidManifest.xml` saat ini **belum** menetapkan `android:windowSoftInputMode="adjustResize"`; lihat §14.
+- `AndroidManifest.xml` sudah menetapkan `android:windowSoftInputMode="adjustResize"`. Layar berinput tetap wajib `imePadding()` karena konten mengalir edge-to-edge.
 
 ### 8.3 Adaptive & breakpoint
 
@@ -269,7 +271,7 @@ Larangan: memakai komponen Material3 bergaya default yang membawa elevasi/shadow
 - Import: eksplisit per simbol (tidak ada wildcard), dikelompokkan `androidx.*` lalu `com.example.uiapp.*` (lihat file yang ada sebagai acuan).
 - Teks UI: hardcoded literal berbahasa Indonesia mengikuti gaya repo; jangan memperkenalkan sistem resource/string baru tanpa persetujuan.
 - Dilarang menambahkan kode `TODO`/`FIXME` baru tanpa alasan yang jelas; jangan menambahkan abstraksi yang belum diminta (interface untuk satu implementasi, factory, dsb.).
-- Hapus kode mati yang sudah tidak dipakai, kecuali file template (`Greeting.kt`, `GreetingUtil.kt`) yang masih dipertahankan sebagai contoh.
+- Hapus kode mati yang sudah tidak dipakai; jangan mempertahankan file contoh/template yang tidak direferensikan siapa pun.
 
 ---
 
@@ -292,7 +294,7 @@ Aturan validasi:
 - **Minimal** jalankan `:androidApp:assembleDebug` untuk perubahan apa pun pada `commonMain`.
 - Untuk perubahan UI, lakukan juga pengecekan manual di preview/emulator: mode terang & gelap, font besar, layar kecil, keyboard terbuka (bila ada input).
 - iOS divalidasi dengan membuka `iosApp/iosApp.xcodeproj` di Xcode; framework `Shared` (static) dibangun oleh Gradle. Jangan mengubah `Config.xcconfig`/`project.pbxproj` tanpa permintaan.
-- Tidak ada test otomatis saat ini. Jika menambahkan test baru, letakkan di `shared/src/commonTest/kotlin/...` dan pastikan `:shared:allTests` hijau. Jangan membuat test yang membutuhkan jaringan.
+- Test logika murni ada di `shared/src/commonTest/kotlin/...` dan dijalankan dengan `:shared:testAndroidHostTest` (host JVM). `:shared:allTests` menuntut simulator iOS sehingga tidak bisa dijalankan di Windows; jangan menyatakan pekerjaan selesai hanya karena `assembleDebug` hijau bila kamu mengubah logika yang sudah punya test. Jangan membuat test yang membutuhkan jaringan.
 - Jangan menyatakan pekerjaan selesai bila kompilasi gagal. Laporkan perintah yang dijalankan, hasilnya, dan yang dilewati secara jujur.
 - Jangan commit artefak build (`build/`, `.gradle/`, `.kotlin/`, `local.properties`, `xcuserdata` sudah di-`.gitignore`).
 
@@ -323,7 +325,7 @@ Sebuah lab dinyatakan selesai hanya bila **semua** poin berikut terpenuhi:
 1. Menambah/mengubah versi dependensi, plugin, atau konfigurasi Gradle tanpa permintaan eksplisit.
 2. Membuat UI native terpisah untuk Android/iOS, atau memindahkan UI keluar dari `commonMain`.
 3. Memakai `Modifier.shadow`, `shadowElevation > 0.dp`, `cardElevation > 0.dp`, `tonalElevation > 0.dp`.
-4. Menulis warna hardcoded baru untuk surface/teks/border, atau memakai `LuxuryColors` pada kode baru.
+4. Menulis warna hardcoded baru untuk surface/teks/border, atau memakai `Color.White` sebagai teks di atas `palette.primary` alih-alih `palette.onPrimary`.
 5. Memanggil jaringan, filesystem, database, atau API platform dari `commonMain`.
 6. `GlobalScope`, `runBlocking`, blocking I/O di main thread.
 7. Menghapus/mengubah route, lab, komponen bersama, atau signature layar yang sudah ada tanpa diminta.
@@ -341,14 +343,14 @@ Ini kondisi **saat ini** yang menyimpang dari aturan di atas. Jangan menganggapn
 | # | Deviasi | Dampak | Tindakan saat menyentuh file |
 | --- | --- | --- | --- |
 | 1 | Beberapa lab masih menyimpan warna pada konstanta statis `LightAppPalette` untuk data mock top-level (mis. warna seri di `charts`, `stats`, `feedback`) karena data tersebut bukan `@Composable` sehingga tidak bisa membaca `LocalAppPalette.current`. Permukaan, teks, dan border sudah penuh memakai palet aktif. | Warna seri chart/status pill tetap sama di mode terang dan gelap (memang disengaja untuk identitas data), berbeda dari palet yang beradaptasi | Biarkan; kalau seri chart ingin ikut tema, ubah jadi parameter `tint` yang diisi dari composable pemanggil |
-| 2 | `AndroidManifest.xml` sudah menetapkan `android:windowSoftInputMode="adjustResize"` dan tema `Theme.UIApp`, tetapi tema XML masih `Material` (bukan Material3) karena aplikasi 100% Compose dan dependensi Material3 XML tidak dideklarasikan di `androidApp`. | Status bar Android tidak benar-benar meniru status bar Material3; warna ikon status bar dikendalikan manual dari `MainActivity` | Tambahkan tema Material3 hanya jika `androidApp` juga memakai komponen XML Material3 |
-| 3 | `navigationBarsPadding()` / `imePadding()` belum diterapkan merata (baru ±20 file lab). `imePadding()` sudah ada di semua layar berinput teks: `auth`, `profilesetup`, `search`, `command_palette`, `formlab`, `create_lab`, `aichat`, `resume_form`. | Tombol di dasar layar berisiko tertutup navigation bar / keyboard pada lab lama | Terapkan saat menyentuh layar terkait |
+| 2 | Tema XML `Theme.UIApp` masih berbasis `Material` (bukan Material3) dan hanya menyetel latar jendela + transparansi system bar. Warna ikon system bar kini diselaraskan dari Compose lewat `ApplySystemBarAppearance` (§6.3), bukan dari `MainActivity`. | Jendela sesaat sebelum frame Compose pertama belum meniru Material3; nilai `windowLightStatusBar` di XML hanya berlaku sampai frame pertama menggantikannya | Tambahkan tema Material3 hanya jika `androidApp` juga memakai komponen XML Material3 |
+| 3 | `navigationBarsPadding()` sudah dipakai 33 file, tetapi belum merata. `imePadding()` baru ada di 7 layar berinput (`auth`, `profilesetup`, `search`, `command_palette`, `formlab`, `create_lab`, `resume_form`); `AiChatLabScreen` memakai `WindowInsets.safeDrawing.only(Bottom)` yang juga mencakup IME. | Tombol di dasar layar berisiko tertutup navigation bar / keyboard pada lab lama | Terapkan saat menyentuh layar terkait |
 | 4 | `TODO.md` sudah menandai seluruh item §6 sebagai `DONE`, sinkron dengan kode. | Tidak lagi menyesatkan | Jaga tetap sinkron setiap menutup lab |
-| 5 | Belum ada satu pun test; `kotlin-test` + konfigurasi host/device test sudah disiapkan | Regresi tidak terdeteksi otomatis | Tambahkan test `commonTest` bila mengerjakan logika non-UI |
-| 6 | `Greeting.kt`, `GreetingUtil.kt` adalah sisa template; `platform` hanya dipakai untuk teks header Home | Kode mati | Hapus hanya jika diminta |
+| 5 | Test hanya mencakup logika murni (`CalendarMathTest`, `AppNavigationTest`); seluruh UI dan 71 layar belum diuji. `:shared:allTests` tidak bisa dijalankan di Windows karena menuntut simulator iOS. | Regresi pada logika kalender dan navigasi terdeteksi otomatis; regresi UI tidak | Tambahkan test `commonTest` saat mengerjakan logika non-UI, lalu jalankan `:shared:testAndroidHostTest` |
+| 6 | Beberapa ilustrasi Canvas mock memakai warna terang hardcoded (mis. `MapBackdrop` di `BottomSheetScreen`) sehingga tetap terang di mode gelap. | Kontras ilustrasi mock tidak mengikuti tema; ini bukan kegagalan teks/permukaan | Ubah ke `palette.*` bila ilustrasi tersebut disentuh |
 | 7 | `iosArm64X64` dan `iosX64` tidak ditargetkan (hanya arm64 + simulator arm64) | Build iOS di Mac Intel tidak didukung | Jangan tambah target tanpa diminta |
-| 8 | Komponen hanya didefinisikan di file layar (banyak `private` duplikat antar lab, mis. bottom bar/segmented control dibuat ulang) | Duplikasi kode | Ekstrak ke `ui/components/` saat komponen yang sama muncul minimal tiga kali |
-| 9 | `theme/LuxuryColors.kt` masih ada walaupun hanya dipakai oleh opsi jawaban kuis di `GamificationLabScreen` (bukan lagi sumber warna) | Palet legacy tercampur dengan `AppPalette` aktif dan mudah terpakai keliru tanpa sengaja | Hapus saat file gamification tidak lagi menyebutnya, atau ganti label kuis dengan teks lain |
+| 8 | Duplikasi komponen antar lab masih ada secara struktural (segmented control dan bottom bar dibuat ulang per lab); 6 nama composable `private` benar-benar sama di dua file: `SectionHeader`, `StatusPill`, `PrimaryButton`, `SectionLabel`, `ActivityRow`, `UnlockedContent`. | Duplikasi kode dan risiko perbaikan tidak konsisten | Ekstrak ke `ui/components/` saat komponen yang sama muncul minimal tiga kali |
+| 9 | `AppPalette` belum punya token `onSuccess` / `onDanger` / `onWarning`, sehingga teks di atas `palette.success`/`danger`/`warning` masih memakai `Color.White`; di mode terang itu hanya ±2,5–3,8:1 dan `warning` gagal di kedua mode. | Kontras teks pada lencana sukses/peringatan/bahaya di bawah standar AA | Tambahkan token `on*` ke `AppPalette` (menyentuh API tema, butuh persetujuan) lalu migrasikan pemakaiannya |
 | 10 | Ukuran `ui/components/icons/` masih 317–676 baris per file dibanding `UiIcons.kt` yang tadinya 2.409 baris | Lebih mudah dibaca, tetapi masih bisa dipecah lagi bila melewati ±800 baris | Pertahankan pembagian per bagian Home saat menambah ikon baru |
 
 ---
@@ -368,7 +370,7 @@ Ini kondisi **saat ini** yang menyimpang dari aturan di atas. Jangan menganggapn
 ```text
 1. Baca AGENTS.md + TODO.md  →  jangan mengarang fitur/dependensi.
 2. Semua UI di shared/commonMain, satu folder per lab, satu composable publik.
-3. Warna: LocalAppPalette (light + dark). Tidak ada hardcoded baru, tanpa LuxuryColors.
+3. Warna: LocalAppPalette (light + dark); teks di atas `primary` pakai `onPrimary`, bukan putih.
 4. Flat UI: border 1px, tanpa shadow/elevation sedikit pun.
 5. Layout: BoxWithConstraints untuk adaptive, verticalScroll anti-clipping,
    navigationBarsPadding di bawah, imePadding di form, statusBarsPadding jika tanpa UiTopBar.

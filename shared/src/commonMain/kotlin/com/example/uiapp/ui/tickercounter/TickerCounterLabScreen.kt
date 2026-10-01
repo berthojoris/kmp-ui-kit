@@ -152,7 +152,7 @@ fun TickerCounterLabScreen(onBack: () -> Unit) {
                             modifier = Modifier.weight(1f),
                         ) {
                             Box(modifier = Modifier.padding(8.dp), contentAlignment = Alignment.Center) {
-                                Text("Acak ⚄", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text("Acak ⚄", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary)
                             }
                         }
                     }
@@ -269,7 +269,7 @@ fun TickerCounterLabScreen(onBack: () -> Unit) {
                         shape = RoundedCornerShape(10.dp),
                         color = palette.primary,
                     ) {
-                        Text("+500", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp))
+                        Text("+500", color = palette.onPrimary, fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp))
                     }
                 }
             }

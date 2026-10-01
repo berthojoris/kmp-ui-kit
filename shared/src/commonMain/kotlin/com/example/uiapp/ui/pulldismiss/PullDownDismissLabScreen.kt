@@ -47,6 +47,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -117,7 +119,7 @@ fun PullDownDismissLabScreen(onBack: () -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    itemsIndexed(photos) { index, photo ->
+                    itemsIndexed(photos, key = { _, photo -> photo.id }) { index, photo ->
                         Surface(
                             onClick = {
                                 selectedPhotoIndex = index
@@ -203,7 +205,15 @@ fun PullDownDismissLabScreen(onBack: () -> Unit) {
                             .padding(20.dp),
                     ) {
                         Box(modifier = Modifier.size(36.dp), contentAlignment = Alignment.Center) {
-                            Text("✕", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                            Text(
+                                text = "✕",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp,
+                                modifier = Modifier.clearAndSetSemantics {
+                                    contentDescription = "Tutup pratinjau foto"
+                                },
+                            )
                         }
                     }
 

@@ -430,7 +430,7 @@ private fun FloatingControls(
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = if (selected) Color.White else palette.textSecondary,
+                    color = if (selected) palette.onPrimary else palette.textSecondary,
                 )
             }
         }

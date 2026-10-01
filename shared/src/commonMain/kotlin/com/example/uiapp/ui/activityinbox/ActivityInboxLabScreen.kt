@@ -355,7 +355,7 @@ fun ActivityInboxLabScreen(onBack: () -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.weight(1f),
                 ) {
-                    items(4) {
+                    items(4, key = { it }) {
                         Surface(
                             shape = RoundedCornerShape(12.dp),
                             color = palette.surface,

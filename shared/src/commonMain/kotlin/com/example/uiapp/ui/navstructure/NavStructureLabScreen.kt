@@ -319,7 +319,7 @@ fun NavStructureLabScreen(onBack: () -> Unit) {
                                                     text = if (voiceListening) "Stop" else "Mic",
                                                     fontSize = 11.sp,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = Color.White,
+                                                    color = if (voiceListening) Color.White else palette.onPrimary,
                                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                                                 )
                                             }
@@ -434,7 +434,7 @@ fun NavStructureLabScreen(onBack: () -> Unit) {
                         }
 
                         // Scroll filler cards to test floating pill minimize behavior
-                        items((1..10).toList()) { index ->
+                        items((1..10).toList(), key = { it }) { index ->
                             Surface(
                                 shape = RoundedCornerShape(12.dp),
                                 color = palette.surface,
@@ -502,20 +502,20 @@ fun NavStructureLabScreen(onBack: () -> Unit) {
                                             text = item.title,
                                             fontSize = 12.sp,
                                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                            color = if (isSelected) Color.White else palette.textSecondary,
+                                            color = if (isSelected) palette.onPrimary else palette.textSecondary,
                                         )
                                         if (item.badgeCount > 0) {
                                             Box(
                                                 modifier = Modifier
                                                     .clip(RoundedCornerShape(6.dp))
-                                                    .background(if (isSelected) Color.White.copy(alpha = 0.25f) else palette.danger)
+                                                    .background(if (isSelected) palette.onPrimary.copy(alpha = 0.25f) else palette.danger)
                                                     .padding(horizontal = 5.dp, vertical = 1.dp),
                                             ) {
                                                 Text(
                                                     text = item.badgeCount.toString(),
                                                     fontSize = 9.sp,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = Color.White,
+                                                    color = if (isSelected) palette.onPrimary else Color.White,
                                                 )
                                             }
                                         }

@@ -1,5 +1,6 @@
 package com.example.uiapp
 
+import androidx.compose.runtime.Composable
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
@@ -7,3 +8,8 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
+
+@Composable
+actual fun ApplySystemBarAppearance(isDark: Boolean) {
+    // Tidak ada aksi: gaya status bar iOS diatur oleh host SwiftUI, bukan dari Compose.
+}

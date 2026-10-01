@@ -48,6 +48,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -104,7 +106,7 @@ fun AdvancedInputLabScreen(onBack: () -> Unit) {
                             text = tab.title,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }
@@ -180,7 +182,15 @@ private fun PickersAndSlidersView(palette: com.example.uiapp.theme.AppPalette) {
                         color = palette.primary,
                     ) {
                         Box(modifier = Modifier.size(36.dp), contentAlignment = Alignment.Center) {
-                            Text("+", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                            Text(
+                                text = "+",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = palette.onPrimary,
+                                modifier = Modifier.clearAndSetSemantics {
+                                    contentDescription = "Tambah jumlah"
+                                },
+                            )
                         }
                     }
                 }
@@ -312,7 +322,7 @@ private fun TagsAndMentionsView(palette: com.example.uiapp.theme.AppPalette) {
                             Text(
                                 text = mention,
                                 fontSize = 12.sp,
-                                color = if (isSelected) Color.White else palette.primary,
+                                color = if (isSelected) palette.onPrimary else palette.primary,
                                 fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
                             )
@@ -544,7 +554,7 @@ private fun ImageAndFileUploadView(palette: com.example.uiapp.theme.AppPalette) 
                         shape = RoundedCornerShape(8.dp),
                         color = palette.primary,
                     ) {
-                        Text("+10% Upload", modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp), fontSize = 11.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                        Text("+10% Upload", modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp), fontSize = 11.sp, color = palette.onPrimary, fontWeight = FontWeight.Bold)
                     }
                     Surface(
                         onClick = { uploadProgress = 0f },

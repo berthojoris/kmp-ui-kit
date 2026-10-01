@@ -378,7 +378,7 @@ private fun DiscoveryPanel(onPick: (String) -> Unit) {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(PopularSearches) { term ->
+            items(PopularSearches, key = { it }) { term ->
                 Surface(
                     onClick = { onPick(term) },
                     shape = RoundedCornerShape(20.dp),

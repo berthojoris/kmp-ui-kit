@@ -2,6 +2,10 @@
 
 Status legend: **DONE** = sudah tersedia di app · **WAIT** = belum dikerjakan.
 
+Total: **117 lab `DONE`** (§1–§11) · **45 lab `WAIT`** (§11–§12).
+
+> Catatan sinkronisasi: §11 lab 108–117 kini `DONE` (layar, route, `MenuEntry`, ikon Canvas, dan `BackHandler` sudah terdaftar di kode). Lab §11 118–122 masih `WAIT`; §12 berisi 40 ide baru berstatus `WAIT`.
+
 ---
 
 ## 1. Labs Eksperimen Inti (DONE)
@@ -334,3 +338,579 @@ Batch ini menutup celah yang belum tersentuh: mekanik reward, grafik lanjutan di
 - Filter foto dengan pratinjau gradien mock dan state memproses, QR generator dari pola pseudo-acak berlabel simulasi, perekam suara dengan waveform langsung dan daftar rekaman tiruan, serta editor anotasi dengan stiker yang dapat digeser.
 - Tidak ada akses kamera, mikrofon, atau jaringan; seluruh perilaku diberi label simulasi.
 
+---
+
+## 9. Pola Khas iOS Modern (DONE)
+
+Batch ini menutup dua kategori yang paling tipis pada taksonomi komponen Apple Human Interface Guidelines, yaitu **System experiences** (Control Center, Lock Screen, widget, Live Activity, StandBy, Live Captions) dan **Menus and actions** (activity view / share sheet, edit menu teks). Sisanya melengkapi celah kecil di **Status** (activity rings), **Navigation and search** (token field), **Selection and input** (ruler picker, keyboard accessory), dan **Presentation/Content** (page curl, zoom foto).
+
+Semua lab di §9 dirancang selesai hanya dengan Compose Foundation + Canvas: tanpa dependensi baru, tanpa jaringan, tanpa akses kamera/mikrofon/lokasi. Setiap layar wajib mematuhi Flat UI zero-shadow (§7), mengambil warna dari `LocalAppPalette` termasuk `palette.onPrimary` untuk konten di atas `palette.primary` (§6.3), menangani insets (§8), dan menampilkan state normal, loading, kosong, sukses, gagal, serta disabled sesuai relevansi.
+
+### 9.1 Prioritas Utama (DONE)
+
+Enam lab yang paling terasa sebagai aplikasi iOS dan paling cepat terlihat hasilnya. Mencakup kategori HIG *Menus and actions*, *System experiences*, *Status*, *Presentation*, dan *Selection and input*.
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 72 | Share Sheet & Activity View (AirDrop, app tujuan, daftar aksi) | `share_sheet` | DONE |
+| 73 | Control Center & Home Screen Edit Mode (jiggle, drag, resize) | `control_center` | DONE |
+| 74 | Activity Rings & Ringkasan Mingguan (tiga cincin bergerak) | `activity_rings` | DONE |
+| 75 | Lock Screen Customization (jam, slot widget, wallpaper) | `lock_screen` | DONE |
+| 76 | In-App Notification Banner (turun dari atas, expand, antrean) | `notification_banner` | DONE |
+| 77 | Ruler Picker Pengukuran (tick, snapping, satuan cm/ft-in) | `ruler_picker` | DONE |
+
+#### 72. Share Sheet & Activity View (`share_sheet`)
+- Sheet berbagi dengan header pratinjau konten (thumbnail gradien, judul, domain), baris horizontal app tujuan (AirDrop dengan riak radar, Pesan, Mail, Salin), dan daftar aksi vertikal (Tambahkan ke Bacaan, Simpan ke File, Cetak, Tandai) beserta tombol "Opsi…".
+- State: memilih tujuan, mengirim dengan progres persen, sukses bercentang, gagal dengan tombol coba lagi, dan dibatalkan; sheet dapat dibuang dengan drag ke bawah dan kembali ke posisi semula bila tarikan kurang.
+- Melengkapi aksi "bagikan" pada `selection_toolbar` yang saat ini hanya memunculkan toast; seluruh tujuan app adalah data mock berlabel simulasi.
+
+#### 73. Control Center & Home Screen Edit Mode (`control_center`)
+- Grid kontrol empat kolom berisi kontrol 2x2 dan 2x1 (Wi-Fi, Bluetooth, Musik, Kecerahan, Timer) dengan dua halaman dan page dots.
+- Tekan lama memicu mode edit: ikon bergetar halus, tombol minus untuk menghapus, tombol plus membuka galeri kontrol, drag untuk menyusun ulang antar halaman, dan tombol "Selesai".
+- State normal, editing, dragging, dan resize; tampilkan batas maksimum kontrol per halaman saat grid penuh.
+
+#### 74. Activity Rings & Ringkasan Mingguan (`activity_rings`)
+- Tiga cincin konsentris Canvas (Bergerak, Olahraga, Berdiri) dengan animasi penutupan berurutan, target di tengah, dan legenda berlabel teks agar status tidak dibedakan hanya lewat warna.
+- Riwayat tujuh hari sebagai bar mini, ketuk cincin membuka detail harian, serta badge pencapaian yang terbuka saat target tuntas.
+- State: belum ada data, sebagian tercapai, tuntas 100%, dan rentetan hari berturut-turut.
+
+#### 75. Lock Screen Customization (`lock_screen`)
+- Pratinjau layar kunci dengan jam besar dan pemilih font, ukuran, serta warna (grid delapan warna).
+- Slot widget di bawah jam (dua slot) dan di atas jam (empat slot) yang dipilih dari galeri mock, plus galeri wallpaper gradien.
+- Notifikasi bertumpuk, pill Live Activity, varian "Selalu Aktif" yang meredup, serta state terkunci dan terbuka; tidak ada integrasi wallpaper atau notifikasi sistem sungguhan.
+
+#### 76. In-App Notification Banner (`notification_banner`)
+- Banner meluncur dari atas berisi avatar, judul, isi, dua tombol aksi, dan tombol tutup; tarik ke atas untuk membuang dan tarik ke bawah untuk memperluas ke konten kaya.
+- Antrean tiga notifikasi bertumpuk dengan hitung mundur auto-dismiss yang dapat dijeda, plus state "Jangan Ganggu" yang meredam banner dan memindahkannya ke ringkasan.
+- Berbeda dari `activity_inbox` yang menampilkan daftar: lab ini fokus pada perilaku banner yang masuk; gunakan contoh lokal tanpa push notification.
+
+#### 77. Ruler Picker Pengukuran (`ruler_picker`)
+- Ruler horizontal Canvas dengan tick besar tiap sepuluh dan tick kecil tiap satu, indikator tengah, snapping, dan umpan haptic per tick.
+- Nilai besar di atas ruler, tombol satuan cm maupun ft/in yang mengonversi tanpa kehilangan presisi, serta beberapa preset cepat.
+- Melengkapi wheel picker `advanced_input` dengan pola picker pengukuran (tinggi/berat) yang umum di aplikasi kesehatan.
+
+### 9.2 Prioritas Lanjutan (DONE)
+
+Sepuluh lab berikut melengkapi kategori *Navigation and search* (token field, path control), *Selection and input* (keyboard accessory), *System experiences* (widget gallery, Live Activity, StandBy, Live Captions), *Menus and actions* (edit menu teks), dan *Content* (photos zoom, page curl).
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 78 | Search Token Field (token kunci-nilai di dalam field) | `search_tokens` | DONE |
+| 79 | Photos Year to Month to Day Zoom (pinch antar tingkat agregasi) | `photos_zoom` | DONE |
+| 80 | Keyboard Accessory & Keypad Kustom (toolbar di atas keyboard) | `keyboard_accessory` | DONE |
+| 81 | Widget Gallery & Sizes (small, medium, large, varian tampilan) | `widget_gallery` | DONE |
+| 82 | Text Loupe & Edit Menu (kaca pembesar, caret, menu teks) | `edit_menu` | DONE |
+| 83 | Live Activity Lifecycle (compact, minimal, expanded, selesai) | `live_activity` | DONE |
+| 84 | Precision Finding (panah arah, cincin jarak, umpan haptic) | `precision_finder` | DONE |
+| 85 | Live Captions & Transkripsi (transkrip bergulir, diarisasi) | `live_captions` | DONE |
+| 86 | Page Curl Reader (balik halaman dengan deformasi Canvas) | `page_curl` | DONE |
+| 87 | StandBy Nightstand (mode lanskap, jam besar, mode malam) | `standby_mode` | DONE |
+
+#### 78. Search Token Field (`search_tokens`)
+- Field pencarian berisi token kunci-nilai (`dari:`, `tanggal:`, `label:`) yang dapat diketuk untuk mengubah nilai dan dihapus dengan backspace.
+- Saran nilai muncul sebagai daftar saat token aktif, plus hasil terfilter real-time yang menyorot kata kunci.
+- State: kosong dengan saran populer, token belum lengkap, hasil kosong, dan hasil banyak.
+
+#### 79. Photos Year to Month to Day Zoom (`photos_zoom`)
+- Pinch untuk berpindah tingkat agregasi konten (Semua Foto, Tahun, Bulan, Hari) dengan transisi skala dan judul tingkat yang berganti.
+- Grid dinamis: tahun menampilkan kartu besar, bulan menampilkan kelompok, hari menampilkan grid rapat; ketuk untuk masuk satu tingkat dan cubit masuk untuk keluar.
+- Header "Kenangan" dengan kartu hero, mode pilih dengan aksi massal, dan seluruh ilustrasi berupa gradien lokal.
+
+#### 80. Keyboard Accessory & Keypad Kustom (`keyboard_accessory`)
+- Toolbar di atas keyboard (Selesai, panah sebelumnya dan berikutnya, tombol format) yang mengikuti bidang aktif dan tetap terlihat saat keyboard terbuka.
+- Saran prediktif dari data mock dan keypad numerik kustom dengan operasi aritmetika sederhana beserta riwayat perhitungan.
+- Seluruh elemen adalah simulasi di dalam Compose, bukan keyboard sistem; state normal, keyboard tertutup, dan saran kosong.
+
+#### 81. Widget Gallery & Sizes (`widget_gallery`)
+- Galeri dengan varian ukuran small, medium, large, dan lock screen yang dapat dipratinjau langsung memakai data mock.
+- Varian tampilan terang, gelap, tinted, dan clear; slider kedalaman untuk efek berlapis serta tombol "Tambah Widget".
+- Kartu widget interaktif (toggle, progress, tombol) tanpa membuka layar lain; tidak ada widget sistem sungguhan.
+
+#### 82. Text Loupe & Edit Menu (`edit_menu`)
+- Tekan lama pada teks memunculkan kaca pembesar (loupe) yang mengikuti jari beserta caret dan dua handle seleksi yang dapat digeser.
+- Menu edit mengambang berisi Potong, Salin, Tempel, Tebal, Miring, Garis bawah, Cari, dan Terjemahkan; plus sheet "Look Up" dengan definisi mock.
+- Berbeda dari `selection_toolbar` yang berfokus pada seleksi item daftar: lab ini khusus seleksi teks, caret, dan loupe.
+
+#### 83. Live Activity Lifecycle (`live_activity`)
+- Siklus hidup aktivitas (pesanan atau perjalanan) mulai dari dimulai, pembaruan progres real-time, hingga berakhir, dengan tiga presentasi: compact, minimal, dan expanded.
+- Kartu kunci berisi tahapan, estimasi tiba, dan tombol aksi; riwayat aktivitas yang sudah selesai ditampilkan di bagian bawah.
+- Melengkapi pratinjau Dynamic Island di `system_platform` yang masih statis; tidak ada integrasi ActivityKit sungguhan.
+
+#### 84. Precision Finding (`precision_finder`)
+- Panah arah Canvas yang menunjuk target, cincin jarak yang mengecil saat mendekat, dan label jarak dalam meter.
+- Umpan bertingkat saat makin dekat (indikator visual dan perubahan label status), plus state "Mencari sinyal" dan "Sinyal lemah".
+- Tandai sebagai simulasi: tidak ada akses UWB, Bluetooth, atau lokasi sungguhan.
+
+#### 85. Live Captions & Transkripsi (`live_captions`)
+- Transkrip bergulir dengan sorotan kata aktif, pemisahan pembicara bertanda warna dan label teks, serta penanda suara non-ucapan.
+- Kontrol ukuran teks, mode jendela mengambang, dan tombol mulai maupun berhenti dengan state mendengarkan.
+- Seluruh transkrip adalah data mock berlabel simulasi; tidak ada akses mikrofon atau mesin pengenal suara.
+
+#### 86. Page Curl Reader (`page_curl`)
+- Membalik halaman dengan drag dari tepi kanan atau kiri memakai deformasi Canvas, sehingga halaman melengkung dan menampilkan bayangan lipatan.
+- Progress baca, penanda halaman, pilihan mode gulir atau mode halaman, serta pengaturan ukuran huruf.
+- Berbeda dari flashcard 3D di `gamification_lab`: di sini gerak halaman mengikuti jari dan dapat dibatalkan di tengah jalan.
+
+#### 87. StandBy Nightstand (`standby_mode`)
+- Mode lanskap dengan jam besar, tanggal, dan widget bergantian (kalender, kompas, foto, cuaca mock) yang dapat digeser.
+- Mode malam merah yang menurunkan kecerahan konten dan menyembunyikan warna, plus pratinjau selalu aktif.
+- Layout menyesuaikan lebar layar dan tetap terbaca pada ukuran font besar.
+
+### Catatan §9
+
+- Lab `liquid_glass` (material iOS 26: kaca dinamis, scroll edge effect, tombol glass maupun prominent) sengaja **tidak** dimasukkan ke daftar ini karena bertentangan dengan §7 Flat UI zero-shadow. Bila nanti diinginkan, ia harus berupa **lab opsi demo** dengan fallback kontras tinggi (§7.7) dan tetap memakai `LocalAppPalette`.
+- `share_sheet`, `notification_banner`, `live_activity`, `standby_mode`, `live_captions`, dan `precision_finder` menyerupai layanan platform sehingga **wajib** diberi label simulasi di UI (§3.3).
+- Setiap lab baru mengikuti checklist lengkap §6.1 dan Definition of Done §14: route di `App.kt` (`Route<X>`, `KnownRoutes`, cabang `when`), `MenuEntry` di `HomeMenuScreen.kt`, ikon Canvas khusus di `ui/components/icons/`, `BackHandler`, lalu statusnya diubah dari `WAIT` menjadi `DONE` pada commit yang sama.
+- Label jumlah pada Home (`HomeSection.ALL` dan `shortLabel`) kini **117 lab** ("Semua (117)"), dengan section `IOS_PATTERN` ("iOS (16)"), `IOS_APPS` ("iOS+ (20)") dari §9–§10, dan `INDUSTRY` ("Industri (10)") dari §11.
+
+---
+
+## 10. Ide Lab Khas iOS Lanjutan (DONE)
+
+Batch ini melengkapi pola iOS yang masih kosong dan paling ikonik: **aplikasi buatan Apple** (Weather, Stocks, Health, Clock, Home, Wallet, App Store, Translate, Freeform), **perilaku khas Messages** (bubble & screen effects), **Apple Intelligence** (Writing Tools, Genmoji), serta **kontinuity dan aksesibilitas spesifik iOS** (Handoff/AirPlay, VoiceOver, iPad Pointer & Scribble). Terinspirasi oleh antarmuka Apple seperti [Pesan berbubble effect](https://support.apple.com/en-us/guide/iphone/iph3d4cb79c9/ios), [interaksi pass di Wallet](https://installpass.es/blogs/design-tips/interaction-design-in-wallet-passes), [Smart Stacks WidgetKit](https://developer.apple.com/documentation/WidgetKit/Widget-Suggestions-In-Smart-Stacks), [Live Text/VisionKit](https://developer.apple.com/documentation/visionkit), dan klon populer seperti [Weather](https://github.com/j-labbe/weather-app-clone) serta [Messages](https://github.com/GetStream/SwiftUIMessagesUIClone).
+
+Sama seperti §9: seluruh lab selesai hanya dengan Compose Foundation + Canvas — tanpa dependensi baru, tanpa jaringan, tanpa kamera/mikrofon/lokasi nyata. Semua wajib mematuhi Flat UI zero-shadow (§7), warna dari `LocalAppPalette` termasuk `palette.onPrimary` di atas `palette.primary` (§6.3), insets per-elemen (§8), `BackHandler` (§6.2), dan state normal, loading, kosong, sukses, gagal, serta disabled sesuai relevansi. Lab yang menyerupai layanan platform (telepon, Wallet, HomeKit, translate, screen time) wajib berlabel **simulasi** di UI (§3.3).
+
+### 10.1 Komunikasi & Sosial
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 88 | Messages Bubble & Screen Effects (slam, loud, gentle, confetti, invisible ink, tapback) | `msg_effects` | DONE |
+| 89 | Incoming Call & FaceTime UI (layar panggilan masuk, grid peserta) | `call_ui` | DONE |
+
+#### 88. Messages Bubble & Screen Effects (`msg_effects`)
+- Dua mode demo: efek pada **bubble** (slam, loud, gentle — skala + getar sesaat) dan efek **layar penuh** (confetti, laser, kembang api, echo, spotlight, invisible ink yang buram sampai diketuk).
+- Tapback reaction (love, like, haha, dll.) sebagai mini badge pada bubble, plus daftar percakapan yang dipin dan balasan thread.
+- Semua data mock lokal berbahasa Indonesia; animasi dihentikan saat reduce-motion (`accessibility_lab`); label jelas bahwa ini simulasi, bukan layanan iMessage asli.
+
+#### 89. Incoming Call & FaceTime UI (`call_ui`)
+- Layar panggilan masuk bergaya iOS (avatar besar, nama, aksi terima/tolak) dengan aksi meredup sebelum dijawab lalu transisi ke layar panggilan aktif.
+- Kontrol aktif: bisu, keypad, speaker, rekam, tambah peserta, flip kamera; plus varian FaceTime dengan grid/grid 4-tile atau grid 2x2 peserta.
+- State: berderang, terhubung, menunggu jaringan, panggilan berakhir, serta simulasi koneksi lemah yang diberi label.
+
+### 10.2 Aplikasi Apple Ikonik
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 90 | Apple Weather (grafik jam, 10 hari, kartu modul) | `weather_app` | DONE |
+| 91 | Apple Stocks (watchlist, chart crosshair, berita) | `stocks_app` | DONE |
+| 92 | Health Summary & Trends (dashboard + tren) | `health_app` | DONE |
+| 93 | Clock Kit (world clock, alarm, stopwatch, timer) | `clock_kit` | DONE |
+| 94 | Shortcuts & Automation (galeri aksi, drag reorder, trigger) | `shortcuts_lab` | DONE |
+| 95 | Home & Scenes (tile aksesori, ruangan, scene) | `home_app` | DONE |
+| 96 | Apple Wallet Pass Stack (kartu berkipas, drag through) | `wallet_stack` | DONE |
+| 97 | App Store Today & Product Page (kartu editorial, pager screenshot) | `appstore_today` | DONE |
+| 98 | Translate (mode percakapan, side-by-side, kamera) | `translate_app` | DONE |
+| 99 | Freeform Infinite Canvas (sticky note, konektor, pan/zoom) | `freeform_canvas` | DONE |
+
+#### 90. Apple Weather (`weather_app`)
+- Header suhu besar dengan latar gradien sesuai kondisi, grafik jam 24 jam (suhu + caps), grafik presipitasi, dan daftar 10 hari dengan bar hi/lo relatif.
+- Kartu modul: angin (garis arah), UV, matahari terbit/terbenam, indeks kualitas udara, kelembapan, visibilitas — semua data mock; simulasi jaringan untuk "memuat" kota.
+
+#### 91. Apple Stocks (`stocks_app`)
+- Watchlist baris saham dengan pill perubahan berlabel naik/turun (warna + teks, bukan warna saja), chart garis dengan **crosshair** interaktif dan chip rentang 1D–1M–3M–6M–1Y–2Y–5Y.
+- Kartu berita terkait saham, plus state loading, error "Tidak dapat memuat kuotasi", dan bursa tutup/buka; label simulasi (tidak ada data pasar nyata).
+
+#### 92. Health Summary & Trends (`health_app`)
+- Dashboard ringkasan: kartu favorit (Langkah, Tidur, Selang Detak), kartu **Highlights** naratif, panel **Tren** dengan panah naik/turun dan level badge.
+- Detail depan per metrik: grafik periode, rata-rata, rentang; state tak ada data saat izin tidak diberikan; label simulasi (tanpa HealthKit).
+
+#### 93. Clock Kit (`clock_kit`)
+- World Clock (matahari/hari-malam per slot), Alarm (toggle jadwal mati/hidup dengan cepat), Stopwatch (waktu ketuk, daftar lap dengan delta warna + teks), Timer (lingkaran memanjang + klik hapus/bekukan).
+- Semua berbasis coroutine `remember`/`LaunchedEffect` untuk tick; state lap terpanjang ditandai dengan label teks.
+
+#### 94. Shortcuts & Automation (`shortcuts_lab`)
+- Galeri langkah berdasarkan kategori dengan pencarian, "drag" langkah ke ruang kerja Shortcut (reorder dengan animasi), dan kartu otomation (waktu, lokasi, app, frasa Siri).
+- Pratinjau galeri shortcut lintas aplikasi + izin aktivasi simulasi; berbeda dari `advanced_list` karena fokus pada **bucket aksi + trigger**.
+
+#### 95. Home & Scenes (`home_app`)
+- Tab ruangan horizontal, grid aksesori: tombol lingkaran dengan toggle menyala (mic, lampu, termostat), sensor baca-hanya, dan carousel scene (Selamat Pagi, Waktunya Tidur) dengan ikon Canvas gradien.
+- Detail aksesori: slider kecerahan, pilihan suhu, status sudut/kamar; semuanya mock, diberi label simulasi (tanpa HomeKit/Matter).
+
+#### 96. Apple Wallet Pass Stack (`wallet_stack`)
+- Tumpukan kartu berkipas (tiket, boarding pass, membership, voucher) yang bisa dibuka dengan drag ke bawah, di-swipe antar kartu, diurut ulang, dihapus, dan ditandai kedaluwarsa.
+- Kartu pass mendukung toggle "Express Transit", tampilan "Selesai" setelah sebuah aksi, plus bottom bar "Tambah ke Wallet"; melengkapi `perforated_ticket` yang masih statis.
+
+#### 97. App Store Today & Product Page (`appstore_today`)
+- Kartu editorial bertumpuk dengan banner kartu besar, lalu halaman produk: pager screenshot, statistik rating (bintang + histogram), catatan versi, dan tombol **GET/BUKA** dengan state mengunduh persen (progress circular).
+- Tab "Today/Games/Apps/Arcade/Search" sederhana, daftar "Top Gratis" berperingkat; semua konten mock.
+
+#### 98. Translate (`translate_app`)
+- Mode percakapan: gelembung besar dua bahasa, tombol mikrofon dengan gelombang aktif, tombol flip bahasa dengan animasi; mode kamera: overlay "terjemahan langsung" di atas ilustrasi.
+- Mode perangkat (side-by-side) dengan simpanan frasa favorit, riwayat, dan deteksi bahasa; label simulasi jelas — tidak ada mesin terjemahan atau mikrofon nyata.
+
+#### 99. Freeform Infinite Canvas (`freeform_canvas`)
+- Kanvas tak terbatas yang bisa dipan/zoom (gesture + kontrol), obyek sticky note (buat, geser, ubah warna), shape/konektor sederhana, dan teks; fitur lasso select untuk mengelompokkan/menggeser bersama.
+- Seleksi menampilkan toolbar kontekstual; obyek lebih dari 50 memakai struktur ringan agar tetap lancar di perangkat kelas menengah.
+
+### 10.3 Apple Intelligence & Privasi
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 100 | Writing Tools (rewrite, proofread, summarize, tabel) | `writing_tools` | DONE |
+| 101 | Genmoji & Image Playground (emoji buatan perintah) | `genmoji` | DONE |
+| 102 | Focus Modes & Notification Filtering (DND, aktivitas) | `focus_modes` | DONE |
+| 103 | Passkeys & Passwords (verifikasi kode Face ID, audit) | `passkeys_passwords` | DONE |
+
+#### 100. Writing Tools (`writing_tools`)
+- Toolbar melayang di atas teks terpilih: Rewrite, Proofread, Summarize, Make List, Make Table, plus "Change Tone" — menampilkan hasil transformasi beranimasi (typing) dan opsi "Balik ke Asal".
+- Sertakan panel proofread dengan saran bergaris bawah (typo, ejaan) yang diketuk untuk menerima; hasilnya deterministic dari data mock, diberi label "AI simulasi".
+
+#### 101. Genmoji & Image Playground (`genmoji`)
+- Layar pembuatan: kolom prompt berbahasa Indonesia, chip gaya (Sketsa, Ilustrasi, Animasi), grid hasil procedural yang dibuat dari Canvas (bentuk + gradien acak tergantung prompt) sebagai pengganti generator gambar.
+- Genmoji dapat disimpan sebagai stiker, dipakai di "pesan" mock, dan dibagikan; state memuat, kosong (tanpa prompt), gagal/ menghasilkan tidak sesuai dengan tombol coba lagi; label simulasi.
+
+#### 102. Focus Modes (`focus_modes`)
+- Daftar focus (Kerja, Tidur, Pribadi, Driving, Fitness + "Custom") dengan ikon dan warna khas; aktivasi menampilkan preview beranda (notifikasi yang dibisukan, aplikasi yang diizinkan, orang yang diizinkan).
+- Sertakan status focus aktif di layar kunci mock, pilihan "Ulangi Jadwal", "Notification Summary", dan filter percakapan; label simulasi (tanpa integrasi sistem).
+
+#### 103. Passkeys & Passwords (`passkeys_passwords`)
+- Sheet "Simpan passkey" khas iOS (ikon situs, nama pengguna, tombol Simpan dengan prompt Face ID animasi), daftar sandi dengan kode verifikasi yang bisa diketuk untuk menyalin.
+- Audit keamanan: rekomendasi popup "sandi dipakai berulang/lemah" dengan tombol "Ubah di Situs", kolom "Registrasi Saat Ini" dengan modal *terms and conditions* flag; seluruhnya simulasi.
+
+### 10.4 Sistem, Aksesibilitas & iPad
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 104 | VoiceOver Simulator (rotor, focus ring, hint) | `voiceover_lab` | DONE |
+| 105 | Handoff & AirPlay Picker (saran beranda modal perute) | `continuity` | DONE |
+| 106 | Screen Time Report & App Limits | `screen_time` | DONE |
+| 107 | iPad Pointer & Apple Pencil Scribble | `pointer_scribble` | DONE |
+
+#### 104. VoiceOver Simulator (`voiceover_lab`)
+- Demo layar baca dengan VoiceOver aktif: cincin fokus indigo, pembacaan teks narasi, hint di bawah elemen, kontrol rotor (karakter/kata/baris/heading) dan gestur swipe untuk memilih item.
+- Mode "Screen Curtain" (blackscreen + gesture) dan bantuan gerak; sangat mendidik untuk pembaca yang memakai TalkBack/VoiceOver asli — jelas bahwa ini simulator, bukan layanan baca layar.
+
+#### 105. Handoff & AirPlay Picker (`continuity`)
+- Panel "Berkelanjutan" di layar beranda aplikasi yang bisa dibuang (gesture swipe) dan modal AirPlay daftar output (TV, speaker, "iPhone saya") dengan penanda ceklis dan pemisah "Kontrol Speaker Volume".
+- State: tidak ada perangkat terhubung, sedang mencari, terhubung (ambil alih audio media mini-player `media_lab`), satu riwayat handoff aktif; label simulasi.
+
+#### 106. Screen Time Report & App Limits (`screen_time`)
+- Kartu laporan harian/mingguan dengan bar waktu pakai, rata-rata, penyusun kategori sosial/produktivitas/kreativitas dengan legenden berlabel; batas aplikasi (pilih aplikasi, waktu limit, jadwal) dan "Always Allowed".
+- Tampilan downtime + permintaan tambahan waktu (tombol "One More Minute" berprogress 30 detik) — semua mock, tanpa akses statistik sistem.
+
+#### 107. iPad Pointer & Apple Pencil Scribble (`pointer_scribble`)
+- Kursor trackpad lingkuler dengan **click target** yang auto-menyorot (membesar, mengikuti kontras), tombol dock "shape/pointer style", dan interaksi klik kanan menampilkan menu.
+- Pencil mode: gesture double-tap mengganti alat (pen/marker/eraser), **Scribble** — perluas ke teks saat menulis tangan perkiraan di field, dan gesture swipe untuk memilih teks; seluruhnya Compose Canvas, tanpa PencilKit/UIKit.
+
+### Catatan §10
+
+- `msg_effects`, `call_ui`, `wallet_stack`, `home_app`, `translate_app`, `focus_modes`, `passkeys_passwords`, `screen_time`, `continuity`, dan `voiceover_lab` menyerupai layanan platform sehingga **wajib** diberi label simulasi di UI (§3.3).
+- Lab aplikasi Apple (`weather_app`, `stocks_app`, `health_app`, `clock_kit`, `shortcuts_lab`, `appstore_today`, `freeform_canvas`) adalah **klon UI, bukan layanan**: data lokal mock, tanpa jaringan/API apa pun.
+- Saat sebuah lab §10 dikerjakan, ikuti checklist §6.1 (route `Route<X>` + `KnownRoutes` + cabang `when`, `MenuEntry` Home, ikon Canvas di `ui/components/icons/` — buat file baru `IosAppsLabIcons.kt` bila melewati ±800 baris per file), Definition of Done §14, dan perbarui status `WAIT` → `DONE` di commit yang sama.
+- `weather_app`, `stocks_app`, dan `health_app` memakai banyak Canvas + gradien: tetap ingat anggaran performa §11 (hindari alokasi koleksi di body composable, pakai `remember` untuk `Path`/`Brush`).
+
+
+---
+
+## 11. Komponen Industri, Spasial & Produktivitas (sebagian DONE)
+
+Batch ini merencanakan pola interaksi yang belum tercakup: komponen spasial/booking (denah kursi, pelacakan perjalanan), audio/media lanjutan (karaoke, equalizer), produktivitas dokumen (editor blok, Gantt, pohon berkas), fintech kolaboratif (split bill, budget envelope), edukasi gamifikasi (peta quest, puzzle kata), dan fitur platform Android modern (predictive back, floating dock). Semua lab dirancang berjalan offline dengan data mock lokal berbahasa Indonesia, mematuhi Flat UI zero-shadow, dan benar di mode terang/gelap.
+
+**Status nyata:** lab 108–117 **sudah ada di kode** dan terdaftar (route `Route<X>` + `KnownRoutes` + cabang `when` di `App.kt`, `MenuEntry` di `HomeMenuScreen.kt` pada section `INDUSTRY`, ikon Canvas di `ui/components/icons/IndustryLabIcons.kt`, dan `BackHandler` di tiap layar). Lab 118–122 **belum ada di kode** dan tetap `WAIT`.
+
+### 11.1 Mobility, Travel & Spatial Booking
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 108 | Interactive Airplane / Cinema Seat Selector | `seat_selector` | DONE |
+| 109 | Ride-Hailing Live Trip & Route Tracking Sheet | `trip_tracker` | DONE |
+| 110 | Multi-City Flight Itinerary & Layover Timeline | `flight_itinerary` | DONE |
+
+### 11.2 Audio, Media & Kreatif Lanjutan
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 111 | Synced Karaoke Lyrics Scroller | `synced_lyrics` | DONE |
+| 112 | Interactive Audio Equalizer & 10-Band Visualizer | `audio_equalizer` | DONE |
+| 113 | Photo Crop, Straighten Dial & Rule-of-Thirds Grid | `photo_cropper` | DONE |
+
+### 11.3 Produktivitas, Dokumen & Hirarki
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 114 | Block-Based Document Editor (Notion-style) | `block_editor` | DONE |
+| 115 | Roadmap & Interactive Gantt Timeline | `gantt_roadmap` | DONE |
+| 116 | Hierarchical Tree & Folder File Explorer | `tree_explorer` | DONE |
+
+### 11.4 Fintech & Kolaborasi Keuangan
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 117 | Smart Split-Bill & Receipt Item Breakdown | `split_bill` | DONE |
+| 118 | Budget Envelopes & Cash Allocation Drag | `budget_envelopes` | WAIT |
+
+### 11.5 Edukasi & Gamifikasi Interaktif
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 119 | Gamified Winding Quest Map / Level Path | `quest_path` | WAIT |
+| 120 | Word Tile Sentence Builder & Word Puzzle | `sentence_builder` | WAIT |
+
+### 11.6 Fitur Platform Android Modern
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 121 | Predictive Back Navigation Simulator | `predictive_back` | WAIT |
+| 122 | Floating Multitasking App Dock | `floating_dock` | WAIT |
+
+### Catatan §11
+
+- Saat sebuah lab §11 dikerjakan, ikuti checklist §6.1 (route `Route<X>` + `KnownRoutes` + cabang `when` di `App.kt`, `MenuEntry` di `HomeMenuScreen.kt`, ikon Canvas di `ui/components/icons/` — buat file baru bila melewati ±800 baris) dan Definition of Done §14, lalu ubah status `WAIT` → `DONE` pada commit yang sama.
+- `seat_selector`, `trip_tracker`, `flight_itinerary`, `synced_lyrics`, `audio_equalizer`, dan `photo_cropper` menyerupai layanan platform (peta, audio, kamera) sehingga **wajib** berlabel **simulasi** di UI (§3.3).
+
+---
+
+## 12. Ide Komponen Baru — Gap Analysis (WAIT)
+
+Batch ini berisi pola interaksi yang **belum** tercakup oleh 117 lab yang sudah ada di kode (§1–§11). Semua lab tetap mengikuti aturan repo: 100% Compose Foundation + Canvas di `commonMain`, **tanpa dependensi baru**, **tanpa jaringan/kamera/mikrofon/lokasi nyata**, Flat UI zero-shadow (§7), warna lewat `LocalAppPalette` termasuk `palette.onPrimary` di atas `palette.primary` (§6.3), insets per-elemen (§8), `BackHandler` (§6.2), serta state normal, loading, kosong, sukses, gagal, dan disabled sesuai relevansi. Perilaku yang menyerupai layanan platform wajib berlabel **simulasi** (§3.3).
+
+### 12.1 Prioritas Utama (Tier 1)
+
+Kategori yang paling tipis: kolaborasi realtime, resiliensi/live data, AI agentik, dan *tooling* desain/kinerja.
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 123 | Realtime Collaboration & Presence (kursor rekan, presence, follow mode) | `collab_presence` | WAIT |
+| 124 | Live Dashboard & Streaming Metrics (KPI berdetak, sparkline live, feed) | `live_dashboard` | WAIT |
+| 125 | Offline & Connection Resilience (offline, reconnecting, konflik sinkron) | `offline_resilience` | WAIT |
+| 126 | AI Agent Run Steps (log langkah, tool-call, pause/resume/approve) | `ai_agent_steps` | WAIT |
+| 127 | AI Inline Ghost-text & Diff Review (accept/reject per hunk) | `ai_inline_edit` | WAIT |
+| 128 | Design Token & Theme Editor (palet live, cek kontras, ekspor token) | `design_tokens` | WAIT |
+| 129 | Performance HUD & Jank Meter (frame time, recomposition, memori) | `perf_hud` | WAIT |
+| 130 | Appointment Slot & Availability Picker (zona waktu, heatstrip tim) | `appointment_slots` | WAIT |
+
+#### 123. Realtime Collaboration & Presence (`collab_presence`)
+- Kursor rekan yang bergerak halus di kanvas bersama avatar presence, indikator "sedang mengetik", dan mode follow (mengikuti viewport rekan).
+- Baris komentar yang dipin ke elemen, status koneksi rekan, serta state masuk/keluar ruangan; melengkapi `freeform_canvas` dan `data_cards` yang masih single-user.
+- Simulasi gerak rekan memakai coroutine, bukan jaringan; tanpa backend kolaborasi nyata.
+
+#### 124. Live Dashboard & Streaming Metrics (`live_dashboard`)
+- Sekumpulan KPI yang bertambah nilainya secara live, sparkline yang bergulir, dan feed event yang masuk; tombol pause/live serta pemilih rentang waktu.
+- State tersambung, terhenti (paused), memuat ulang, dan data basi (stale) dengan label waktu terakhir diperbarui; berbeda dari `stats` dan `charts` yang statis.
+- Seluruh angka dihasilkan dari generator lokal ber-`remember`/`LaunchedEffect`; tidak ada koneksi streaming sungguhan.
+
+#### 125. Offline & Connection Resilience (`offline_resilience`)
+- Banner status koneksi: offline, menyambung ulang, sinyal lemah/degraded, dan normal; aksi pengguna masuk ke antrean lalu dikirim saat kembali online.
+- Demo konflik sinkron dua versi data dengan pilihan "Pakai Lokal / Pakai Server / Gabungkan", plus state gagal permanen dengan retry.
+- Melengkapi `undo_queue` yang hanya membahas rollback aksi, bukan kondisi jaringan.
+
+#### 126. AI Agent Run Steps (`ai_agent_steps`)
+- Log tugas agentik berisi langkah-langkah yang dapat diperluas: rencana, pemanggilan tool, hasil, dan kesimpulan; tombol pause, resume, dan approve sebelum langkah berisiko.
+- State berjalan, menunggu persetujuan, gagal di tengah dengan opsi lanjutkan dari langkah, dan selesai dengan ringkasan; berbeda dari `ai_chat` yang hanya streaming teks.
+- Reasoning dan tool-call adalah data mock; label "AI simulasi" wajib (§3.3).
+
+#### 127. AI Inline Ghost-text & Diff Review (`ai_inline_edit`)
+- Saran ghost-text yang muncul saat mengetik dan dapat diterima dengan Tab atau ditolak; panel diff per-hunk dengan accept/reject, dan mode side-by-side.
+- State tanpa saran, saran panjang, menerapkan, gagal, serta "Balik ke Asal"; melengkapi `writing_tools` yang hanya menampilkan hasil akhir.
+- Tidak ada model AI nyata; transformasi bersifat deterministik dari data mock.
+
+#### 128. Design Token & Theme Editor (`design_tokens`)
+- Editor palet langsung (permukaan, teks, border, `primary`, status) dengan pengukur kontras WCAG AA/AAA real-time dan peringatan kombinasi yang gagal.
+- Pratinjau komponen hidup (kartu, tombol, pill, input) di mode terang maupun gelap, ekspor token sebagai ringkasan teks, dan reset ke palet bawaan `LightAppPalette`.
+- Berbeda dari `theme_lab` yang hanya mengganti light/dark/system; mengubah palet harus tetap lewat API tema (§6.3).
+
+#### 129. Performance HUD & Jank Meter (`perf_hud`)
+- Bar frame time berjalan dengan penanda frame > 16 ms, grafik jank, dan penghitung recomposition sederhana; simulasi beban (list besar, animasi berat) untuk memicu drop frame.
+- State mulus, jank ringan, dan berat dengan penjelasan penyebab; berguna sebagai bukti klaim 60fps lab lain.
+- Diukur murni dari `withFrameNanos` di `commonMain`: akurasi perkiraan, tanpa API profiling platform.
+
+#### 130. Appointment Slot & Availability Picker (`appointment_slots`)
+- Pilih tanggal, zona waktu, dan slot jam dengan state tersedia/terisi/hampir penuh; heatstrip ketersediaan tim dan pilihan "peserta mana".
+- Ringkasan pemesanan di bottom sheet dengan tombol konfirmasi mengikuti `navigationBarsPadding()`, plus state jadwal bentrok dan berhasil.
+- Melengkapi date picker `advanced_input` dengan dimensi ketersediaan & zona waktu.
+
+### 12.2 Prioritas Menengah (Tier 2)
+
+Memperluas visualisasi, commerce, dan konten sosial.
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 131 | Flow Viz Pack II (Sankey, treemap, funnel, cohort grid) | `flow_viz` | WAIT |
+| 132 | Network Graph & Node–Link Explorer | `graph_explorer` | WAIT |
+| 133 | Map Cluster & Store Locator (list ↔ peta sinkron) | `store_locator` | WAIT |
+| 134 | Credit Card Form & 3D Card (BIN, format, scanner mock) | `payment_form` | WAIT |
+| 135 | Phone & Address Autocomplete (kode negara, places mock) | `address_input` | WAIT |
+| 136 | Recurrence & Schedule Picker (RRULE) | `recurrence_picker` | WAIT |
+| 137 | Live Auction / Bidding Room (countdown, outbid) | `live_auction` | WAIT |
+| 138 | Flash Sale & Scarcity (countdown, bar stok, waitlist) | `flash_sale` | WAIT |
+| 139 | Subscription Management & Cancel-Retention | `subscription_mgmt` | WAIT |
+| 140 | Queue / Waitlist Ticket (posisi live, ETA) | `queue_ticket` | WAIT |
+| 141 | Social Post Composer (carousel, poll, audience) | `post_composer` | WAIT |
+| 142 | Story Creator (stiker, teks, poll, coret) | `story_creator` | WAIT |
+
+#### 131. Flow Viz Pack II (`flow_viz`)
+- Sankey diagram alur dana/trafik, treemap proporsi, funnel konversi bertingkat, dan cohort retention grid berwarna + label persen.
+- Setiap grafik dapat diketuk untuk memilih segmen dengan tooltip ringkas; memakai `Animatable` agar reveal dapat diulang.
+- Melanjutkan `dataviz_lab` (radar/gauge/candlestick/waterfall) dengan keluarga visualisasi aliran & agregasi.
+
+#### 132. Network Graph & Node–Link Explorer (`graph_explorer`)
+- Graf relasi (node + edge) yang dapat di-pan/zoom, dengan tata letak gaya force sederhana, penyorotan tetangga saat node dipilih, dan filter berdasarkan tipe.
+- Panel detail node, pencarian node, serta state kosong dan terlalu padat; seluruh graf adalah data mock lokal.
+
+#### 133. Map Cluster & Store Locator (`store_locator`)
+- Peta skematik dengan marker terklaster, zoom bertingkat, dan sinkron dua arah antara daftar toko dan peta (ketuk daftar → peta menyorot).
+- Editor radius geofence yang dapat ditarik, estimasi jarak, serta state "lokasi tidak diizinkan"; melengkapi peta statis di `system_platform`.
+
+#### 134. Credit Card Form & 3D Card (`payment_form`)
+- Form kartu dengan pratinjau kartu yang berputar ke belakang saat mengisi CVC, deteksi jenis kartu dari BIN, dan format nomor/kedaluwarsa otomatis.
+- Scanner kartu mock (bingkai kamera bergaya overlay), state valid/invalid/kedaluwarsa, dan tombol simpan yang disabled saat belum lengkap; label simulasi.
+
+#### 135. Phone & Address Autocomplete (`address_input`)
+- Input telepon dengan pemilih kode negara dan format lokal, serta input alamat dengan saran mock saat mengetik dan penyorotan kata kunci.
+- Validasi per-bidang, state saran kosong, alamat tidak ditemukan, dan pemilihan saran yang mengisi beberapa bidang sekaligus; melengkapi `advanced_input`.
+- Data alamat/negara adalah mock lokal; tanpa layanan peta/geocoding nyata.
+
+#### 136. Recurrence & Schedule Picker (`recurrence_picker`)
+- Pemilih pengulangan: harian, mingguan dengan chip hari, bulanan (tanggal/nth-weekday), interval kustom, dan akhir pengulangan (tanggal/jumlah).
+- Ringkasan kalimat hasil ("Setiap Senin & Rabu, 10 kali") yang diperbarui live; state rentang tidak valid.
+- Melengkapi picker tanggal/jam `advanced_input` dengan dimensi pengulangan.
+
+#### 137. Live Auction / Bidding Room (`live_auction`)
+- Kartu lot dengan countdown, harga terkini, riwayat bid, dan tombol bid cepat; state "Anda tertinggi" dan "Anda ter-outbid" ditandai warna + label teks.
+- Nyalakan notifikasi bid mock, perpanjangan waktu anti-sniping, dan lelang berakhir (menang/kalah); seluruh nilai adalah simulasi.
+
+#### 138. Flash Sale & Scarcity (`flash_sale`)
+- Countdown besar, progress bar stok terjual, daftar produk kilat, dan tombol "Ingatkan Saya" saat stok habis.
+- State sebelum mulai, berlangsung, hampir habis, dan sudah berakhir; tombol beli disabled saat habis (dengan alasan teks).
+
+#### 139. Subscription Management & Cancel-Retention (`subscription_mgmt`)
+- Kelola langganan aktif: ubah paket (upgrade/downgrade), jeda, dan ganti metode bayar.
+- Alur pembatalan dengan tawaran retensi bertingkat (diskon, downgrade), survei alasan, dan konfirmasi; melengkapi paywall `settings_lab` yang hanya sisi pembelian.
+
+#### 140. Queue / Waitlist Ticket (`queue_ticket`)
+- Tiket antrean dengan nomor, posisi live ("3 antrean di depan"), estimasi waktu, dan tombol batalkan; notifikasi "giliran Anda" mock.
+- State menunggu, hampir giliran, dipanggil, terlewat, dan selesai; progres antrean dihitung dari coroutine lokal.
+
+#### 141. Social Post Composer (`post_composer`)
+- Komposer unggahan berisi carousel media (gradien mock), teks dengan hitungan karakter, poll, penanda lokasi, dan pemilih audiens.
+- Pratinjau tampilan post secara live dan state mengunggah persen dengan opsi batal; melengkapi `ai_chat` composer dengan konteks media/sosial.
+
+#### 142. Story Creator (`story_creator`)
+- Kanvas story vertikal dengan stiker/tulisan yang dapat digeser & diputar, pilihan latar gradien, dan sticky poll; berbeda dari `media_lab` yang hanya *viewer* story.
+- Editor alat sederhana (pensil, teks, stiker), pratinjau progress bar, dan state menyimpan/menerbitkan; seluruh media adalah mock lokal.
+
+### 12.3 Produktivitas, Dokumen, Kesehatan & Platform (Tier 3)
+
+| # | Lab / Komponen | Route | Status |
+|---|----------------|-------|--------|
+| 143 | Document Scanner & OCR (deteksi tepi, perspektif) | `doc_scanner` | WAIT |
+| 144 | PDF/Doc Viewer + Anotasi (thumbnail, cari, lompat) | `pdf_viewer` | WAIT |
+| 145 | Code Editor & Diff Viewer (syntax, fold, inline/side-by-side) | `code_editor` | WAIT |
+| 146 | Version History & Restore (slider waktu, bandingkan) | `version_history` | WAIT |
+| 147 | Localization & RTL Preview (mirror, pseudo-locale) | `rtl_preview` | WAIT |
+| 148 | Accessibility Audit Overlay (semantics, kontras, hit target) | `a11y_audit` | WAIT |
+| 149 | Getting-Started Checklist & Progress | `getting_started` | WAIT |
+| 150 | What's New / Release Notes Carousel | `whats_new` | WAIT |
+| 151 | Referral & Invite Flow (kode, share, reward) | `referral_invite` | WAIT |
+| 152 | NPS/CSAT Survey + follow-up | `nps_survey` | WAIT |
+| 153 | Report/Block & Moderation Flow | `report_flow` | WAIT |
+| 154 | Secure Vault (folder ter-gate biometrik) | `secure_vault` | WAIT |
+| 155 | Medication Schedule & Adherence | `medication_plan` | WAIT |
+| 156 | Nutrition Diary & Macro Rings | `nutrition_diary` | WAIT |
+| 157 | Sleep Stages Hypnogram | `sleep_stages` | WAIT |
+| 158 | QRIS Scan-to-Pay (khas Indonesia) | `qris_pay` | WAIT |
+| 159 | Virtual Card Management (freeze, limit, rotate) | `virtual_card` | WAIT |
+| 160 | Multi-currency Exchange Converter | `currency_exchange` | WAIT |
+| 161 | Loan/EMI & Amortization Simulator (KPR) | `loan_simulator` | WAIT |
+| 162 | Cross-app Drag & Drop Simulator | `drag_drop` | WAIT |
+
+#### 143. Document Scanner & OCR (`doc_scanner`)
+- Bingkai pemindai dengan deteksi tepi dan koreksi perspektif (mode manual 4 titik), lalu daftar halaman berthumbnail.
+- State mendeteksi, gagal deteksi tepi, dan hasil OCR mock dengan penyorotan kata; tidak ada akses kamera/OCR nyata.
+
+#### 144. PDF/Doc Viewer + Anotasi (`pdf_viewer`)
+- Viewer dokumen dengan thumbnail halaman, pencarian, lompat halaman, dan mode gulir/halaman; lapisan anotasi (sorot, catatan) di atas halaman.
+- State memuat, galat render, dan dokumen kosong; melengkapi `create_lab` yang hanya anotasi gambar.
+- Konten dokumen adalah mock lokal (Canvas), bukan PDF biner.
+
+#### 145. Code Editor & Diff Viewer (`code_editor`)
+- Editor dengan nomor baris, penyorotan sintaks sederhana, dan fold blok; penampil diff inline maupun side-by-side dengan penanda tambah/hapus.
+- State tidak ada perubahan, banyak perubahan, dan konflik; berguna sebagai pola tooling tanpa dependensi editor.
+
+#### 146. Version History & Restore (`version_history`)
+- Linimasa versi dengan slider waktu untuk melihat pratinjau setiap revisi, daftar perubahan, dan tombol "Pulihkan".
+- Dialog konfirmasi pemulihan, state membandingkan dua versi, dan riwayat kosong.
+
+#### 147. Localization & RTL Preview (`rtl_preview`)
+- Toggle arah tata letak LTR/RTL yang mencerminkan seluruh pratinjau, plus pseudo-locale untuk uji stres panjang teks dan pemotongan label.
+- Tabel contoh string per bahasa dan penanda bagian yang meluap; melengkapi pemilih bahasa `settings_lab` dengan uji tata letak.
+- Implementasi murni `CompositionLocalProvider(LocalLayoutDirection)` di `commonMain`.
+
+#### 148. Accessibility Audit Overlay (`a11y_audit`)
+- Overlay yang menyorot elemen dengan masalah: target sentuh < 48dp, kontras teks di bawah AA, dan tanpa `contentDescription`.
+- Daftar temuan dengan lompat ke elemen, serta toggle tampilan pohon semantik; melengkapi `accessibility_lab` yang hanya menampilkan preferensi.
+
+#### 149. Getting-Started Checklist & Progress (`getting_started`)
+- Daftar tugas awal dengan progress meter, aksi yang dapat diselesaikan langsung, dan minimalkan ke kartu ringkas.
+- State belum mulai, sebagian, dan selesai (perayaan ringan, bukan confetti penuh layar); berbeda dari `onboarding` sekali jalan.
+
+#### 150. What's New / Release Notes Carousel (`whats_new`)
+- Carousel fitur baru per versi dengan ilustrasi Canvas, changelog ringkas, dan tombol "Mengerti"; badge versi baru.
+- State belum dilihat, sudah dilihat, dan tanpa release notes.
+
+#### 151. Referral & Invite Flow (`referral_invite`)
+- Kartu kode referral dengan tombol salin, sheet berbagi (mock), progres undangan (mis. 2/5) menuju reward, dan riwayat reward.
+- State kode belum aktif, berhasil disalin, dan reward tercapai; memakai ulang pola `share_sheet` secara mock.
+
+#### 152. NPS/CSAT Survey (`nps_survey`)
+- Skor 0–10 dengan skala berlabel, kotak alasan, dan pertanyaan lanjutan yang bercabang sesuai skor (detractor/passive/promoter).
+- State terkirim, dilewati, dan validasi wajib memilih skor sebelum lanjut.
+
+#### 153. Report/Block & Moderation Flow (`report_flow`)
+- Alur laporan bertahap: pilih alasan, detail tambahan, opsi blokir, lalu konfirmasi dengan status "telah dilaporkan".
+- State alasan kosong, sedang mengirim, dan gagal; semua aksi bersifat simulasi tanpa moderasi nyata.
+
+#### 154. Secure Vault (`secure_vault`)
+- Folder terkunci berisi item sensitif dengan gerbang biometrik/PIN dan kartu terkabur sebelum dibuka (memakai ulang pola `privacy_masking`).
+- State terkunci, autentikasi gagal, dan terbuka dengan aksi keluar-otomatis saat idle; biometrik adalah simulasi.
+
+#### 155. Medication Schedule & Adherence (`medication_plan`)
+- Jadwal obat harian dengan dosis, penanda diminum/terlewat, streak kepatuhan, dan pengingat mock.
+- State belum dijadwalkan, jatuh tempo, diminum, dan terlewat; melengkapi `health_app` yang hanya ringkasan metrik.
+
+#### 156. Nutrition Diary & Macro Rings (`nutrition_diary`)
+- Log makan per waktu dengan pencarian makanan mock, cincin makro (protein/karbohidrat/lemak), dan target kalori.
+- State belum ada entri, sebagian target, dan melebihi target (peringatan, bukan hanya warna); berbeda dari `activity_rings` yang kebugaran.
+
+#### 157. Sleep Stages Hypnogram (`sleep_stages`)
+- Grafik hipnogram tahapan tidur (terjaga/REM/ringan/dalam) per malam dengan scrubber waktu dan ringkasan skor tidur.
+- State tanpa data, satu malam, dan tren mingguan; seluruh data mock.
+
+#### 158. QRIS Scan-to-Pay (`qris_pay`)
+- Alur khas Indonesia: pindai/buka QR merchant, masukkan nominal (memakai ulang pola `amount_keypad`), konfirmasi, lalu bukti bayar.
+- State QR tidak valid, kedaluwarsa, berhasil, dan gagal dengan tombol coba lagi; label simulasi jelas (tanpa pembayaran nyata).
+
+#### 159. Virtual Card Management (`virtual_card`)
+- Kartu virtual dengan toggle freeze instan, batas transaksi, rotasi nomor kartu, dan riwayat pemakaian.
+- State aktif, dibekukan, dan limit tercapai; melengkapi dompet `commerce_lab` dengan kontrol kartu.
+
+#### 160. Multi-currency Exchange Converter (`currency_exchange`)
+- Konverter dengan pemilih mata uang, kurs mock, grafik tren mini, dan riwayat konversi; swap mata uang beranimasi.
+- State kurs sedang dimuat, kurs basi, dan nilai tidak valid.
+
+#### 161. Loan/EMI & Amortization Simulator (`loan_simulator`)
+- Simulator KPR/pinjaman dengan slider pokok, tenor, dan bunga; ringkasan cicilan serta tabel amortisasi yang dapat digulir.
+- State skenario pelunasan dipercepat, perbandingan dua skenario, dan input tidak valid; seluruh perhitungan lokal.
+
+#### 162. Cross-app Drag & Drop Simulator (`drag_drop`)
+- Simulasi menyeret item keluar dari satu panel "app" ke panel lain (atau dock) dengan bayangan seret dan drop zone yang menyala.
+- State draf, ditolak (drop invalid), dan berhasil dengan undo; melengkapi reorder `advanced_list` & `block_editor` yang masih dalam satu list.
+
+### Catatan §12
+
+- **Sinkronisasi §11:** lab 108–117 kini **ada di kode** dan terdaftar (10 lab §11); lab 118–122 tetap `WAIT` karena belum ada route, `MenuEntry`, maupun folder `ui/<lab>/` (`budget_envelopes`, `quest_path`, `sentence_builder`, `predictive_back`, `floating_dock`). `TODO.md` sinkron dengan kode (§3.5, §16.4).
+- Seluruh lab §12 berstatus `WAIT` dan **belum ada di kode**. Jangan menandainya `DONE` sebelum route terdaftar, ikon dibuat, dan build lolos.
+- Setiap lab §12 mengikuti checklist lengkap §6.1 dan Definition of Done §14: route `Route<X>` + `KnownRoutes` + cabang `when` di `App.kt`, `MenuEntry` di `HomeMenuScreen.kt`, ikon Canvas khusus di `ui/components/icons/` (buat file baru bila sebuah file melewati ±800 baris), `BackHandler`, insets, lalu perbarui status `WAIT` → `DONE` pada commit yang sama.
+- Beberapa ide memerlukan perhatian khusus:
+  - `performance_hud` (129) diukur dari `withFrameNanos` karena tidak memakai API profiling platform; hasilnya perkiraan, bukan FPS sistem sebenarnya.
+  - `rtl_preview` (147) aman di `commonMain` lewat `LocalLayoutDirection`.
+  - Kolaborasi realtime (123), live dashboard (124), offline (125), dan seluruh ide bertema AI adalah **simulasi** dengan data mock lokal.
+- Ikon baru untuk batch ini sebaiknya masuk file baru (mis. `Idea2026LabIcons.kt`) agar file ikon yang ada tidak melewati ±800 baris (§16.10).
+
+### Referensi inspirasi
+
+- [Material 3 Expressive — Android](https://blog.google/products-and-platforms/platforms/android/material-3-expressive-android-wearos-launch/)
+- [Adaptive layouts — Android Developers](https://developer.android.com/develop/adaptive-apps/guides/support-different-display-sizes)
+- [Apple Human Interface Guidelines — Motion](https://developer.apple.com/design/human-interface-guidelines/motion)
+- [WCAG 2.2 — Contrast (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)

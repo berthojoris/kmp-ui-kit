@@ -96,7 +96,7 @@ fun SettingsLabScreen(onBack: () -> Unit) {
                             text = tab.title,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }
@@ -206,7 +206,7 @@ private fun SettingsSwitchRow(
             checked = checked,
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = Color.White,
+                checkedThumbColor = palette.onPrimary,
                 checkedTrackColor = palette.primary,
                 uncheckedThumbColor = palette.textMuted,
                 uncheckedTrackColor = palette.surfaceMuted,
@@ -414,7 +414,7 @@ private fun SubscriptionPaywallView(palette: com.example.uiapp.theme.AppPalette)
             modifier = Modifier.fillMaxWidth(),
         ) {
             Box(modifier = Modifier.padding(14.dp), contentAlignment = Alignment.Center) {
-                Text("Lanjutkan Berlangganan", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text("Lanjutkan Berlangganan", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary)
             }
         }
     }

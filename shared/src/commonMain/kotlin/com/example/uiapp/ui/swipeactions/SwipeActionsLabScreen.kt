@@ -224,7 +224,7 @@ private fun SwipeableMailRow(
                 ) {
                     Text(
                         if (item.isUnread) "Sudah" else "Belum",
-                        color = Color.White,
+                        color = palette.onPrimary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
                     )

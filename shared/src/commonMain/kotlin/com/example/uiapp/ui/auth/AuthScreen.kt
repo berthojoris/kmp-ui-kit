@@ -303,7 +303,7 @@ private fun CheckRow(
                 }
                 drawPath(
                     path = check,
-                    color = Color.White,
+                    color = palette.onPrimary,
                     style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
                 )
             } else {

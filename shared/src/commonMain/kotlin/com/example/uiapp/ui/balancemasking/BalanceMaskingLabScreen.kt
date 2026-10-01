@@ -162,7 +162,7 @@ fun BalanceMaskingLabScreen(onBack: () -> Unit) {
                                 "Simulasi Goyang HP 📳",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White,
+                                color = palette.onPrimary,
                                 modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp),
                             )
                         }

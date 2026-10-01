@@ -218,7 +218,7 @@ private fun ExploreContent() {
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 6.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(5) { index ->
+        items(5, key = { it }) { index ->
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
@@ -272,7 +272,7 @@ private fun SavedContent() {
         contentPadding = PaddingValues(horizontal = 20.dp, vertical = 6.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(3) { index ->
+        items(3, key = { it }) { index ->
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
@@ -504,14 +504,14 @@ private fun SpeedDial(modifier: Modifier) {
                         .graphicsLayer { rotationZ = rotation },
                 ) {
                     drawLine(
-                        color = Color.White,
+                        color = palette.onPrimary,
                         start = Offset(size.width / 2, size.height * 0.18f),
                         end = Offset(size.width / 2, size.height * 0.82f),
                         strokeWidth = 2.6.dp.toPx(),
                         cap = StrokeCap.Round,
                     )
                     drawLine(
-                        color = Color.White,
+                        color = palette.onPrimary,
                         start = Offset(size.width * 0.18f, size.height / 2),
                         end = Offset(size.width * 0.82f, size.height / 2),
                         strokeWidth = 2.6.dp.toPx(),

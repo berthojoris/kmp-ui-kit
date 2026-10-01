@@ -160,7 +160,7 @@ fun FlatPrimaryButton(
             textAlign = TextAlign.Center,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color.White,
+            color = palette.onPrimary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

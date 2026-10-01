@@ -41,6 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,17 +93,17 @@ fun CommerceLabScreen(onBack: () -> Unit) {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                             ) {
-                                Text("Keranjang", fontSize = 11.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                                Text("Keranjang", fontSize = 11.sp, color = palette.onPrimary, fontWeight = FontWeight.Bold)
                                 Box(
                                     modifier = Modifier
                                         .clip(CircleShape)
-                                        .background(Color.White.copy(alpha = 0.25f))
+                                        .background(palette.onPrimary.copy(alpha = 0.25f))
                                         .padding(horizontal = 5.dp, vertical = 1.dp),
                                 ) {
                                     Text(
                                         text = cartItems.sumOf { it.qty }.toString(),
                                         fontSize = 10.sp,
-                                        color = Color.White,
+                                        color = palette.onPrimary,
                                         fontWeight = FontWeight.Bold,
                                     )
                                 }
@@ -136,7 +138,7 @@ fun CommerceLabScreen(onBack: () -> Unit) {
                                 text = tab.title,
                                 fontSize = 12.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                color = if (isSelected) Color.White else palette.textPrimary,
+                                color = if (isSelected) palette.onPrimary else palette.textPrimary,
                                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                             )
                         }
@@ -229,7 +231,15 @@ fun CommerceLabScreen(onBack: () -> Unit) {
                                         color = palette.primary,
                                     ) {
                                         Box(modifier = Modifier.size(28.dp), contentAlignment = Alignment.Center) {
-                                            Text("+", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                            Text(
+                                                text = "+",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = palette.onPrimary,
+                                                modifier = Modifier.clearAndSetSemantics {
+                                                    contentDescription = "Tambah jumlah barang"
+                                                },
+                                            )
                                         }
                                     }
                                 }
@@ -257,7 +267,7 @@ fun CommerceLabScreen(onBack: () -> Unit) {
                             modifier = Modifier.fillMaxWidth(),
                         ) {
                             Box(modifier = Modifier.padding(14.dp), contentAlignment = Alignment.Center) {
-                                Text("Lanjut ke Checkout", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text("Lanjut ke Checkout", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary)
                             }
                         }
                     }
@@ -330,7 +340,7 @@ private fun ProductCardView(
                                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = if (isSelected) Color.White else palette.textPrimary,
+                                color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             )
                         }
                     }
@@ -361,7 +371,7 @@ private fun ProductCardView(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Box(modifier = Modifier.padding(14.dp), contentAlignment = Alignment.Center) {
-                        Text("+ Tambah ke Keranjang", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Text("+ Tambah ke Keranjang", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary)
                     }
                 }
             }
@@ -441,7 +451,7 @@ private fun CheckoutStepperView(palette: com.example.uiapp.theme.AppPalette) {
                             text = if (isPromoApplied) "Terpasang ✓" else "Gunakan",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.White,
+                            color = if (isPromoApplied) Color.White else palette.onPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                         )
                     }
@@ -466,7 +476,7 @@ private fun CheckoutStepperView(palette: com.example.uiapp.theme.AppPalette) {
                     text = if (checkoutStep < 2) "Lanjut Langkah Berikutnya →" else "Konfirmasi & Bayar",
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = palette.onPrimary,
                 )
             }
         }
@@ -522,7 +532,7 @@ private fun PaymentMethodView(palette: com.example.uiapp.theme.AppPalette) {
                             contentAlignment = Alignment.Center,
                         ) {
                             if (isSelected) {
-                                Text("✓", fontSize = 10.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                                Text("✓", fontSize = 10.sp, color = palette.onPrimary, fontWeight = FontWeight.Bold)
                             }
                         }
                     }
@@ -558,25 +568,25 @@ private fun DigitalWalletView(palette: com.example.uiapp.theme.AppPalette) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text("DOMPET DIGITAL", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.8f))
-                    Text("ACTIVE PASS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.8f))
+                    Text("DOMPET DIGITAL", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary.copy(alpha = 0.8f))
+                    Text("ACTIVE PASS", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary.copy(alpha = 0.8f))
                 }
                 Spacer(modifier = Modifier.height(18.dp))
-                Text("Saldo Aktif", fontSize = 12.sp, color = Color.White.copy(alpha = 0.7f))
+                Text("Saldo Aktif", fontSize = 12.sp, color = palette.onPrimary.copy(alpha = 0.7f))
                 Text(
                     text = "Rp ${balance.toString().reversed().chunked(3).joinToString(".").reversed()}",
                     fontSize = 26.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
+                    color = palette.onPrimary,
                 )
                 Spacer(modifier = Modifier.height(18.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Surface(
                         onClick = { balance += 100000 },
                         shape = RoundedCornerShape(8.dp),
-                        color = Color.White.copy(alpha = 0.2f),
+                        color = palette.onPrimary.copy(alpha = 0.2f),
                     ) {
-                        Text("+ Top Up Rp 100k", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
+                        Text("+ Top Up Rp 100k", color = palette.onPrimary, fontSize = 11.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
                     }
                 }
             }

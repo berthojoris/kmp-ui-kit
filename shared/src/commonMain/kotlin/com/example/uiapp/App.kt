@@ -86,6 +86,52 @@ import com.example.uiapp.ui.gamification.GamificationLabScreen
 import com.example.uiapp.ui.dataviz.DataVizLabScreen
 import com.example.uiapp.ui.scrollmotion.ScrollMotionLabScreen
 import com.example.uiapp.ui.createlab.CreateLabScreen
+import com.example.uiapp.ui.sharesheet.ShareSheetLabScreen
+import com.example.uiapp.ui.controlcenter.ControlCenterLabScreen
+import com.example.uiapp.ui.activityrings.ActivityRingsLabScreen
+import com.example.uiapp.ui.lockscreen.LockScreenLabScreen
+import com.example.uiapp.ui.notificationbanner.NotificationBannerLabScreen
+import com.example.uiapp.ui.rulerpicker.RulerPickerLabScreen
+import com.example.uiapp.ui.searchtokens.SearchTokensLabScreen
+import com.example.uiapp.ui.photoszoom.PhotosZoomLabScreen
+import com.example.uiapp.ui.keyboardaccessory.KeyboardAccessoryLabScreen
+import com.example.uiapp.ui.widgetgallery.WidgetGalleryLabScreen
+import com.example.uiapp.ui.editmenu.EditMenuLabScreen
+import com.example.uiapp.ui.liveactivity.LiveActivityLabScreen
+import com.example.uiapp.ui.precisionfinder.PrecisionFinderLabScreen
+import com.example.uiapp.ui.livecaptions.LiveCaptionsLabScreen
+import com.example.uiapp.ui.pagecurl.PageCurlLabScreen
+import com.example.uiapp.ui.standbymode.StandbyModeLabScreen
+import com.example.uiapp.ui.msgeffects.MsgEffectsLabScreen
+import com.example.uiapp.ui.callui.CallUiLabScreen
+import com.example.uiapp.ui.weatherapp.WeatherAppLabScreen
+import com.example.uiapp.ui.stocksapp.StocksAppLabScreen
+import com.example.uiapp.ui.healthapp.HealthAppLabScreen
+import com.example.uiapp.ui.clockkit.ClockKitLabScreen
+import com.example.uiapp.ui.shortcutslab.ShortcutsLabScreen
+import com.example.uiapp.ui.homeapp.HomeAppLabScreen
+import com.example.uiapp.ui.walletstack.WalletStackLabScreen
+import com.example.uiapp.ui.appstoretoday.AppstoreTodayLabScreen
+import com.example.uiapp.ui.translateapp.TranslateAppLabScreen
+import com.example.uiapp.ui.freeformcanvas.FreeformCanvasLabScreen
+import com.example.uiapp.ui.writingtools.WritingToolsLabScreen
+import com.example.uiapp.ui.genmoji.GenmojiLabScreen
+import com.example.uiapp.ui.focusmodes.FocusModesLabScreen
+import com.example.uiapp.ui.passkeys_passwords.PasskeysPasswordsLabScreen
+import com.example.uiapp.ui.voiceoverlab.VoiceoverLabScreen
+import com.example.uiapp.ui.continuity.ContinuityLabScreen
+import com.example.uiapp.ui.screentime.ScreenTimeLabScreen
+import com.example.uiapp.ui.pointerscribble.PointerScribbleLabScreen
+import com.example.uiapp.ui.audioequalizer.AudioEqualizerLabScreen
+import com.example.uiapp.ui.blockeditor.BlockEditorLabScreen
+import com.example.uiapp.ui.flightitinerary.FlightItineraryLabScreen
+import com.example.uiapp.ui.ganttroadmap.GanttRoadmapLabScreen
+import com.example.uiapp.ui.photocropper.PhotoCropperLabScreen
+import com.example.uiapp.ui.seatselector.SeatSelectorLabScreen
+import com.example.uiapp.ui.splitbill.SplitBillLabScreen
+import com.example.uiapp.ui.syncedlyrics.SyncedLyricsLabScreen
+import com.example.uiapp.ui.treeexplorer.TreeExplorerLabScreen
+import com.example.uiapp.ui.triptracker.TripTrackerLabScreen
 
 
 private const val RouteHome = "home"
@@ -175,6 +221,58 @@ private const val RouteDataViz = "dataviz_lab"
 private const val RouteScrollMotion = "scroll_motion_lab"
 private const val RouteCreateLab = "create_lab"
 
+// 16 iOS Pattern Labs (Section 9)
+private const val RouteShareSheet = "share_sheet"
+private const val RouteControlCenter = "control_center"
+private const val RouteActivityRings = "activity_rings"
+private const val RouteLockScreen = "lock_screen"
+private const val RouteNotificationBanner = "notification_banner"
+private const val RouteRulerPicker = "ruler_picker"
+private const val RouteSearchTokens = "search_tokens"
+private const val RoutePhotosZoom = "photos_zoom"
+private const val RouteKeyboardAccessory = "keyboard_accessory"
+private const val RouteWidgetGallery = "widget_gallery"
+private const val RouteEditMenu = "edit_menu"
+private const val RouteLiveActivity = "live_activity"
+private const val RoutePrecisionFinder = "precision_finder"
+private const val RouteLiveCaptions = "live_captions"
+private const val RoutePageCurl = "page_curl"
+private const val RouteStandbyMode = "standby_mode"
+
+// 20 iOS Apps Labs (Section 10)
+private const val RouteMsgEffects = "msg_effects"
+private const val RouteCallUi = "call_ui"
+private const val RouteWeatherApp = "weather_app"
+private const val RouteStocksApp = "stocks_app"
+private const val RouteHealthApp = "health_app"
+private const val RouteClockKit = "clock_kit"
+private const val RouteShortcutsLab = "shortcuts_lab"
+private const val RouteHomeApp = "home_app"
+private const val RouteWalletStack = "wallet_stack"
+private const val RouteAppstoreToday = "appstore_today"
+private const val RouteTranslateApp = "translate_app"
+private const val RouteFreeformCanvas = "freeform_canvas"
+private const val RouteWritingTools = "writing_tools"
+private const val RouteGenmoji = "genmoji"
+private const val RouteFocusModes = "focus_modes"
+private const val RoutePasskeysPasswords = "passkeys_passwords"
+private const val RouteVoiceoverLab = "voiceover_lab"
+private const val RouteContinuity = "continuity"
+private const val RouteScreenTime = "screen_time"
+private const val RoutePointerScribble = "pointer_scribble"
+
+// 10 Komponen Industri, Spasial & Produktivitas (Section 11)
+private const val RouteSeatSelector = "seat_selector"
+private const val RouteTripTracker = "trip_tracker"
+private const val RouteFlightItinerary = "flight_itinerary"
+private const val RouteSyncedLyrics = "synced_lyrics"
+private const val RouteAudioEqualizer = "audio_equalizer"
+private const val RoutePhotoCropper = "photo_cropper"
+private const val RouteBlockEditor = "block_editor"
+private const val RouteGanttRoadmap = "gantt_roadmap"
+private const val RouteTreeExplorer = "tree_explorer"
+private const val RouteSplitBill = "split_bill"
+
 private val KnownRoutes = setOf(
     RouteAutoBlurScroll,
     RouteStickyHeader,
@@ -247,6 +345,52 @@ private val KnownRoutes = setOf(
     RouteDataViz,
     RouteScrollMotion,
     RouteCreateLab,
+    RouteShareSheet,
+    RouteControlCenter,
+    RouteActivityRings,
+    RouteLockScreen,
+    RouteNotificationBanner,
+    RouteRulerPicker,
+    RouteSearchTokens,
+    RoutePhotosZoom,
+    RouteKeyboardAccessory,
+    RouteWidgetGallery,
+    RouteEditMenu,
+    RouteLiveActivity,
+    RoutePrecisionFinder,
+    RouteLiveCaptions,
+    RoutePageCurl,
+    RouteStandbyMode,
+    RouteMsgEffects,
+    RouteCallUi,
+    RouteWeatherApp,
+    RouteStocksApp,
+    RouteHealthApp,
+    RouteClockKit,
+    RouteShortcutsLab,
+    RouteHomeApp,
+    RouteWalletStack,
+    RouteAppstoreToday,
+    RouteTranslateApp,
+    RouteFreeformCanvas,
+    RouteWritingTools,
+    RouteGenmoji,
+    RouteFocusModes,
+    RoutePasskeysPasswords,
+    RouteVoiceoverLab,
+    RouteContinuity,
+    RouteScreenTime,
+    RoutePointerScribble,
+    RouteSeatSelector,
+    RouteTripTracker,
+    RouteFlightItinerary,
+    RouteSyncedLyrics,
+    RouteAudioEqualizer,
+    RoutePhotoCropper,
+    RouteBlockEditor,
+    RouteGanttRoadmap,
+    RouteTreeExplorer,
+    RouteSplitBill,
 )
 
 
@@ -260,7 +404,7 @@ fun App() {
         var selectedHomeSection by remember { mutableStateOf(HomeSection.ALL) }
         var lastTestedRoute by remember { mutableStateOf<String?>(null) }
 
-        // Setiap kembali ke Home mengembalikan filter ke Semua (71), bukan section lab yang dibuka.
+        // Setiap kembali ke Home mengembalikan filter ke Semua (107), bukan section lab yang dibuka.
         val handleBack: () -> Unit = {
             selectedHomeSection = HomeSection.ALL
             navController.pop()
@@ -563,6 +707,190 @@ fun App() {
                 )
 
                 RouteCreateLab -> CreateLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteShareSheet -> ShareSheetLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteControlCenter -> ControlCenterLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteActivityRings -> ActivityRingsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteLockScreen -> LockScreenLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteNotificationBanner -> NotificationBannerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteRulerPicker -> RulerPickerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSearchTokens -> SearchTokensLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePhotosZoom -> PhotosZoomLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteKeyboardAccessory -> KeyboardAccessoryLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteWidgetGallery -> WidgetGalleryLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteEditMenu -> EditMenuLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteLiveActivity -> LiveActivityLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePrecisionFinder -> PrecisionFinderLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteLiveCaptions -> LiveCaptionsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePageCurl -> PageCurlLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteStandbyMode -> StandbyModeLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteMsgEffects -> MsgEffectsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteCallUi -> CallUiLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteWeatherApp -> WeatherAppLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteStocksApp -> StocksAppLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteHealthApp -> HealthAppLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteClockKit -> ClockKitLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteShortcutsLab -> ShortcutsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteHomeApp -> HomeAppLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteWalletStack -> WalletStackLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteAppstoreToday -> AppstoreTodayLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteTranslateApp -> TranslateAppLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteFreeformCanvas -> FreeformCanvasLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteWritingTools -> WritingToolsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteGenmoji -> GenmojiLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteFocusModes -> FocusModesLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePasskeysPasswords -> PasskeysPasswordsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteVoiceoverLab -> VoiceoverLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteContinuity -> ContinuityLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteScreenTime -> ScreenTimeLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePointerScribble -> PointerScribbleLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSeatSelector -> SeatSelectorLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteTripTracker -> TripTrackerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteFlightItinerary -> FlightItineraryLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSyncedLyrics -> SyncedLyricsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteAudioEqualizer -> AudioEqualizerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePhotoCropper -> PhotoCropperLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteBlockEditor -> BlockEditorLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteGanttRoadmap -> GanttRoadmapLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteTreeExplorer -> TreeExplorerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSplitBill -> SplitBillLabScreen(
                     onBack = handleBack,
                 )
 

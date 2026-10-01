@@ -68,4 +68,11 @@ fun rememberAppNavController(initialRoute: String = "home"): AppNavController {
     return remember { AppNavController(initialRoute) }
 }
 
-val LocalNavController = staticCompositionLocalOf { AppNavController("home") }
+/**
+ * Controller navigasi untuk layar yang memang perlu berpindah route sendiri (kasus khusus
+ * §6.1, mis. command palette). Sengaja tanpa nilai default: lupa menyediakannya harus gagal
+ * keras, bukan diam-diam memakai controller sekali pakai yang menelan setiap navigasi.
+ */
+val LocalNavController = staticCompositionLocalOf<AppNavController> {
+    error("LocalNavController belum disediakan. Bungkus layar dengan App() atau sediakan controller.")
+}

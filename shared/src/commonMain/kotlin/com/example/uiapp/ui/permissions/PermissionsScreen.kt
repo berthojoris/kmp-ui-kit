@@ -255,7 +255,7 @@ private fun PermissionCard(
                 PermStatus.NOT_REQUESTED -> ActionChip(
                     label = "Izinkan",
                     background = palette.primary,
-                    content = Color.White,
+                    content = palette.onPrimary,
                     onClick = onAllow,
                 )
 
@@ -360,7 +360,7 @@ private fun SystemPermissionDialog(
                         .background(palette.primary),
                     contentAlignment = Alignment.Center,
                 ) {
-                    PermissionIcon(glyph = item.glyph, tint = Color.White, size = 26.dp)
+                    PermissionIcon(glyph = item.glyph, tint = palette.onPrimary, size = 26.dp)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(

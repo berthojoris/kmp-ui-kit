@@ -126,7 +126,7 @@ private fun BalanceSummary() {
                 fontSize = 11.sp,
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 1.sp,
-                color = Color.White.copy(alpha = 0.7f),
+                color = palette.onPrimary.copy(alpha = 0.7f),
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -135,7 +135,7 @@ private fun BalanceSummary() {
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
                 letterSpacing = (-0.5).sp,
-                color = Color.White,
+                color = palette.onPrimary,
             )
             Spacer(modifier = Modifier.height(18.dp))
             Row(
@@ -152,18 +152,20 @@ private fun BalanceSummary() {
 
 @Composable
 private fun SummaryStat(label: String, value: String) {
+    val palette = LocalAppPalette.current
+
     Column {
         Text(
             text = label,
             fontSize = 11.sp,
-            color = Color.White.copy(alpha = 0.6f),
+            color = palette.onPrimary.copy(alpha = 0.6f),
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = value,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color.White,
+            color = palette.onPrimary,
         )
     }
 }

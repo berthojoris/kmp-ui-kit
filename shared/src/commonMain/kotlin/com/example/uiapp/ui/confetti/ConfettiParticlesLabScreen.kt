@@ -158,7 +158,7 @@ fun ConfettiParticlesLabScreen(onBack: () -> Unit) {
                                     text = "Picu Confetti! ✨",
                                     fontSize = 13.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White,
+                                    color = palette.onPrimary,
                                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                                 )
                             }

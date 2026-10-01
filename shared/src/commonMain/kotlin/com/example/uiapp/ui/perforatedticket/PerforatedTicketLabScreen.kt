@@ -382,7 +382,7 @@ fun PerforatedTicketLabScreen(onBack: () -> Unit) {
                         text = if (isTornOff) "Satukan Tiket ↺" else "Robek Tiket ✂️",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = if (isTornOff) Color.White else palette.textPrimary,
+                        color = if (isTornOff) palette.onPrimary else palette.textPrimary,
                     )
                 }
 

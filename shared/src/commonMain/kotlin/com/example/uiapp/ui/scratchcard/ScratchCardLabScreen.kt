@@ -185,7 +185,7 @@ fun ScratchCardLabScreen(onBack: () -> Unit) {
                             color = palette.primary,
                             modifier = Modifier.weight(1f),
                         ) {
-                            Text("Buka Otomatis ✨", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp))
+                            Text("Buka Otomatis ✨", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary, modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp))
                         }
                     }
                 }

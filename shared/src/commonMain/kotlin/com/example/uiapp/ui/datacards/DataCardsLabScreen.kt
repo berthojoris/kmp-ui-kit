@@ -103,7 +103,7 @@ fun DataCardsLabScreen(onBack: () -> Unit) {
                             text = tab.title,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }
@@ -176,7 +176,7 @@ private fun MonthCalendarView(palette: com.example.uiapp.theme.AppPalette) {
                         .height(240.dp),
                     userScrollEnabled = false,
                 ) {
-                    items(daysInMonth) { day ->
+                    items(daysInMonth, key = { it }) { day ->
                         val isSelected = selectedDay == day
                         val dots = eventDays[day] ?: emptyList()
                         Column(
@@ -193,7 +193,7 @@ private fun MonthCalendarView(palette: com.example.uiapp.theme.AppPalette) {
                                 text = day.toString(),
                                 fontSize = 12.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                color = if (isSelected) Color.White else palette.textPrimary,
+                                color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -202,7 +202,7 @@ private fun MonthCalendarView(palette: com.example.uiapp.theme.AppPalette) {
                                         modifier = Modifier
                                             .size(4.dp)
                                             .clip(CircleShape)
-                                            .background(if (isSelected) Color.White else color),
+                                            .background(if (isSelected) palette.onPrimary else color),
                                     )
                                 }
                             }
@@ -328,7 +328,7 @@ private fun KanbanBoardView(palette: com.example.uiapp.theme.AppPalette) {
                                                 text = if (task.column == "DONE") "Ulang" else "Lanjut →",
                                                 fontSize = 10.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = Color.White,
+                                                color = palette.onPrimary,
                                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                                             )
                                         }
@@ -407,7 +407,7 @@ private fun PricingTableView(palette: com.example.uiapp.theme.AppPalette) {
                                     .background(palette.primary)
                                     .padding(horizontal = 8.dp, vertical = 2.dp),
                             ) {
-                                Text("POPULER", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                Text("POPULER", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary)
                             }
                         }
                     }
@@ -429,7 +429,7 @@ private fun PricingTableView(palette: com.example.uiapp.theme.AppPalette) {
                                 text = "Pilih Paket $name",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = if (isPro) Color.White else palette.textPrimary,
+                                color = if (isPro) palette.onPrimary else palette.textPrimary,
                             )
                         }
                     }
@@ -556,7 +556,7 @@ private fun OrderTrackingStepperView(palette: com.example.uiapp.theme.AppPalette
                                 contentAlignment = Alignment.Center,
                             ) {
                                 if (isDone) {
-                                    Text("✓", fontSize = 10.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                                    Text("✓", fontSize = 10.sp, color = palette.onPrimary, fontWeight = FontWeight.Bold)
                                 }
                             }
                             if (index < steps.size - 1) {
@@ -606,7 +606,7 @@ private fun OrderTrackingStepperView(palette: com.example.uiapp.theme.AppPalette
                         enabled = activeStep < steps.size - 1,
                     ) {
                         Box(modifier = Modifier.padding(10.dp), contentAlignment = Alignment.Center) {
-                            Text("Step Selanjutnya →", fontSize = 12.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                            Text("Step Selanjutnya →", fontSize = 12.sp, color = palette.onPrimary, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

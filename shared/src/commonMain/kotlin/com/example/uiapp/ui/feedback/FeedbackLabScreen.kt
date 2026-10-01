@@ -382,7 +382,7 @@ private fun NotificationBanner(
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        color = Color.White,
+                        color = palette.onPrimary,
                     )
                 }
                 Spacer(modifier = Modifier.width(12.dp))

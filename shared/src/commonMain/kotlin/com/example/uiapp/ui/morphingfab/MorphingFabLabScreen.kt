@@ -243,7 +243,7 @@ fun MorphingFabLabScreen(onBack: () -> Unit) {
                             text = "+",
                             fontSize = 32.sp,
                             fontWeight = FontWeight.Light,
-                            color = Color.White,
+                            color = palette.onPrimary,
                             modifier = Modifier.rotate(iconRotation),
                         )
                     }

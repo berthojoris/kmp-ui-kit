@@ -457,7 +457,7 @@ private fun DestinationDetail(
                                 .padding(horizontal = 22.dp, vertical = 12.dp),
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color.White,
+                            color = palette.onPrimary,
                         )
                     }
                 }

@@ -213,7 +213,7 @@ fun SwipeCardsLabScreen(onBack: () -> Unit) {
                                 shape = RoundedCornerShape(10.dp),
                                 color = palette.primary,
                             ) {
-                                Text("Muat Ulang Kartu", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp))
+                                Text("Muat Ulang Kartu", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = palette.onPrimary, modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp))
                             }
                         }
                     }

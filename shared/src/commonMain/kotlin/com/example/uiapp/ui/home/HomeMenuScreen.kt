@@ -114,13 +114,59 @@ import com.example.uiapp.ui.components.icons.SystemPlatformMenuIcon
 import com.example.uiapp.ui.components.icons.ThemeMenuIcon
 import com.example.uiapp.ui.components.icons.TickerCounterMenuIcon
 import com.example.uiapp.ui.components.icons.UndoQueueMenuIcon
+import com.example.uiapp.ui.components.icons.ActivityRingsMenuIcon
+import com.example.uiapp.ui.components.icons.AppstoreTodayMenuIcon
+import com.example.uiapp.ui.components.icons.CallUiMenuIcon
+import com.example.uiapp.ui.components.icons.ClockKitMenuIcon
+import com.example.uiapp.ui.components.icons.ContinuityMenuIcon
+import com.example.uiapp.ui.components.icons.ControlCenterMenuIcon
+import com.example.uiapp.ui.components.icons.FocusModesMenuIcon
+import com.example.uiapp.ui.components.icons.FreeformCanvasMenuIcon
+import com.example.uiapp.ui.components.icons.GenmojiMenuIcon
+import com.example.uiapp.ui.components.icons.HealthAppMenuIcon
+import com.example.uiapp.ui.components.icons.HomeAppMenuIcon
+import com.example.uiapp.ui.components.icons.KeyboardAccessoryMenuIcon
+import com.example.uiapp.ui.components.icons.LiveActivityMenuIcon
+import com.example.uiapp.ui.components.icons.LiveCaptionsMenuIcon
+import com.example.uiapp.ui.components.icons.LockScreenMenuIcon
+import com.example.uiapp.ui.components.icons.MsgEffectsMenuIcon
+import com.example.uiapp.ui.components.icons.NotificationBannerMenuIcon
+import com.example.uiapp.ui.components.icons.PageCurlMenuIcon
+import com.example.uiapp.ui.components.icons.PasskeysPasswordsMenuIcon
+import com.example.uiapp.ui.components.icons.PhotosZoomMenuIcon
+import com.example.uiapp.ui.components.icons.PointerScribbleMenuIcon
+import com.example.uiapp.ui.components.icons.PrecisionFinderMenuIcon
+import com.example.uiapp.ui.components.icons.RulerPickerMenuIcon
+import com.example.uiapp.ui.components.icons.ScreenTimeMenuIcon
+import com.example.uiapp.ui.components.icons.SearchTokensMenuIcon
+import com.example.uiapp.ui.components.icons.ShareSheetMenuIcon
+import com.example.uiapp.ui.components.icons.ShortcutsLabMenuIcon
+import com.example.uiapp.ui.components.icons.StandbyModeMenuIcon
+import com.example.uiapp.ui.components.icons.StocksAppMenuIcon
+import com.example.uiapp.ui.components.icons.TextEditMenuIcon
+import com.example.uiapp.ui.components.icons.TranslateAppMenuIcon
+import com.example.uiapp.ui.components.icons.VoiceoverLabMenuIcon
+import com.example.uiapp.ui.components.icons.WalletStackMenuIcon
+import com.example.uiapp.ui.components.icons.WeatherAppMenuIcon
+import com.example.uiapp.ui.components.icons.WidgetGalleryMenuIcon
+import com.example.uiapp.ui.components.icons.WritingToolsMenuIcon
+import com.example.uiapp.ui.components.icons.AudioEqualizerMenuIcon
+import com.example.uiapp.ui.components.icons.BlockEditorMenuIcon
+import com.example.uiapp.ui.components.icons.FlightItineraryMenuIcon
+import com.example.uiapp.ui.components.icons.GanttRoadmapMenuIcon
+import com.example.uiapp.ui.components.icons.PhotoCropperMenuIcon
+import com.example.uiapp.ui.components.icons.SeatSelectorMenuIcon
+import com.example.uiapp.ui.components.icons.SplitBillMenuIcon
+import com.example.uiapp.ui.components.icons.SyncedLyricsMenuIcon
+import com.example.uiapp.ui.components.icons.TreeExplorerMenuIcon
+import com.example.uiapp.ui.components.icons.TripTrackerMenuIcon
 import kotlinx.coroutines.launch
 
 enum class HomeSection(
     val title: String,
     val shortLabel: String,
 ) {
-    ALL("Semua Lab", "Semua (71)"),
+    ALL("Semua Lab", "Semua (117)"),
     CORE("1. Labs Eksperimen Inti", "Inti (19)"),
     AUTH("2. Onboarding & Auth Flow", "Auth (7)"),
     ADVANCED("3. Komponen Lanjutan Baru", "Lanjutan (9)"),
@@ -129,6 +175,9 @@ enum class HomeSection(
     MODERN("6. Ide Komponen UI Modern 2026", "Modern UI (9)"),
     PRO("7. Komponen Modern & Profesional", "Pro (5)"),
     NEW_LABS("8. Gamifikasi, Viz & Media", "Baru (4)"),
+    IOS_PATTERN("9. Pola Khas iOS Modern", "iOS (16)"),
+    IOS_APPS("10. Ide Lab Khas iOS Lanjutan", "iOS+ (20)"),
+    INDUSTRY("11. Komponen Industri & Produktivitas", "Industri (10)"),
 }
 
 data class MenuEntry(
@@ -226,6 +275,58 @@ val MenuEntries = listOf(
     MenuEntry("dataviz_lab", "Data Viz Lanjutan", "Radar, gauge, candlestick & waterfall", true, HomeSection.NEW_LABS),
     MenuEntry("scroll_motion_lab", "Motion & Scroll", "Marquee, carousel, tab morphing, flip clock", true, HomeSection.NEW_LABS),
     MenuEntry("create_lab", "Media Creation", "Filter foto, QR generator, perekam, editor", true, HomeSection.NEW_LABS),
+
+    // 9. Pola Khas iOS Modern (16)
+    MenuEntry("share_sheet", "Share Sheet & Activity View", "Sheet berbagi: AirDrop, app tujuan, aksi", true, HomeSection.IOS_PATTERN),
+    MenuEntry("control_center", "Control Center & Edit Mode", "Grid kontrol, jiggle, drag & resize", true, HomeSection.IOS_PATTERN),
+    MenuEntry("activity_rings", "Activity Rings", "Tiga cincin aktivitas & ringkasan mingguan", true, HomeSection.IOS_PATTERN),
+    MenuEntry("lock_screen", "Lock Screen Customization", "Jam, slot widget, & wallpaper kunci", true, HomeSection.IOS_PATTERN),
+    MenuEntry("notification_banner", "In-App Notification Banner", "Banner masuk, expand, & antrean", true, HomeSection.IOS_PATTERN),
+    MenuEntry("ruler_picker", "Ruler Picker Pengukuran", "Tick, snapping, satuan cm & ft-in", true, HomeSection.IOS_PATTERN),
+    MenuEntry("search_tokens", "Search Token Field", "Token kunci-nilai di dalam field", true, HomeSection.IOS_PATTERN),
+    MenuEntry("photos_zoom", "Photos Zoom Tahun-Hari", "Pinch antar tingkat agregasi foto", true, HomeSection.IOS_PATTERN),
+    MenuEntry("keyboard_accessory", "Keyboard Accessory & Keypad", "Toolbar di atas keyboard & kalkulator", true, HomeSection.IOS_PATTERN),
+    MenuEntry("widget_gallery", "Widget Gallery & Sizes", "Widget small-large & varian tampilan", true, HomeSection.IOS_PATTERN),
+    MenuEntry("edit_menu", "Text Loupe & Edit Menu", "Kaca pembesar, caret, & menu teks", true, HomeSection.IOS_PATTERN),
+    MenuEntry("live_activity", "Live Activity Lifecycle", "Compact, minimal, & expanded", true, HomeSection.IOS_PATTERN),
+    MenuEntry("precision_finder", "Precision Finding", "Panah arah, cincin jarak, & haptic", true, HomeSection.IOS_PATTERN),
+    MenuEntry("live_captions", "Live Captions & Transkripsi", "Transkrip bergulir & diarisasi", true, HomeSection.IOS_PATTERN),
+    MenuEntry("page_curl", "Page Curl Reader", "Balik halaman dengan deformasi", true, HomeSection.IOS_PATTERN),
+    MenuEntry("standby_mode", "StandBy Nightstand", "Jam besar lanskap & mode malam", true, HomeSection.IOS_PATTERN),
+
+    // 10. Ide Lab Khas iOS Lanjutan (20)
+    MenuEntry("msg_effects", "Messages Bubble Effects", "Slam, loud, confetti, invisible ink", true, HomeSection.IOS_APPS),
+    MenuEntry("call_ui", "Incoming Call & FaceTime", "Panggilan masuk & grid peserta", true, HomeSection.IOS_APPS),
+    MenuEntry("weather_app", "Apple Weather", "Grafik jam, 10 hari, kartu modul", true, HomeSection.IOS_APPS),
+    MenuEntry("stocks_app", "Apple Stocks", "Watchlist, chart crosshair, berita", true, HomeSection.IOS_APPS),
+    MenuEntry("health_app", "Health Summary & Trends", "Dashboard kesehatan & tren", true, HomeSection.IOS_APPS),
+    MenuEntry("clock_kit", "Clock Kit", "World clock, alarm, stopwatch, timer", true, HomeSection.IOS_APPS),
+    MenuEntry("shortcuts_lab", "Shortcuts & Automation", "Galeri aksi, drag reorder, trigger", true, HomeSection.IOS_APPS),
+    MenuEntry("home_app", "Home & Scenes", "Tile aksesori, ruangan, & scene", true, HomeSection.IOS_APPS),
+    MenuEntry("wallet_stack", "Wallet Pass Stack", "Kartu berkipas & drag through", true, HomeSection.IOS_APPS),
+    MenuEntry("appstore_today", "App Store Today", "Kartu editorial & pager screenshot", true, HomeSection.IOS_APPS),
+    MenuEntry("translate_app", "Translate", "Percakapan, side-by-side, kamera", true, HomeSection.IOS_APPS),
+    MenuEntry("freeform_canvas", "Freeform Infinite Canvas", "Sticky note, konektor, pan/zoom", true, HomeSection.IOS_APPS),
+    MenuEntry("writing_tools", "Writing Tools", "Rewrite, proofread, summarize", true, HomeSection.IOS_APPS),
+    MenuEntry("genmoji", "Genmoji & Image Playground", "Emoji buatan dari perintah", true, HomeSection.IOS_APPS),
+    MenuEntry("focus_modes", "Focus Modes & Filtering", "DND, filter notifikasi, & aktivitas", true, HomeSection.IOS_APPS),
+    MenuEntry("passkeys_passwords", "Passkeys & Passwords", "Face ID, kode verifikasi, & audit", true, HomeSection.IOS_APPS),
+    MenuEntry("voiceover_lab", "VoiceOver Simulator", "Rotor, focus ring, & hint", true, HomeSection.IOS_APPS),
+    MenuEntry("continuity", "Handoff & AirPlay Picker", "Saran beranda & output audio", true, HomeSection.IOS_APPS),
+    MenuEntry("screen_time", "Screen Time & App Limits", "Waktu pakai, batas app, & downtime", true, HomeSection.IOS_APPS),
+    MenuEntry("pointer_scribble", "iPad Pointer & Scribble", "Kursor trackpad & coretan Pencil", true, HomeSection.IOS_APPS),
+
+    // 11. Komponen Industri, Spasial & Produktivitas (10)
+    MenuEntry("seat_selector", "Seat Selector", "Denah kursi pesawat & bioskop interaktif", true, HomeSection.INDUSTRY),
+    MenuEntry("trip_tracker", "Trip Tracker", "Pelacakan perjalanan live & rute", true, HomeSection.INDUSTRY),
+    MenuEntry("flight_itinerary", "Flight Itinerary", "Rencana multi-kota & transit", true, HomeSection.INDUSTRY),
+    MenuEntry("synced_lyrics", "Synced Lyrics", "Lirik karaoke tersinkron & scrubbing", true, HomeSection.INDUSTRY),
+    MenuEntry("audio_equalizer", "Audio Equalizer", "Ekualiser 10-band & visualizer", true, HomeSection.INDUSTRY),
+    MenuEntry("photo_cropper", "Photo Cropper", "Crop, putar & grid rule-of-thirds", true, HomeSection.INDUSTRY),
+    MenuEntry("block_editor", "Block Editor", "Editor dokumen blok ala Notion", true, HomeSection.INDUSTRY),
+    MenuEntry("gantt_roadmap", "Gantt Roadmap", "Linimasa proyek & ketergantungan", true, HomeSection.INDUSTRY),
+    MenuEntry("tree_explorer", "Tree Explorer", "Pohon berkas & folder hierarkis", true, HomeSection.INDUSTRY),
+    MenuEntry("split_bill", "Split Bill", "Bagi tagihan per item & per orang", true, HomeSection.INDUSTRY),
 )
 
 @Composable
@@ -289,6 +390,9 @@ fun HomeMenuScreen(
                     HomeSection.MODERN,
                     HomeSection.PRO,
                     HomeSection.NEW_LABS,
+                    HomeSection.IOS_PATTERN,
+                    HomeSection.IOS_APPS,
+                    HomeSection.INDUSTRY,
                 )
 
                 sections.forEach { sec ->
@@ -385,7 +489,7 @@ private fun SectionFilterChipsBar(
             .padding(top = 4.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(HomeSection.entries) { section ->
+        items(HomeSection.entries, key = { it.name }) { section ->
             val isSelected = selectedSection == section
             Surface(
                 onClick = { onSectionSelected(section) },
@@ -586,6 +690,52 @@ private fun MenuGridCard(
                         "dataviz_lab" -> DataVizMenuIcon(tint = palette.textPrimary)
                         "scroll_motion_lab" -> ScrollMotionMenuIcon(tint = palette.textPrimary)
                         "create_lab" -> CreateMediaMenuIcon(tint = palette.textPrimary)
+                        "share_sheet" -> ShareSheetMenuIcon(tint = palette.textPrimary)
+                        "control_center" -> ControlCenterMenuIcon(tint = palette.textPrimary)
+                        "activity_rings" -> ActivityRingsMenuIcon(tint = palette.textPrimary)
+                        "lock_screen" -> LockScreenMenuIcon(tint = palette.textPrimary)
+                        "notification_banner" -> NotificationBannerMenuIcon(tint = palette.textPrimary)
+                        "ruler_picker" -> RulerPickerMenuIcon(tint = palette.textPrimary)
+                        "search_tokens" -> SearchTokensMenuIcon(tint = palette.textPrimary)
+                        "photos_zoom" -> PhotosZoomMenuIcon(tint = palette.textPrimary)
+                        "keyboard_accessory" -> KeyboardAccessoryMenuIcon(tint = palette.textPrimary)
+                        "widget_gallery" -> WidgetGalleryMenuIcon(tint = palette.textPrimary)
+                        "edit_menu" -> TextEditMenuIcon(tint = palette.textPrimary)
+                        "live_activity" -> LiveActivityMenuIcon(tint = palette.textPrimary)
+                        "precision_finder" -> PrecisionFinderMenuIcon(tint = palette.textPrimary)
+                        "live_captions" -> LiveCaptionsMenuIcon(tint = palette.textPrimary)
+                        "page_curl" -> PageCurlMenuIcon(tint = palette.textPrimary)
+                        "standby_mode" -> StandbyModeMenuIcon(tint = palette.textPrimary)
+                        "msg_effects" -> MsgEffectsMenuIcon(tint = palette.textPrimary)
+                        "call_ui" -> CallUiMenuIcon(tint = palette.textPrimary)
+                        "weather_app" -> WeatherAppMenuIcon(tint = palette.textPrimary)
+                        "stocks_app" -> StocksAppMenuIcon(tint = palette.textPrimary)
+                        "health_app" -> HealthAppMenuIcon(tint = palette.textPrimary)
+                        "clock_kit" -> ClockKitMenuIcon(tint = palette.textPrimary)
+                        "shortcuts_lab" -> ShortcutsLabMenuIcon(tint = palette.textPrimary)
+                        "home_app" -> HomeAppMenuIcon(tint = palette.textPrimary)
+                        "wallet_stack" -> WalletStackMenuIcon(tint = palette.textPrimary)
+                        "appstore_today" -> AppstoreTodayMenuIcon(tint = palette.textPrimary)
+                        "translate_app" -> TranslateAppMenuIcon(tint = palette.textPrimary)
+                        "freeform_canvas" -> FreeformCanvasMenuIcon(tint = palette.textPrimary)
+                        "writing_tools" -> WritingToolsMenuIcon(tint = palette.textPrimary)
+                        "genmoji" -> GenmojiMenuIcon(tint = palette.textPrimary)
+                        "focus_modes" -> FocusModesMenuIcon(tint = palette.textPrimary)
+                        "passkeys_passwords" -> PasskeysPasswordsMenuIcon(tint = palette.textPrimary)
+                        "voiceover_lab" -> VoiceoverLabMenuIcon(tint = palette.textPrimary)
+                        "continuity" -> ContinuityMenuIcon(tint = palette.textPrimary)
+                        "screen_time" -> ScreenTimeMenuIcon(tint = palette.textPrimary)
+                        "pointer_scribble" -> PointerScribbleMenuIcon(tint = palette.textPrimary)
+                        "seat_selector" -> SeatSelectorMenuIcon(tint = palette.textPrimary)
+                        "trip_tracker" -> TripTrackerMenuIcon(tint = palette.textPrimary)
+                        "flight_itinerary" -> FlightItineraryMenuIcon(tint = palette.textPrimary)
+                        "synced_lyrics" -> SyncedLyricsMenuIcon(tint = palette.textPrimary)
+                        "audio_equalizer" -> AudioEqualizerMenuIcon(tint = palette.textPrimary)
+                        "photo_cropper" -> PhotoCropperMenuIcon(tint = palette.textPrimary)
+                        "block_editor" -> BlockEditorMenuIcon(tint = palette.textPrimary)
+                        "gantt_roadmap" -> GanttRoadmapMenuIcon(tint = palette.textPrimary)
+                        "tree_explorer" -> TreeExplorerMenuIcon(tint = palette.textPrimary)
+                        "split_bill" -> SplitBillMenuIcon(tint = palette.textPrimary)
                         else -> PlaceholderMenuIcon(tint = palette.textPrimary)
                     }
                 }

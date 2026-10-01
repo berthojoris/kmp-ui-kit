@@ -265,7 +265,7 @@ fun MotionLabScreen(onBack: () -> Unit) {
                 snackbarData = data,
                 shape = RoundedCornerShape(14.dp),
                 containerColor = palette.textPrimary,
-                contentColor = Color.White,
+                contentColor = palette.background,
                 actionColor = palette.success,
             )
         }
@@ -490,13 +490,13 @@ private fun SwipeRow(item: InboxItem, onArchive: () -> Unit) {
                 contentAlignment = Alignment.CenterEnd,
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    ArchiveGlyph(tint = Color.White)
+                    ArchiveGlyph(tint = palette.background)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
                         text = "Arsipkan",
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White,
+                        color = palette.background,
                     )
                 }
             }

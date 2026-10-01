@@ -199,7 +199,7 @@ fun SplitComparisonLabScreen(onBack: () -> Unit) {
                             text = if (isAutoPlaying) "Jeda ⏸" else "Sweep 🔁",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = if (isAutoPlaying) Color.White else palette.textPrimary,
+                            color = if (isAutoPlaying) palette.onPrimary else palette.textPrimary,
                         )
                     }
                 }

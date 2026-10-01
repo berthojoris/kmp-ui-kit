@@ -142,7 +142,7 @@ fun HoldToConfirmLabScreen(onBack: () -> Unit) {
                                 text = label,
                                 fontSize = 11.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                color = if (isSelected) Color.White else palette.textPrimary,
+                                color = if (isSelected) palette.onPrimary else palette.textPrimary,
                             )
                         }
                     }

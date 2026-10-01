@@ -55,6 +55,8 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -184,7 +186,7 @@ fun SplashScreen(
                                     text = "Layar Penuh 📱",
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color.White,
+                                    color = palette.onPrimary,
                                     textAlign = TextAlign.Center,
                                     modifier = Modifier.padding(vertical = 10.dp),
                                 )
@@ -321,7 +323,15 @@ fun SplashScreen(
                         modifier = Modifier.size(38.dp),
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Text("✕", fontSize = 16.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = "✕",
+                                fontSize = 16.sp,
+                                color = palette.onPrimary,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.clearAndSetSemantics {
+                                    contentDescription = "Tutup pratinjau layar penuh"
+                                },
+                            )
                         }
                     }
                 }
@@ -402,7 +412,7 @@ private fun SplashAnimatedContent(
                         scaleY = logoScale.value * if (!compact) pulseGlow else 1f
                     },
             ) {
-                BrandMark(size = if (compact) 64.dp else 92.dp, tint = Color.White)
+                BrandMark(size = if (compact) 64.dp else 92.dp, tint = palette.onPrimary)
             }
 
             Spacer(modifier = Modifier.height(if (compact) 12.dp else 20.dp))
@@ -413,7 +423,7 @@ private fun SplashAnimatedContent(
                 fontWeight = FontWeight.Bold,
                 fontSize = if (compact) 22.sp else 30.sp,
                 letterSpacing = (-0.5).sp,
-                color = Color.White,
+                color = palette.onPrimary,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -421,7 +431,7 @@ private fun SplashAnimatedContent(
             Text(
                 text = "Kit eksperimen komponen Compose Multiplatform",
                 fontSize = if (compact) 11.sp else 13.sp,
-                color = Color.White.copy(alpha = 0.75f),
+                color = palette.onPrimary.copy(alpha = 0.75f),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
@@ -440,14 +450,14 @@ private fun SplashAnimatedContent(
                     .width(if (compact) 120.dp else 160.dp)
                     .height(4.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(Color.White.copy(alpha = 0.25f)),
+                    .background(palette.onPrimary.copy(alpha = 0.25f)),
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(progress.value)
                         .height(4.dp)
                         .clip(RoundedCornerShape(2.dp))
-                        .background(Color.White),
+                        .background(palette.onPrimary),
                 )
             }
 
@@ -457,7 +467,7 @@ private fun SplashAnimatedContent(
                 text = if (progress.value < 1f) "Menyiapkan antarmuka\u2026 ${(progress.value * 100).toInt()}%" else "Siap!",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.White.copy(alpha = 0.8f),
+                color = palette.onPrimary.copy(alpha = 0.8f),
             )
 
             if (onSkipClicked != null) {
@@ -465,14 +475,14 @@ private fun SplashAnimatedContent(
                 Surface(
                     onClick = onSkipClicked,
                     shape = RoundedCornerShape(8.dp),
-                    color = Color.White.copy(alpha = 0.15f),
-                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.35f)),
+                    color = palette.onPrimary.copy(alpha = 0.15f),
+                    border = BorderStroke(1.dp, palette.onPrimary.copy(alpha = 0.35f)),
                 ) {
                     Text(
                         text = "Lewati",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White,
+                        color = palette.onPrimary,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
                     )
                 }

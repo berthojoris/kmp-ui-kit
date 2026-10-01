@@ -177,7 +177,7 @@ fun AiVoiceOrbLabScreen(onBack: () -> Unit) {
                             text = "${state.badge} ${state.name.take(4)}",
                             fontSize = 11.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            color = if (isSelected) Color.White else palette.textPrimary,
+                            color = if (isSelected) palette.onPrimary else palette.textPrimary,
                         )
                     }
                 }

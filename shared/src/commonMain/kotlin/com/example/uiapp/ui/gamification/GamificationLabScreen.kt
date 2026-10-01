@@ -106,7 +106,7 @@ private val QuizQuestions = listOf(
     QuizQuestion(
         id = "q2",
         question = "Warna komponen baru sebaiknya diambil dari?",
-        options = listOf("Color(0xFF...)", "LocalAppPalette", "LuxuryColors", "Konstanta bawaan"),
+        options = listOf("Color(0xFF...)", "LocalAppPalette", "Palet statis legacy", "Konstanta bawaan"),
         correctIndex = 1,
         explanation = "LocalAppPalette mendukung mode terang dan gelap.",
     ),
