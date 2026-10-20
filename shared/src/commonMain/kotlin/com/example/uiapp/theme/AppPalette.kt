@@ -16,9 +16,13 @@ data class AppPalette(
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
     val success: Color,
+    val onSuccess: Color,
     val warning: Color,
+    val onWarning: Color,
     val info: Color,
+    val onInfo: Color,
     val danger: Color,
+    val onDanger: Color,
 )
 
 val LightAppPalette = AppPalette(
@@ -33,10 +37,14 @@ val LightAppPalette = AppPalette(
     onPrimary = Color(0xFFFFFFFF),
     primaryContainer = Color(0xFFE8F5E9),
     onPrimaryContainer = Color(0xFF0A332C),
-    success = Color(0xFF10B981),
-    warning = Color(0xFFF59E0B),
-    info = Color(0xFF3B82F6),
-    danger = Color(0xFFEF4444),
+    success = Color(0xFF047857),
+    onSuccess = Color(0xFFFFFFFF),
+    warning = Color(0xFF92400E),
+    onWarning = Color(0xFFFFFFFF),
+    info = Color(0xFF1D4ED8),
+    onInfo = Color(0xFFFFFFFF),
+    danger = Color(0xFFB91C1C),
+    onDanger = Color(0xFFFFFFFF),
 )
 
 val DarkAppPalette = AppPalette(
@@ -52,9 +60,13 @@ val DarkAppPalette = AppPalette(
     primaryContainer = Color(0xFF12332C),
     onPrimaryContainer = Color(0xFF8CEBD5),
     success = Color(0xFF34D399),
+    onSuccess = Color(0xFF06231D),
     warning = Color(0xFFFBBF24),
+    onWarning = Color(0xFF422006),
     info = Color(0xFF60A5FA),
+    onInfo = Color(0xFF081738),
     danger = Color(0xFFF87171),
+    onDanger = Color(0xFF3B0707),
 )
 
 val LocalAppPalette = staticCompositionLocalOf { LightAppPalette }

@@ -451,7 +451,7 @@ private fun CheckoutStepperView(palette: com.example.uiapp.theme.AppPalette) {
                             text = if (isPromoApplied) "Terpasang ✓" else "Gunakan",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = if (isPromoApplied) Color.White else palette.onPrimary,
+                            color = if (isPromoApplied) palette.onSuccess else palette.onPrimary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                         )
                     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,6 +27,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.uiapp.theme.LightAppPalette
+import com.example.uiapp.theme.LocalAppPalette
 
 @Composable
 fun MgIosBackChevron(
@@ -57,17 +59,15 @@ fun MgIosBackButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     size: Dp = 38.dp,
-    backgroundColor: Color = LightAppPalette.surfaceMuted,
-    borderColor: Color = LightAppPalette.border,
-    iconTint: Color = LightAppPalette.textPrimary,
+    backgroundColor: Color? = null,
+    borderColor: Color? = null,
+    iconTint: Color? = null,
     contentDescription: String = "Kembali",
 ) {
+    val palette = LocalAppPalette.current
     Box(
         modifier = modifier
-            .size(size)
-            .clip(RoundedCornerShape(10.dp))
-            .background(backgroundColor)
-            .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+            .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
             .clickable(role = Role.Button, onClick = onClick)
             .semantics {
                 this.role = Role.Button
@@ -75,7 +75,16 @@ fun MgIosBackButton(
             },
         contentAlignment = Alignment.Center,
     ) {
-        MgIosBackChevron(size = 16.dp, strokeWidth = 2.4.dp, tint = iconTint)
+        Box(
+            modifier = Modifier
+                .size(size)
+                .clip(RoundedCornerShape(10.dp))
+                .background(backgroundColor ?: palette.surfaceMuted)
+                .border(1.dp, borderColor ?: palette.border, RoundedCornerShape(10.dp)),
+            contentAlignment = Alignment.Center,
+        ) {
+            MgIosBackChevron(size = 16.dp, strokeWidth = 2.4.dp, tint = iconTint ?: palette.textPrimary)
+        }
     }
 }
 

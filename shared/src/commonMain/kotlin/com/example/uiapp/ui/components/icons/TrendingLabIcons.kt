@@ -209,3 +209,139 @@ fun AiVoiceOrbMenuIcon(
         )
     }
 }
+
+// Ikon staggered reveal: tiga kartu bertumpuk dengan offset diagonal.
+@Composable
+fun StaggeredRevealMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        val cardSize = Size(w * 0.5f, h * 0.34f)
+        drawRoundRect(
+            color = tint.copy(alpha = 0.3f),
+            topLeft = Offset(w * 0.08f, h * 0.5f),
+            size = cardSize,
+            cornerRadius = CornerRadius(w * 0.06f),
+            style = stroke,
+        )
+        drawRoundRect(
+            color = tint.copy(alpha = 0.6f),
+            topLeft = Offset(w * 0.25f, h * 0.3f),
+            size = cardSize,
+            cornerRadius = CornerRadius(w * 0.06f),
+            style = stroke,
+        )
+        drawRoundRect(
+            color = tint,
+            topLeft = Offset(w * 0.42f, h * 0.1f),
+            size = cardSize,
+            cornerRadius = CornerRadius(w * 0.06f),
+            style = stroke,
+        )
+    }
+}
+
+// Ikon success check: lingkaran dengan tanda centang di dalamnya.
+@Composable
+fun SuccessCheckMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawCircle(
+            color = tint,
+            radius = w * 0.38f,
+            center = Offset(w * 0.5f, h * 0.5f),
+            style = stroke,
+        )
+        val check = Path().apply {
+            moveTo(w * 0.34f, h * 0.52f)
+            lineTo(w * 0.46f, h * 0.64f)
+            lineTo(w * 0.68f, h * 0.38f)
+        }
+        drawPath(check, color = tint, style = stroke)
+    }
+}
+
+// Ikon pill toolbar: kapsul melayang dengan deretan titik aksi.
+@Composable
+fun PillToolbarMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawRoundRect(
+            color = tint,
+            topLeft = Offset(w * 0.08f, h * 0.28f),
+            size = Size(w * 0.84f, h * 0.44f),
+            cornerRadius = CornerRadius(h * 0.22f),
+            style = stroke,
+        )
+        val dotY = h * 0.5f
+        drawCircle(color = tint, radius = w * 0.045f, center = Offset(w * 0.26f, dotY))
+        drawCircle(color = tint, radius = w * 0.045f, center = Offset(w * 0.42f, dotY))
+        drawCircle(color = tint, radius = w * 0.045f, center = Offset(w * 0.58f, dotY))
+        drawCircle(color = tint.copy(alpha = 0.45f), radius = w * 0.045f, center = Offset(w * 0.74f, dotY))
+    }
+}
+
+// Ikon search morph: lup dengan panah melebar menandakan wujud berubah.
+@Composable
+fun SearchMorphMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawCircle(
+            color = tint,
+            radius = w * 0.26f,
+            center = Offset(w * 0.4f, h * 0.4f),
+            style = stroke,
+        )
+        drawLine(
+            color = tint,
+            start = Offset(w * 0.6f, h * 0.6f),
+            end = Offset(w * 0.78f, h * 0.78f),
+            strokeWidth = stroke.width,
+            cap = StrokeCap.Round,
+        )
+        drawLine(
+            color = tint,
+            start = Offset(w * 0.14f, h * 0.88f),
+            end = Offset(w * 0.38f, h * 0.88f),
+            strokeWidth = stroke.width,
+            cap = StrokeCap.Round,
+        )
+        drawLine(
+            color = tint,
+            start = Offset(w * 0.2f, h * 0.8f),
+            end = Offset(w * 0.14f, h * 0.88f),
+            strokeWidth = stroke.width,
+            cap = StrokeCap.Round,
+        )
+        drawLine(
+            color = tint,
+            start = Offset(w * 0.2f, h * 0.96f),
+            end = Offset(w * 0.14f, h * 0.88f),
+            strokeWidth = stroke.width,
+            cap = StrokeCap.Round,
+        )
+    }
+}

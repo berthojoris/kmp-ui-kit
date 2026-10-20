@@ -56,6 +56,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.ExperimentalComposeUiApi
+import com.example.uiapp.HapticKind
+import com.example.uiapp.PerformHapticFeedback
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.launch
@@ -316,6 +318,7 @@ private fun SlideToConfirmBar(
                         onDragStopped = {
                             val ratio = offsetX.value / maxDragPx
                             if (ratio >= 0.82f) {
+                                PerformHapticFeedback(HapticKind.SUCCESS)
                                 scope.launch {
                                     offsetX.animateTo(maxDragPx, tween(150, easing = FastOutSlowInEasing))
                                     isConfirmed = true

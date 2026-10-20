@@ -862,6 +862,7 @@ fun ScreenTimeLabScreen(onBack: () -> Unit) {
                                         logPesan = "Batas ${batas.nama} ${if (baru) "diaktifkan" else "dinonaktifkan"} (Simulasi)."
                                     }
                                 },
+                                accessibilityLabel = "Batas ${batas.nama}",
                             )
                         }
                     }
@@ -930,6 +931,7 @@ fun ScreenTimeLabScreen(onBack: () -> Unit) {
                                     izinSelalu.value - izin.id
                                 }
                             },
+                            accessibilityLabel = "Izinkan ${izin.nama} saat batas aktif",
                         )
                     }
                 }
@@ -985,6 +987,7 @@ fun ScreenTimeLabScreen(onBack: () -> Unit) {
                                 "Downtime dimatikan manual (Simulasi)."
                             }
                         },
+                        accessibilityLabel = "Aktifkan Downtime sekarang",
                     )
                 }
 

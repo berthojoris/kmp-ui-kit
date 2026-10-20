@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.theme.AppPalette
 import com.example.uiapp.theme.LocalAppPalette
+import com.example.uiapp.ui.components.StatusPill
 import com.example.uiapp.ui.components.UiTopBar
 
 private enum class TxStatus(val label: String) {
@@ -498,19 +499,5 @@ private fun StatusPill(
         TxStatus.TERTUNDA -> palette.warning
         TxStatus.GAGAL -> palette.danger
     }
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
-            .background(color.copy(alpha = 0.12f))
-            .border(1.dp, color.copy(alpha = 0.5f), RoundedCornerShape(20.dp))
-            .padding(horizontal = 10.dp, vertical = 4.dp),
-    ) {
-        Text(
-            text = status.label + suffix,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            color = color,
-            maxLines = 1,
-        )
-    }
+    StatusPill(text = status.label + suffix, color = color)
 }

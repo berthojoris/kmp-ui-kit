@@ -53,6 +53,7 @@ import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.LabCard
 import com.example.uiapp.ui.components.LabIntroCard
 import com.example.uiapp.ui.components.LabSectionTitle
+import com.example.uiapp.ui.components.StatusPill
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
 
@@ -456,7 +457,7 @@ private fun CallScreenPanel(
                 }
                 StatusPill(
                     text = if (weakConnection && callState == CallState.ACTIVE) "Koneksi lemah (Simulasi)" else "Simulasi",
-                    tone = if (weakConnection && callState == CallState.ACTIVE) palette.warning else palette.info,
+                    color = if (weakConnection && callState == CallState.ACTIVE) palette.warning else palette.info,
                 )
             }
         }
@@ -786,24 +787,6 @@ private fun SelectChip(label: String, selected: Boolean, modifier: Modifier = Mo
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 9.dp),
-        )
-    }
-}
-
-@Composable
-private fun StatusPill(text: String, tone: androidx.compose.ui.graphics.Color) {
-    Surface(
-        shape = RoundedCornerShape(999.dp),
-        color = tone.copy(alpha = 0.12f),
-        border = BorderStroke(1.dp, tone),
-    ) {
-        Text(
-            text = text,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            color = tone,
-            maxLines = 1,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
         )
     }
 }

@@ -60,6 +60,7 @@ import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.LabCard
 import com.example.uiapp.ui.components.LabIntroCard
 import com.example.uiapp.ui.components.LabSectionTitle
+import com.example.uiapp.ui.components.StatusPill
 import com.example.uiapp.ui.components.UiTopBar
 import kotlin.random.Random
 import kotlinx.coroutines.delay
@@ -200,7 +201,7 @@ fun StocksAppLabScreen(onBack: () -> Unit) {
                     }
                     StatusPill(
                         text = if (marketOpen) "Buka · Simulasi" else "Tutup · Simulasi",
-                        tone = if (marketOpen) palette.success else palette.textMuted,
+                        color = if (marketOpen) palette.success else palette.textMuted,
                     )
                 }
                 Row(
@@ -516,24 +517,6 @@ private fun StocksChip(
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-        )
-    }
-}
-
-@Composable
-private fun StatusPill(text: String, tone: Color) {
-    Surface(
-        shape = RoundedCornerShape(999.dp),
-        color = tone.copy(alpha = 0.12f),
-        border = BorderStroke(1.dp, tone),
-    ) {
-        Text(
-            text = text,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            color = tone,
-            maxLines = 1,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
         )
     }
 }

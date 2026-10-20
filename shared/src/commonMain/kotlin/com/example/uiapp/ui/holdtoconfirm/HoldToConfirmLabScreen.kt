@@ -54,6 +54,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.ExperimentalComposeUiApi
+import com.example.uiapp.HapticKind
+import com.example.uiapp.PerformHapticFeedback
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.Job
@@ -297,6 +299,7 @@ private fun HoldToConfirmFillButton(
                                 animationSpec = tween(durationMillis = durationMs, easing = LinearEasing),
                             )
                             if (progress.value >= 1f) {
+                                PerformHapticFeedback(HapticKind.SUCCESS)
                                 isConfirmed = true
                                 isPressing = false
                                 onConfirmed()
@@ -439,6 +442,7 @@ private fun HoldToConfirmCircularCard(
                                         animationSpec = tween(durationMillis = durationMs, easing = LinearEasing),
                                     )
                                     if (progress.value >= 1f) {
+                                        PerformHapticFeedback(HapticKind.SUCCESS)
                                         isConfirmed = true
                                         isPressing = false
                                         onConfirmed()

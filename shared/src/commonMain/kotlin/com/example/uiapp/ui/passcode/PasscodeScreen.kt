@@ -69,6 +69,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.uiapp.HapticKind
+import com.example.uiapp.PerformHapticFeedback
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
@@ -108,6 +110,7 @@ fun PasscodeScreen(onBack: () -> Unit) {
                 success = true
             } else {
                 error = true
+                PerformHapticFeedback(HapticKind.WARNING)
                 shakeTrigger += 1
                 delay(520)
                 pin = ""
@@ -143,11 +146,13 @@ fun PasscodeScreen(onBack: () -> Unit) {
 
     fun appendDigit(digit: String) {
         if (success || pin.length >= PinLength) return
+        PerformHapticFeedback(HapticKind.SELECTION)
         pin += digit
     }
 
     fun removeDigit() {
         if (success || pin.isEmpty()) return
+        PerformHapticFeedback(HapticKind.SELECTION)
         pin = pin.dropLast(1)
     }
 

@@ -575,7 +575,7 @@ fun ResumeFormLabScreen(onBack: () -> Unit) {
                                             text = "Buang Data",
                                             fontSize = 12.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.White,
+                                            color = palette.onDanger,
                                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                                         )
                                     }

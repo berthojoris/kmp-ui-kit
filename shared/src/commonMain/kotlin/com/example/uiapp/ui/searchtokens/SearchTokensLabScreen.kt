@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -220,6 +221,7 @@ fun SearchTokensLabScreen(onBack: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
+                .navigationBarsPadding()
                 .imePadding(),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.theme.LocalAppPalette
+import com.example.uiapp.ui.components.StatusPill
 import com.example.uiapp.ui.components.UiTopBar
 
 private data class FlightSegment(
@@ -251,10 +252,12 @@ private fun FlightSegmentCard(segment: FlightSegment, isFirst: Boolean, isLast: 
 @Composable
 private fun StatusPill(status: FlightStatus) {
     val palette = LocalAppPalette.current
-    val color = when (status) { FlightStatus.ON_TIME -> palette.success; FlightStatus.DELAYED -> palette.warning; FlightStatus.CANCELLED -> palette.danger }
-    Surface(shape = RoundedCornerShape(6.dp), color = color.copy(alpha = 0.15f), shadowElevation = 0.dp, tonalElevation = 0.dp) {
-        Text(status.label, modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp), fontSize = 10.sp, fontWeight = FontWeight.Bold, color = color)
+    val color = when (status) {
+        FlightStatus.ON_TIME -> palette.success
+        FlightStatus.DELAYED -> palette.warning
+        FlightStatus.CANCELLED -> palette.danger
     }
+    StatusPill(text = status.label, color = color)
 }
 
 @Composable

@@ -2,9 +2,9 @@
 
 Status legend: **DONE** = sudah tersedia di app · **WAIT** = belum dikerjakan.
 
-Total: **117 lab `DONE`** (§1–§11) · **45 lab `WAIT`** (§11–§12).
+Total: **166 lab `DONE`** (§1–§12) · **0 lab `WAIT`**.
 
-> Catatan sinkronisasi: §11 lab 108–117 kini `DONE` (layar, route, `MenuEntry`, ikon Canvas, dan `BackHandler` sudah terdaftar di kode). Lab §11 118–122 masih `WAIT`; §12 berisi 40 ide baru berstatus `WAIT`.
+> Catatan sinkronisasi: §11 (termasuk 118–121) dan §12 (40 ide) kini `DONE` (layar, route, `MenuEntry`, ikon Canvas, dan `BackHandler` sudah terdaftar di kode).
 
 ---
 
@@ -184,6 +184,10 @@ Alur terhubung: `splash → onboarding → auth → permissions → profile_setu
 | 51 | Bento Grid Dashboard with Interactive Modular Widgets (Apple & SaaS Bento) | `bento_grid` | DONE |
 | 52 | Perforated Receipt & Digital Boarding Pass Ticket (Fintech & Apple Wallet) | `perforated_ticket` | DONE |
 | 53 | AI Voice Intelligence Orb & Audio Reactive Waveform (ChatGPT & Gemini Live) | `ai_voice_orb` | DONE |
+| 163 | Staggered Reveal List & Cascade Animation (Editorial Feed Onboarding) | `staggered_reveal` | DONE |
+| 164 | Animated Success Checkmark & Morphing Confirmation (Payment Success) | `success_check` | DONE |
+| 165 | Floating Pill Toolbar & Expanding Quick Actions (iOS 26 & Notion Editor) | `pill_toolbar` | DONE |
+| 166 | Morphing Search Icon to Field (iOS 26 News & Instagram Search) | `search_morph` | DONE |
 
 
 ## 6. Ide Komponen UI Modern Berikutnya (DONE)
@@ -607,7 +611,7 @@ Sama seperti §9: seluruh lab selesai hanya dengan Compose Foundation + Canvas �
 
 Batch ini merencanakan pola interaksi yang belum tercakup: komponen spasial/booking (denah kursi, pelacakan perjalanan), audio/media lanjutan (karaoke, equalizer), produktivitas dokumen (editor blok, Gantt, pohon berkas), fintech kolaboratif (split bill, budget envelope), edukasi gamifikasi (peta quest, puzzle kata), dan fitur platform Android modern (predictive back, floating dock). Semua lab dirancang berjalan offline dengan data mock lokal berbahasa Indonesia, mematuhi Flat UI zero-shadow, dan benar di mode terang/gelap.
 
-**Status nyata:** lab 108–117 **sudah ada di kode** dan terdaftar (route `Route<X>` + `KnownRoutes` + cabang `when` di `App.kt`, `MenuEntry` di `HomeMenuScreen.kt` pada section `INDUSTRY`, ikon Canvas di `ui/components/icons/IndustryLabIcons.kt`, dan `BackHandler` di tiap layar). Lab 118–122 **belum ada di kode** dan tetap `WAIT`.
+**Status nyata:** lab 108–122 **sudah ada di kode** (termasuk budget_envelopes, quest_path, sentence_builder, predictive_back) dan terdaftar.
 
 ### 11.1 Mobility, Travel & Spatial Booking
 
@@ -638,21 +642,21 @@ Batch ini merencanakan pola interaksi yang belum tercakup: komponen spasial/book
 | # | Lab / Komponen | Route | Status |
 |---|----------------|-------|--------|
 | 117 | Smart Split-Bill & Receipt Item Breakdown | `split_bill` | DONE |
-| 118 | Budget Envelopes & Cash Allocation Drag | `budget_envelopes` | WAIT |
+| 118 | Budget Envelopes & Cash Allocation Drag | `budget_envelopes` | DONE |
 
 ### 11.5 Edukasi & Gamifikasi Interaktif
 
 | # | Lab / Komponen | Route | Status |
 |---|----------------|-------|--------|
-| 119 | Gamified Winding Quest Map / Level Path | `quest_path` | WAIT |
-| 120 | Word Tile Sentence Builder & Word Puzzle | `sentence_builder` | WAIT |
+| 119 | Gamified Winding Quest Map / Level Path | `quest_path` | DONE |
+| 120 | Word Tile Sentence Builder & Word Puzzle | `sentence_builder` | DONE |
 
 ### 11.6 Fitur Platform Android Modern
 
 | # | Lab / Komponen | Route | Status |
 |---|----------------|-------|--------|
-| 121 | Predictive Back Navigation Simulator | `predictive_back` | WAIT |
-| 122 | Floating Multitasking App Dock | `floating_dock` | WAIT |
+| 121 | Predictive Back Navigation Simulator | `predictive_back` | DONE |
+| 122 | Floating Multitasking App Dock | `floating_dock` | DONE |
 
 ### Catatan §11
 
@@ -661,7 +665,7 @@ Batch ini merencanakan pola interaksi yang belum tercakup: komponen spasial/book
 
 ---
 
-## 12. Ide Komponen Baru — Gap Analysis (WAIT)
+## 12. Ide Komponen Baru — Gap Analysis (DONE)
 
 Batch ini berisi pola interaksi yang **belum** tercakup oleh 117 lab yang sudah ada di kode (§1–§11). Semua lab tetap mengikuti aturan repo: 100% Compose Foundation + Canvas di `commonMain`, **tanpa dependensi baru**, **tanpa jaringan/kamera/mikrofon/lokasi nyata**, Flat UI zero-shadow (§7), warna lewat `LocalAppPalette` termasuk `palette.onPrimary` di atas `palette.primary` (§6.3), insets per-elemen (§8), `BackHandler` (§6.2), serta state normal, loading, kosong, sukses, gagal, dan disabled sesuai relevansi. Perilaku yang menyerupai layanan platform wajib berlabel **simulasi** (§3.3).
 
@@ -671,14 +675,14 @@ Kategori yang paling tipis: kolaborasi realtime, resiliensi/live data, AI agenti
 
 | # | Lab / Komponen | Route | Status |
 |---|----------------|-------|--------|
-| 123 | Realtime Collaboration & Presence (kursor rekan, presence, follow mode) | `collab_presence` | WAIT |
-| 124 | Live Dashboard & Streaming Metrics (KPI berdetak, sparkline live, feed) | `live_dashboard` | WAIT |
-| 125 | Offline & Connection Resilience (offline, reconnecting, konflik sinkron) | `offline_resilience` | WAIT |
-| 126 | AI Agent Run Steps (log langkah, tool-call, pause/resume/approve) | `ai_agent_steps` | WAIT |
-| 127 | AI Inline Ghost-text & Diff Review (accept/reject per hunk) | `ai_inline_edit` | WAIT |
-| 128 | Design Token & Theme Editor (palet live, cek kontras, ekspor token) | `design_tokens` | WAIT |
-| 129 | Performance HUD & Jank Meter (frame time, recomposition, memori) | `perf_hud` | WAIT |
-| 130 | Appointment Slot & Availability Picker (zona waktu, heatstrip tim) | `appointment_slots` | WAIT |
+| 123 | Realtime Collaboration & Presence (kursor rekan, presence, follow mode) | `collab_presence` | DONE |
+| 124 | Live Dashboard & Streaming Metrics (KPI berdetak, sparkline live, feed) | `live_dashboard` | DONE |
+| 125 | Offline & Connection Resilience (offline, reconnecting, konflik sinkron) | `offline_resilience` | DONE |
+| 126 | AI Agent Run Steps (log langkah, tool-call, pause/resume/approve) | `ai_agent_steps` | DONE |
+| 127 | AI Inline Ghost-text & Diff Review (accept/reject per hunk) | `ai_inline_edit` | DONE |
+| 128 | Design Token & Theme Editor (palet live, cek kontras, ekspor token) | `design_tokens` | DONE |
+| 129 | Performance HUD & Jank Meter (frame time, recomposition, memori) | `perf_hud` | DONE |
+| 130 | Appointment Slot & Availability Picker (zona waktu, heatstrip tim) | `appointment_slots` | DONE |
 
 #### 123. Realtime Collaboration & Presence (`collab_presence`)
 - Kursor rekan yang bergerak halus di kanvas bersama avatar presence, indikator "sedang mengetik", dan mode follow (mengikuti viewport rekan).
@@ -726,18 +730,18 @@ Memperluas visualisasi, commerce, dan konten sosial.
 
 | # | Lab / Komponen | Route | Status |
 |---|----------------|-------|--------|
-| 131 | Flow Viz Pack II (Sankey, treemap, funnel, cohort grid) | `flow_viz` | WAIT |
-| 132 | Network Graph & Node–Link Explorer | `graph_explorer` | WAIT |
-| 133 | Map Cluster & Store Locator (list ↔ peta sinkron) | `store_locator` | WAIT |
-| 134 | Credit Card Form & 3D Card (BIN, format, scanner mock) | `payment_form` | WAIT |
-| 135 | Phone & Address Autocomplete (kode negara, places mock) | `address_input` | WAIT |
-| 136 | Recurrence & Schedule Picker (RRULE) | `recurrence_picker` | WAIT |
-| 137 | Live Auction / Bidding Room (countdown, outbid) | `live_auction` | WAIT |
-| 138 | Flash Sale & Scarcity (countdown, bar stok, waitlist) | `flash_sale` | WAIT |
-| 139 | Subscription Management & Cancel-Retention | `subscription_mgmt` | WAIT |
-| 140 | Queue / Waitlist Ticket (posisi live, ETA) | `queue_ticket` | WAIT |
-| 141 | Social Post Composer (carousel, poll, audience) | `post_composer` | WAIT |
-| 142 | Story Creator (stiker, teks, poll, coret) | `story_creator` | WAIT |
+| 131 | Flow Viz Pack II (Sankey, treemap, funnel, cohort grid) | `flow_viz` | DONE |
+| 132 | Network Graph & Node–Link Explorer | `graph_explorer` | DONE |
+| 133 | Map Cluster & Store Locator (list ↔ peta sinkron) | `store_locator` | DONE |
+| 134 | Credit Card Form & 3D Card (BIN, format, scanner mock) | `payment_form` | DONE |
+| 135 | Phone & Address Autocomplete (kode negara, places mock) | `address_input` | DONE |
+| 136 | Recurrence & Schedule Picker (RRULE) | `recurrence_picker` | DONE |
+| 137 | Live Auction / Bidding Room (countdown, outbid) | `live_auction` | DONE |
+| 138 | Flash Sale & Scarcity (countdown, bar stok, waitlist) | `flash_sale` | DONE |
+| 139 | Subscription Management & Cancel-Retention | `subscription_mgmt` | DONE |
+| 140 | Queue / Waitlist Ticket (posisi live, ETA) | `queue_ticket` | DONE |
+| 141 | Social Post Composer (carousel, poll, audience) | `post_composer` | DONE |
+| 142 | Story Creator (stiker, teks, poll, coret) | `story_creator` | DONE |
 
 #### 131. Flow Viz Pack II (`flow_viz`)
 - Sankey diagram alur dana/trafik, treemap proporsi, funnel konversi bertingkat, dan cohort retention grid berwarna + label persen.
@@ -794,26 +798,26 @@ Memperluas visualisasi, commerce, dan konten sosial.
 
 | # | Lab / Komponen | Route | Status |
 |---|----------------|-------|--------|
-| 143 | Document Scanner & OCR (deteksi tepi, perspektif) | `doc_scanner` | WAIT |
-| 144 | PDF/Doc Viewer + Anotasi (thumbnail, cari, lompat) | `pdf_viewer` | WAIT |
-| 145 | Code Editor & Diff Viewer (syntax, fold, inline/side-by-side) | `code_editor` | WAIT |
-| 146 | Version History & Restore (slider waktu, bandingkan) | `version_history` | WAIT |
-| 147 | Localization & RTL Preview (mirror, pseudo-locale) | `rtl_preview` | WAIT |
-| 148 | Accessibility Audit Overlay (semantics, kontras, hit target) | `a11y_audit` | WAIT |
-| 149 | Getting-Started Checklist & Progress | `getting_started` | WAIT |
-| 150 | What's New / Release Notes Carousel | `whats_new` | WAIT |
-| 151 | Referral & Invite Flow (kode, share, reward) | `referral_invite` | WAIT |
-| 152 | NPS/CSAT Survey + follow-up | `nps_survey` | WAIT |
-| 153 | Report/Block & Moderation Flow | `report_flow` | WAIT |
-| 154 | Secure Vault (folder ter-gate biometrik) | `secure_vault` | WAIT |
-| 155 | Medication Schedule & Adherence | `medication_plan` | WAIT |
-| 156 | Nutrition Diary & Macro Rings | `nutrition_diary` | WAIT |
-| 157 | Sleep Stages Hypnogram | `sleep_stages` | WAIT |
-| 158 | QRIS Scan-to-Pay (khas Indonesia) | `qris_pay` | WAIT |
-| 159 | Virtual Card Management (freeze, limit, rotate) | `virtual_card` | WAIT |
-| 160 | Multi-currency Exchange Converter | `currency_exchange` | WAIT |
-| 161 | Loan/EMI & Amortization Simulator (KPR) | `loan_simulator` | WAIT |
-| 162 | Cross-app Drag & Drop Simulator | `drag_drop` | WAIT |
+| 143 | Document Scanner & OCR (deteksi tepi, perspektif) | `doc_scanner` | DONE |
+| 144 | PDF/Doc Viewer + Anotasi (thumbnail, cari, lompat) | `pdf_viewer` | DONE |
+| 145 | Code Editor & Diff Viewer (syntax, fold, inline/side-by-side) | `code_editor` | DONE |
+| 146 | Version History & Restore (slider waktu, bandingkan) | `version_history` | DONE |
+| 147 | Localization & RTL Preview (mirror, pseudo-locale) | `rtl_preview` | DONE |
+| 148 | Accessibility Audit Overlay (semantics, kontras, hit target) | `a11y_audit` | DONE |
+| 149 | Getting-Started Checklist & Progress | `getting_started` | DONE |
+| 150 | What's New / Release Notes Carousel | `whats_new` | DONE |
+| 151 | Referral & Invite Flow (kode, share, reward) | `referral_invite` | DONE |
+| 152 | NPS/CSAT Survey + follow-up | `nps_survey` | DONE |
+| 153 | Report/Block & Moderation Flow | `report_flow` | DONE |
+| 154 | Secure Vault (folder ter-gate biometrik) | `secure_vault` | DONE |
+| 155 | Medication Schedule & Adherence | `medication_plan` | DONE |
+| 156 | Nutrition Diary & Macro Rings | `nutrition_diary` | DONE |
+| 157 | Sleep Stages Hypnogram | `sleep_stages` | DONE |
+| 158 | QRIS Scan-to-Pay (khas Indonesia) | `qris_pay` | DONE |
+| 159 | Virtual Card Management (freeze, limit, rotate) | `virtual_card` | DONE |
+| 160 | Multi-currency Exchange Converter | `currency_exchange` | DONE |
+| 161 | Loan/EMI & Amortization Simulator (KPR) | `loan_simulator` | DONE |
+| 162 | Cross-app Drag & Drop Simulator | `drag_drop` | DONE |
 
 #### 143. Document Scanner & OCR (`doc_scanner`)
 - Bingkai pemindai dengan deteksi tepi dan koreksi perspektif (mode manual 4 titik), lalu daftar halaman berthumbnail.
@@ -899,8 +903,8 @@ Memperluas visualisasi, commerce, dan konten sosial.
 
 ### Catatan §12
 
-- **Sinkronisasi §11:** lab 108–117 kini **ada di kode** dan terdaftar (10 lab §11); lab 118–122 tetap `WAIT` karena belum ada route, `MenuEntry`, maupun folder `ui/<lab>/` (`budget_envelopes`, `quest_path`, `sentence_builder`, `predictive_back`, `floating_dock`). `TODO.md` sinkron dengan kode (§3.5, §16.4).
-- Seluruh lab §12 berstatus `WAIT` dan **belum ada di kode**. Jangan menandainya `DONE` sebelum route terdaftar, ikon dibuat, dan build lolos.
+- **Sinkronisasi §11:** lab 108–122 kini **ada di kode** dan terdaftar (15 lab §11); Lab §5.3 baru 163–166 juga `DONE`. `TODO.md` sinkron dengan kode.
+- Seluruh lab §12 kini `DONE` dan terdaftar.
 - Setiap lab §12 mengikuti checklist lengkap §6.1 dan Definition of Done §14: route `Route<X>` + `KnownRoutes` + cabang `when` di `App.kt`, `MenuEntry` di `HomeMenuScreen.kt`, ikon Canvas khusus di `ui/components/icons/` (buat file baru bila sebuah file melewati ±800 baris), `BackHandler`, insets, lalu perbarui status `WAIT` → `DONE` pada commit yang sama.
 - Beberapa ide memerlukan perhatian khusus:
   - `performance_hud` (129) diukur dari `withFrameNanos` karena tidak memakai API profiling platform; hasilnya perkiraan, bukan FPS sistem sebenarnya.

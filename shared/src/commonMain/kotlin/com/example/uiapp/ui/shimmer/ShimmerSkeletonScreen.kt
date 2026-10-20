@@ -104,7 +104,7 @@ fun ShimmerSkeletonScreen(onBack: () -> Unit) {
             label = "shimmer-content",
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
         ) { loading ->
             if (loading) {
                 SkeletonList(shimmer)

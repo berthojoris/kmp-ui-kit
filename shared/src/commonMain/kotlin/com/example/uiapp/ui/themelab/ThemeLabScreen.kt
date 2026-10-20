@@ -75,7 +75,7 @@ fun ThemeLabScreen(onBack: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
         ) {
             ThemeTopBar(
                 palette = palette,

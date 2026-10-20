@@ -129,10 +129,60 @@ import com.example.uiapp.ui.ganttroadmap.GanttRoadmapLabScreen
 import com.example.uiapp.ui.photocropper.PhotoCropperLabScreen
 import com.example.uiapp.ui.seatselector.SeatSelectorLabScreen
 import com.example.uiapp.ui.splitbill.SplitBillLabScreen
+import com.example.uiapp.ui.floatingdock.FloatingDockScreen
+import com.example.uiapp.ui.staggeredreveal.StaggeredRevealScreen
+import com.example.uiapp.ui.successcheck.SuccessCheckScreen
+import com.example.uiapp.ui.pilltoolbar.PillToolbarScreen
+import com.example.uiapp.ui.searchmorph.SearchMorphScreen
 import com.example.uiapp.ui.syncedlyrics.SyncedLyricsLabScreen
 import com.example.uiapp.ui.treeexplorer.TreeExplorerLabScreen
 import com.example.uiapp.ui.triptracker.TripTrackerLabScreen
 
+
+import com.example.uiapp.ui.budgetenvelopes.BudgetEnvelopesLabScreen
+import com.example.uiapp.ui.questpath.QuestPathLabScreen
+import com.example.uiapp.ui.sentencebuilder.SentenceBuilderLabScreen
+import com.example.uiapp.ui.predictiveback.PredictiveBackLabScreen
+import com.example.uiapp.ui.aiinlineedit.AiInlineEditLabScreen
+import com.example.uiapp.ui.designtokens.DesignTokensLabScreen
+import com.example.uiapp.ui.perfhud.PerfHudLabScreen
+import com.example.uiapp.ui.appointmentslots.AppointmentSlotsLabScreen
+import com.example.uiapp.ui.flowviz.FlowVizLabScreen
+import com.example.uiapp.ui.graphexplorer.GraphExplorerLabScreen
+import com.example.uiapp.ui.storelocator.StoreLocatorLabScreen
+import com.example.uiapp.ui.paymentform.PaymentFormLabScreen
+import com.example.uiapp.ui.addressinput.AddressInputLabScreen
+import com.example.uiapp.ui.recurrencepicker.RecurrencePickerLabScreen
+import com.example.uiapp.ui.liveauction.LiveAuctionLabScreen
+import com.example.uiapp.ui.flashsale.FlashSaleLabScreen
+import com.example.uiapp.ui.subscriptionmgmt.SubscriptionMgmtLabScreen
+import com.example.uiapp.ui.queueticket.QueueTicketLabScreen
+import com.example.uiapp.ui.postcomposer.PostComposerLabScreen
+import com.example.uiapp.ui.storycreator.StoryCreatorLabScreen
+import com.example.uiapp.ui.docscanner.DocScannerLabScreen
+import com.example.uiapp.ui.pdfviewer.PdfViewerLabScreen
+import com.example.uiapp.ui.codeeditor.CodeEditorLabScreen
+import com.example.uiapp.ui.versionhistory.VersionHistoryLabScreen
+import com.example.uiapp.ui.rtlpreview.RtlPreviewLabScreen
+import com.example.uiapp.ui.a11yaudit.A11yAuditLabScreen
+import com.example.uiapp.ui.gettingstarted.GettingStartedLabScreen
+import com.example.uiapp.ui.whatsnew.WhatsNewLabScreen
+import com.example.uiapp.ui.referralinvite.ReferralInviteLabScreen
+import com.example.uiapp.ui.npssurvey.NpsSurveyLabScreen
+import com.example.uiapp.ui.reportflow.ReportFlowLabScreen
+import com.example.uiapp.ui.securevault.SecureVaultLabScreen
+import com.example.uiapp.ui.medicationplan.MedicationPlanLabScreen
+import com.example.uiapp.ui.nutritiondiary.NutritionDiaryLabScreen
+import com.example.uiapp.ui.sleepstages.SleepStagesLabScreen
+import com.example.uiapp.ui.qrispay.QrisPayLabScreen
+import com.example.uiapp.ui.virtualcard.VirtualCardLabScreen
+import com.example.uiapp.ui.currencyexchange.CurrencyExchangeLabScreen
+import com.example.uiapp.ui.loansimulator.LoanSimulatorLabScreen
+import com.example.uiapp.ui.dragdrop.DragDropLabScreen
+import com.example.uiapp.ui.collabpresence.CollabPresenceLabScreen
+import com.example.uiapp.ui.livedashboard.LiveDashboardLabScreen
+import com.example.uiapp.ui.offlineresilience.OfflineResilienceLabScreen
+import com.example.uiapp.ui.aiagentsteps.AiAgentStepsLabScreen
 
 private const val RouteHome = "home"
 private const val RouteAutoBlurScroll = "auto_blur_scroll"
@@ -273,6 +323,60 @@ private const val RouteGanttRoadmap = "gantt_roadmap"
 private const val RouteTreeExplorer = "tree_explorer"
 private const val RouteSplitBill = "split_bill"
 
+// Lab baru: dock mengambang (ยง11.6) & pola trending 2026 (ยง5.3)
+private const val RouteFloatingDock = "floating_dock"
+private const val RouteStaggeredReveal = "staggered_reveal"
+private const val RouteSuccessCheck = "success_check"
+private const val RoutePillToolbar = "pill_toolbar"
+private const val RouteSearchMorph = "search_morph"
+
+
+// 44 labs (ง11 remainder + ง12)
+private const val RouteBudgetEnvelopes = "budget_envelopes"
+private const val RouteQuestPath = "quest_path"
+private const val RouteSentenceBuilder = "sentence_builder"
+private const val RoutePredictiveBack = "predictive_back"
+private const val RouteAiInlineEdit = "ai_inline_edit"
+private const val RouteDesignTokens = "design_tokens"
+private const val RoutePerfHud = "perfhud"
+private const val RouteAppointmentSlots = "appointment_slots"
+private const val RouteFlowViz = "flow_viz"
+private const val RouteGraphExplorer = "graph_explorer"
+private const val RouteStoreLocator = "store_locator"
+private const val RoutePaymentForm = "payment_form"
+private const val RouteAddressInput = "address_input"
+private const val RouteRecurrencePicker = "recurrence_picker"
+private const val RouteLiveAuction = "live_auction"
+private const val RouteFlashSale = "flash_sale"
+private const val RouteSubscriptionMgmt = "subscription_mgmt"
+private const val RouteQueueTicket = "queue_ticket"
+private const val RoutePostComposer = "post_composer"
+private const val RouteStoryCreator = "story_creator"
+private const val RouteDocScanner = "doc_scanner"
+private const val RoutePdfViewer = "pdf_viewer"
+private const val RouteCodeEditor = "code_editor"
+private const val RouteVersionHistory = "version_history"
+private const val RouteRtlPreview = "rtl_preview"
+private const val RouteA11yAudit = "a11y_audit"
+private const val RouteGettingStarted = "getting_started"
+private const val RouteWhatsNew = "whats_new"
+private const val RouteReferralInvite = "referral_invite"
+private const val RouteNpsSurvey = "nps_survey"
+private const val RouteReportFlow = "report_flow"
+private const val RouteSecureVault = "secure_vault"
+private const val RouteMedicationPlan = "medication_plan"
+private const val RouteNutritionDiary = "nutrition_diary"
+private const val RouteSleepStages = "sleep_stages"
+private const val RouteQrisPay = "qris_pay"
+private const val RouteVirtualCard = "virtual_card"
+private const val RouteCurrencyExchange = "currency_exchange"
+private const val RouteLoanSimulator = "loan_simulator"
+private const val RouteDragDrop = "drag_drop"
+private const val RouteCollabPresence = "collab_presence"
+private const val RouteLiveDashboard = "live_dashboard"
+private const val RouteOfflineResilience = "offline_resilience"
+private const val RouteAiAgentSteps = "ai_agent_steps"
+
 private val KnownRoutes = setOf(
     RouteAutoBlurScroll,
     RouteStickyHeader,
@@ -391,6 +495,56 @@ private val KnownRoutes = setOf(
     RouteGanttRoadmap,
     RouteTreeExplorer,
     RouteSplitBill,
+    RouteFloatingDock,
+    RouteStaggeredReveal,
+    RouteSuccessCheck,
+    RoutePillToolbar,
+    RouteSearchMorph,
+
+    RouteBudgetEnvelopes,
+    RouteQuestPath,
+    RouteSentenceBuilder,
+    RoutePredictiveBack,
+    RouteAiInlineEdit,
+    RouteDesignTokens,
+    RoutePerfHud,
+    RouteAppointmentSlots,
+    RouteFlowViz,
+    RouteGraphExplorer,
+    RouteStoreLocator,
+    RoutePaymentForm,
+    RouteAddressInput,
+    RouteRecurrencePicker,
+    RouteLiveAuction,
+    RouteFlashSale,
+    RouteSubscriptionMgmt,
+    RouteQueueTicket,
+    RoutePostComposer,
+    RouteStoryCreator,
+    RouteDocScanner,
+    RoutePdfViewer,
+    RouteCodeEditor,
+    RouteVersionHistory,
+    RouteRtlPreview,
+    RouteA11yAudit,
+    RouteGettingStarted,
+    RouteWhatsNew,
+    RouteReferralInvite,
+    RouteNpsSurvey,
+    RouteReportFlow,
+    RouteSecureVault,
+    RouteMedicationPlan,
+    RouteNutritionDiary,
+    RouteSleepStages,
+    RouteQrisPay,
+    RouteVirtualCard,
+    RouteCurrencyExchange,
+    RouteLoanSimulator,
+    RouteDragDrop,
+    RouteCollabPresence,
+    RouteLiveDashboard,
+    RouteOfflineResilience,
+    RouteAiAgentSteps,
 )
 
 
@@ -403,6 +557,8 @@ fun App() {
         val homeGridState = rememberLazyGridState()
         var selectedHomeSection by remember { mutableStateOf(HomeSection.ALL) }
         var lastTestedRoute by remember { mutableStateOf<String?>(null) }
+        var recentLabRoutes by remember { mutableStateOf(emptyList<String>()) }
+        var catalogSearchQuery by remember { mutableStateOf("") }
 
         // Setiap kembali ke Home mengembalikan filter ke Semua (107), bukan section lab yang dibuka.
         val handleBack: () -> Unit = {
@@ -894,14 +1050,215 @@ fun App() {
                     onBack = handleBack,
                 )
 
+                RouteFloatingDock -> FloatingDockScreen(
+                    onBack = handleBack,
+                )
+
+                RouteStaggeredReveal -> StaggeredRevealScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSuccessCheck -> SuccessCheckScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePillToolbar -> PillToolbarScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSearchMorph -> SearchMorphScreen(
+                    onBack = handleBack,
+                )
+
+
+                RouteBudgetEnvelopes -> BudgetEnvelopesLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteQuestPath -> QuestPathLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSentenceBuilder -> SentenceBuilderLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePredictiveBack -> PredictiveBackLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteAiInlineEdit -> AiInlineEditLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteDesignTokens -> DesignTokensLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePerfHud -> PerfHudLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteAppointmentSlots -> AppointmentSlotsLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteFlowViz -> FlowVizLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteGraphExplorer -> GraphExplorerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteStoreLocator -> StoreLocatorLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePaymentForm -> PaymentFormLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteAddressInput -> AddressInputLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteRecurrencePicker -> RecurrencePickerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteLiveAuction -> LiveAuctionLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteFlashSale -> FlashSaleLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSubscriptionMgmt -> SubscriptionMgmtLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteQueueTicket -> QueueTicketLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePostComposer -> PostComposerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteStoryCreator -> StoryCreatorLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteDocScanner -> DocScannerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RoutePdfViewer -> PdfViewerLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteCodeEditor -> CodeEditorLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteVersionHistory -> VersionHistoryLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteRtlPreview -> RtlPreviewLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteA11yAudit -> A11yAuditLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteGettingStarted -> GettingStartedLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteWhatsNew -> WhatsNewLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteReferralInvite -> ReferralInviteLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteNpsSurvey -> NpsSurveyLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteReportFlow -> ReportFlowLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSecureVault -> SecureVaultLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteMedicationPlan -> MedicationPlanLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteNutritionDiary -> NutritionDiaryLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteSleepStages -> SleepStagesLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteQrisPay -> QrisPayLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteVirtualCard -> VirtualCardLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteCurrencyExchange -> CurrencyExchangeLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteLoanSimulator -> LoanSimulatorLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteDragDrop -> DragDropLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteCollabPresence -> CollabPresenceLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteLiveDashboard -> LiveDashboardLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteOfflineResilience -> OfflineResilienceLabScreen(
+                    onBack = handleBack,
+                )
+
+                RouteAiAgentSteps -> AiAgentStepsLabScreen(
+                    onBack = handleBack,
+                )
+
                 else -> HomeMenuScreen(
                     gridState = homeGridState,
                     selectedSection = selectedHomeSection,
                     onSectionSelected = { selectedHomeSection = it },
                     lastTestedRoute = lastTestedRoute,
+                    recentRouteIds = recentLabRoutes,
+                    searchQuery = catalogSearchQuery,
+                    onSearchQueryChange = { catalogSearchQuery = it },
                     onMenuClick = { id ->
                         if (id in KnownRoutes) {
                             lastTestedRoute = id
+                            recentLabRoutes = (listOf(id) + recentLabRoutes.filterNot { it == id }).take(4)
                             navController.navigate(id)
                         }
                     },

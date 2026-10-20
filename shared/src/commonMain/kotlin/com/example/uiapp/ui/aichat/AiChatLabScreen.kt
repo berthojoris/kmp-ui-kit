@@ -579,7 +579,7 @@ fun AiChatLabScreen(onBack: () -> Unit) {
                                         text = "Hentikan",
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = Color.White,
+                                        color = palette.onDanger,
                                     )
                                 }
                             }

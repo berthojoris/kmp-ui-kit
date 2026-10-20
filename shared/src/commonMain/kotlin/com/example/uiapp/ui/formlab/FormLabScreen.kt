@@ -434,7 +434,7 @@ private fun SuccessBanner() {
                     text = "\u2713",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = palette.onSuccess,
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))

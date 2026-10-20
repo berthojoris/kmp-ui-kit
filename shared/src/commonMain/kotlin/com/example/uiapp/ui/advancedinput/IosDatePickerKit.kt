@@ -391,7 +391,7 @@ private fun IosHorizontalDateStrip(
                 },
                 border = when {
                     // Minggu terpilih tetap merah; penanda pilihannya berupa ring putih 2px.
-                    isSunday && isSelected -> BorderStroke(2.dp, Color.White)
+                    isSunday && isSelected -> BorderStroke(2.dp, palette.onDanger)
                     isSunday -> BorderStroke(1.dp, palette.danger)
                     isSelected -> BorderStroke(1.dp, palette.primary)
                     else -> BorderStroke(1.dp, palette.border)
@@ -400,17 +400,17 @@ private fun IosHorizontalDateStrip(
                 tonalElevation = 0.dp,
             ) {
                 val labelColor = when {
-                    isSunday -> Color.White
+                    isSunday -> palette.onDanger
                     isSelected -> palette.onPrimary
                     else -> palette.textSecondary
                 }
                 val dayColor = when {
-                    isSunday -> Color.White
+                    isSunday -> palette.onDanger
                     isSelected -> palette.onPrimary
                     else -> palette.textPrimary
                 }
                 val monthColor = when {
-                    isSunday -> Color.White
+                    isSunday -> palette.onDanger
                     isSelected -> palette.onPrimary
                     isToday -> palette.primary
                     else -> palette.textMuted

@@ -171,7 +171,7 @@ fun NavStructureLabScreen(onBack: () -> Unit) {
                                             text = item.badgeCount.toString(),
                                             fontSize = 10.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.White,
+                                            color = palette.onDanger,
                                         )
                                     }
                                 } else if (item.hasDot) {
@@ -319,7 +319,7 @@ fun NavStructureLabScreen(onBack: () -> Unit) {
                                                     text = if (voiceListening) "Stop" else "Mic",
                                                     fontSize = 11.sp,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = if (voiceListening) Color.White else palette.onPrimary,
+                                                    color = if (voiceListening) palette.onDanger else palette.onPrimary,
                                                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                                                 )
                                             }
@@ -515,7 +515,7 @@ fun NavStructureLabScreen(onBack: () -> Unit) {
                                                     text = item.badgeCount.toString(),
                                                     fontSize = 9.sp,
                                                     fontWeight = FontWeight.Bold,
-                                                    color = if (isSelected) palette.onPrimary else Color.White,
+                                                    color = if (isSelected) palette.onPrimary else palette.onDanger,
                                                 )
                                             }
                                         }

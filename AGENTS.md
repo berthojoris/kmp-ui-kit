@@ -141,7 +141,7 @@ Aturan tambahan:
 
 Sistem tema: `UiAppTheme` menyediakan `LocalAppPalette` (`AppPalette`) dan `LocalThemeController` (`ThemeMode.LIGHT|DARK|SYSTEM`), lalu meneruskannya ke `MaterialTheme`.
 
-- **Wajib**: ambil warna lewat `val palette = LocalAppPalette.current` di setiap composable yang butuh warna. Gunakan field `AppPalette` (`background`, `surface`, `surfaceMuted`, `border`, `textPrimary`, `textSecondary`, `textMuted`, `primary`, `onPrimary`, `primaryContainer`, `onPrimaryContainer`, `success`, `warning`, `info`, `danger`).
+- **Wajib**: ambil warna lewat `val palette = LocalAppPalette.current` di setiap composable yang butuh warna. Gunakan field `AppPalette` (`background`, `surface`, `surfaceMuted`, `border`, `textPrimary`, `textSecondary`, `textMuted`, `primary`, `onPrimary`, `primaryContainer`, `onPrimaryContainer`, `success`, `onSuccess`, `warning`, `onWarning`, `info`, `onInfo`, `danger`, `onDanger`).
 - **Wajib**: teks, ikon, garis Canvas, dan elemen dekoratif yang berada di atas `palette.primary` memakai `palette.onPrimary` — **bukan** `Color.White`. Palet gelap memakai `primary` terang (`#4FD1B5`), sehingga putih di atasnya hanya ±1,9:1 kontras (gagal WCAG AA) sementara `onPrimary` mencapai ±8,8:1. Untuk lapisan transparan gunakan `palette.onPrimary.copy(alpha = …)`.
 - **Dilarang** menulis warna hardcoded baru (`Color(0xFF...)`) untuk permukaan, teks, atau border pada kode baru. Warna hardcoded hanya boleh untuk kasus sangat spesifik: data visual buatan (gradien ilustrasi mock, palet chart) dan warna status pill pada data mock.
 - Untuk nilai warna statis yang tidak bisa membaca `LocalAppPalette.current` (data mock top-level, mis. warna seri chart), ambil dari `LightAppPalette`; jangan menulis hex baru dan jangan membuat palet statis baru.
@@ -281,7 +281,8 @@ Jalankan perintah dari root repositori (Windows: gunakan `.\gradlew.bat`, jangan
 
 ```powershell
 .\gradlew.bat :androidApp:assembleDebug              # build APK debug (validasi utama Android)
-.\gradlew.bat :shared:compileKotlinAndroid           # kompilasi cepat shared untuk Android (plugin android-multiplatform)
+.\gradlew.bat :androidApp:assembleRelease           # build APK release (output awal unsigned)
+.\gradlew.bat :shared:compileAndroidMain            # kompilasi cepat shared untuk Android (plugin android-multiplatform)
 .\gradlew.bat :shared:compileKotlinIosSimulatorArm64 # validasi iOS simulator (Apple Silicon)
 .\gradlew.bat :shared:compileKotlinIosArm64          # validasi iOS device
 .\gradlew.bat :shared:check                           # semua check yang tersedia
@@ -292,6 +293,7 @@ Jalankan perintah dari root repositori (Windows: gunakan `.\gradlew.bat`, jangan
 Aturan validasi:
 
 - **Minimal** jalankan `:androidApp:assembleDebug` untuk perubahan apa pun pada `commonMain`.
+- **Untuk rilis Android, APK release wajib ditandatangani.** Artefak `*-unsigned.apk` hasil `assembleRelease` **tidak boleh** dianggap rilis siap pakai. Tandatangani dengan `apksigner` (Android SDK build-tools) memakai keystore release, simpan output final sebagai `androidApp-release-signed.apk`, lalu verifikasi dengan `apksigner verify` (minimal scheme v2/v3).
 - Untuk perubahan UI, lakukan juga pengecekan manual di preview/emulator: mode terang & gelap, font besar, layar kecil, keyboard terbuka (bila ada input).
 - iOS divalidasi dengan membuka `iosApp/iosApp.xcodeproj` di Xcode; framework `Shared` (static) dibangun oleh Gradle. Jangan mengubah `Config.xcconfig`/`project.pbxproj` tanpa permintaan.
 - Test logika murni ada di `shared/src/commonTest/kotlin/...` dan dijalankan dengan `:shared:testAndroidHostTest` (host JVM). `:shared:allTests` menuntut simulator iOS sehingga tidak bisa dijalankan di Windows; jangan menyatakan pekerjaan selesai hanya karena `assembleDebug` hijau bila kamu mengubah logika yang sudah punya test. Jangan membuat test yang membutuhkan jaringan.
@@ -317,6 +319,7 @@ Sebuah lab dinyatakan selesai hanya bila **semua** poin berikut terpenuhi:
 - [ ] Data mock lokal dan diberi label simulasi bila menyerupai layanan platform.
 - [ ] Status lab diperbarui di `TODO.md`.
 - [ ] `.\gradlew.bat :androidApp:assembleDebug` sukses.
+- [ ] Untuk rilis Android: APK release ditandatangani (`androidApp-release-signed.apk`) dan lulus `apksigner verify` (minimal v2/v3); artefak `*-unsigned.apk` tidak boleh dianggap rilis.
 
 ---
 
@@ -344,13 +347,13 @@ Ini kondisi **saat ini** yang menyimpang dari aturan di atas. Jangan menganggapn
 | --- | --- | --- | --- |
 | 1 | Beberapa lab masih menyimpan warna pada konstanta statis `LightAppPalette` untuk data mock top-level (mis. warna seri di `charts`, `stats`, `feedback`) karena data tersebut bukan `@Composable` sehingga tidak bisa membaca `LocalAppPalette.current`. Permukaan, teks, dan border sudah penuh memakai palet aktif. | Warna seri chart/status pill tetap sama di mode terang dan gelap (memang disengaja untuk identitas data), berbeda dari palet yang beradaptasi | Biarkan; kalau seri chart ingin ikut tema, ubah jadi parameter `tint` yang diisi dari composable pemanggil |
 | 2 | Tema XML `Theme.UIApp` masih berbasis `Material` (bukan Material3) dan hanya menyetel latar jendela + transparansi system bar. Warna ikon system bar kini diselaraskan dari Compose lewat `ApplySystemBarAppearance` (§6.3), bukan dari `MainActivity`. | Jendela sesaat sebelum frame Compose pertama belum meniru Material3; nilai `windowLightStatusBar` di XML hanya berlaku sampai frame pertama menggantikannya | Tambahkan tema Material3 hanya jika `androidApp` juga memakai komponen XML Material3 |
-| 3 | `navigationBarsPadding()` sudah dipakai 33 file, tetapi belum merata. `imePadding()` baru ada di 7 layar berinput (`auth`, `profilesetup`, `search`, `command_palette`, `formlab`, `create_lab`, `resume_form`); `AiChatLabScreen` memakai `WindowInsets.safeDrawing.only(Bottom)` yang juga mencakup IME. | Tombol di dasar layar berisiko tertutup navigation bar / keyboard pada lab lama | Terapkan saat menyentuh layar terkait |
+| 3 | Layar ber-Scaffold sudah aman: `innerPadding` M3 Scaffold mencakup inset bottom navbar (terverifikasi dari bytecode `material3-android` 1.12.0-alpha03: `contentWindowInsets = systemBars.union(displayCutout)`). Layar tanpa Scaffold yang tersisa sudah menambahkan `navigationBarsPadding()` (mis. `blurscroll`, `bottomsheet`, `morphingfab`, `parallaxhero`, `searchtokens`); layar berinput memakai `imePadding()` (mis. `auth`, `formlab`, `search`, `searchtokens`, `AiChatLabScreen` via `safeDrawing.only(Bottom)`). ⚠️ Konvensi lama `padding(innerPadding).navigationBarsPadding()` pada layar ber-Scaffold = **double-pad** ±48dp; jangan ditiru dan hapus saat menyentuh file terkait. | Layar ber-Scaffold yang ditambah `navigationBarsPadding()` manual punya celah mati di dasar layar | Jangan menambah `navigationBarsPadding()` di dalam content Scaffold yang sudah `padding(innerPadding)`; cukup `imePadding()` untuk layar berinput |
 | 4 | `TODO.md` sudah menandai seluruh item §6 sebagai `DONE`, sinkron dengan kode. | Tidak lagi menyesatkan | Jaga tetap sinkron setiap menutup lab |
 | 5 | Test hanya mencakup logika murni (`CalendarMathTest`, `AppNavigationTest`); seluruh UI dan 71 layar belum diuji. `:shared:allTests` tidak bisa dijalankan di Windows karena menuntut simulator iOS. | Regresi pada logika kalender dan navigasi terdeteksi otomatis; regresi UI tidak | Tambahkan test `commonTest` saat mengerjakan logika non-UI, lalu jalankan `:shared:testAndroidHostTest` |
 | 6 | Beberapa ilustrasi Canvas mock memakai warna terang hardcoded (mis. `MapBackdrop` di `BottomSheetScreen`) sehingga tetap terang di mode gelap. | Kontras ilustrasi mock tidak mengikuti tema; ini bukan kegagalan teks/permukaan | Ubah ke `palette.*` bila ilustrasi tersebut disentuh |
 | 7 | `iosArm64X64` dan `iosX64` tidak ditargetkan (hanya arm64 + simulator arm64) | Build iOS di Mac Intel tidak didukung | Jangan tambah target tanpa diminta |
-| 8 | Duplikasi komponen antar lab masih ada secara struktural (segmented control dan bottom bar dibuat ulang per lab); 6 nama composable `private` benar-benar sama di dua file: `SectionHeader`, `StatusPill`, `PrimaryButton`, `SectionLabel`, `ActivityRow`, `UnlockedContent`. | Duplikasi kode dan risiko perbaikan tidak konsisten | Ekstrak ke `ui/components/` saat komponen yang sama muncul minimal tiga kali |
-| 9 | `AppPalette` belum punya token `onSuccess` / `onDanger` / `onWarning`, sehingga teks di atas `palette.success`/`danger`/`warning` masih memakai `Color.White`; di mode terang itu hanya ±2,5–3,8:1 dan `warning` gagal di kedua mode. | Kontras teks pada lencana sukses/peringatan/bahaya di bawah standar AA | Tambahkan token `on*` ke `AppPalette` (menyentuh API tema, butuh persetujuan) lalu migrasikan pemakaiannya |
+| 8 | Duplikasi komponen antar lab masih ada secara struktural (segmented control dan bottom bar dibuat ulang per lab); nama composable `private` yang sama di dua file: `SectionHeader`, `PrimaryButton`, `SectionLabel`, `ActivityRow`, `UnlockedContent`. `StatusPill` sudah diekstrak ke `ui/components/StatusPill.kt` (wrapper enum per-lab tetap private dan mendelegasikan rendering). | Duplikasi kode dan risiko perbaikan tidak konsisten | Ekstrak ke `ui/components/` saat komponen yang sama muncul minimal tiga kali |
+| 9 | Selesai: `AppPalette` kini menyediakan token `onSuccess` / `onWarning` / `onInfo` / `onDanger`; warna status mode terang digelapkan agar label pada permukaan lembut tetap memenuhi kontras. | Kontras foreground/background status kini punya pasangan tema yang jelas | Gunakan token `on*` untuk teks/ikon di atas bidang status berwarna penuh; gunakan field status aktif untuk label di atas permukaan |
 | 10 | Ukuran `ui/components/icons/` masih 317–676 baris per file dibanding `UiIcons.kt` yang tadinya 2.409 baris | Lebih mudah dibaca, tetapi masih bisa dipecah lagi bila melewati ±800 baris | Pertahankan pembagian per bagian Home saat menambah ikon baru |
 
 ---
@@ -446,5 +449,6 @@ Aturan teknis di file ini bersumber dari dua hal: kode repositori yang sudah ter
 - `Modifier.safeDrawingPadding()` mencakup insets IME (keyboard) pada iOS.
 - `ComposeUIViewController` mengaktifkan gesture back secara default, sehingga `BackHandler` bekerja di iOS tanpa bridge `expect/actual`.
 - `Modifier.navigationBarsPadding()` dan `imePadding()` tersedia di `commonMain` melalui `compose.foundation`.
+- M3 Scaffold (material3 1.12.0-alpha03, verifikasi bytecode `SystemBarsDefaultInsets_androidKt`): `ScaffoldDefaults.contentWindowInsets` = `systemBars.union(displayCutout)` — **termasuk inset bottom navbar**. Konsekuensi: content yang sudah `padding(innerPadding)` TIDAK perlu `navigationBarsPadding()` lagi (double-pad); `imePadding()` tetap perlu karena Scaffold tidak mencakup IME. `innerPadding` tidak lagi mencakup bottom bila ada `bottomBar` (Scaffold menyerahkannya ke bottomBar).
 
 Bila agent ragu tentang ketersediaan sebuah API Compose Multiplatform, verifikasi lewat Context7 MCP sebelum mengubah pola yang sudah ada di repo, lalu catat hasilnya di sini.

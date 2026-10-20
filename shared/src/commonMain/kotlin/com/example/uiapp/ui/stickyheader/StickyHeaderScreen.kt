@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.theme.LocalAppPalette
+import com.example.uiapp.ui.components.StatusPill
 import com.example.uiapp.ui.components.UiTopBar
 
 private enum class RowStatus { PAID, PENDING, REFUND }
@@ -288,29 +289,15 @@ private fun ActivityCard(row: ActivityRow) {
 @Composable
 private fun StatusPill(status: RowStatus) {
     val palette = LocalAppPalette.current
-
-    val background: Color
-    val foreground: Color
-    val label: String
-    when (status) {
-        RowStatus.PAID -> {
-            background = Color(0xFFE8F5E9); foreground = palette.success; label = "PAID"
-        }
-        RowStatus.PENDING -> {
-            background = Color(0xFFFFF7ED); foreground = palette.warning; label = "PENDING"
-        }
-        RowStatus.REFUND -> {
-            background = Color(0xFFEFF6FF); foreground = palette.info; label = "REFUND"
-        }
+    val label = when (status) {
+        RowStatus.PAID -> "PAID"
+        RowStatus.PENDING -> "PENDING"
+        RowStatus.REFUND -> "REFUND"
     }
-    Text(
-        text = label,
-        modifier = Modifier
-            .clip(RoundedCornerShape(9.dp))
-            .background(background)
-            .padding(horizontal = 8.dp, vertical = 3.dp),
-        fontSize = 10.sp,
-        fontWeight = FontWeight.SemiBold,
-        color = foreground,
-    )
+    val color = when (status) {
+        RowStatus.PAID -> palette.success
+        RowStatus.PENDING -> palette.warning
+        RowStatus.REFUND -> palette.info
+    }
+    StatusPill(text = label, color = color)
 }

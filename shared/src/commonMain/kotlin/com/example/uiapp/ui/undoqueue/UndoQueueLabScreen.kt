@@ -236,7 +236,7 @@ fun UndoQueueLabScreen(onBack: () -> Unit) {
                             text = if (simulateFailure) "ON" else "OFF",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = if (simulateFailure) Color.White else palette.textSecondary,
+                            color = if (simulateFailure) palette.onDanger else palette.textSecondary,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         )
                     }

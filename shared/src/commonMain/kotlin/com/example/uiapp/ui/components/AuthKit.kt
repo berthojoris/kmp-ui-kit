@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -31,6 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -73,6 +80,7 @@ fun FlatTextField(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
                 .background(palette.surface)
+                .heightIn(min = 48.dp)
                 .border(
                     1.dp,
                     if (error != null) palette.danger else palette.border,
@@ -110,19 +118,29 @@ fun FlatTextField(
                     } else {
                         VisualTransformation.None
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { contentDescription = label },
                 )
             }
             if (isPassword) {
-                Text(
-                    text = if (revealed) "Sembunyikan" else "Lihat",
+                Box(
                     modifier = Modifier
-                        .clickable { revealed = !revealed }
-                        .padding(start = 8.dp),
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = palette.primary,
-                )
+                        .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
+                        .clickable(role = Role.Button) { revealed = !revealed }
+                        .semantics {
+                            contentDescription = if (revealed) "Sembunyikan kata sandi" else "Tampilkan kata sandi"
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = if (revealed) "Sembunyikan" else "Lihat",
+                        modifier = Modifier.padding(start = 8.dp),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = palette.primary,
+                    )
+                }
             }
         }
         if (error != null) {
@@ -148,7 +166,7 @@ fun FlatPrimaryButton(
     Surface(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().heightIn(min = 48.dp),
         shape = RoundedCornerShape(14.dp),
         color = if (enabled) palette.primary else palette.primary.copy(alpha = 0.4f),
         shadowElevation = 0.dp,
@@ -179,7 +197,7 @@ fun FlatSecondaryButton(
     Surface(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().heightIn(min = 48.dp),
         shape = RoundedCornerShape(14.dp),
         color = palette.surface,
         border = androidx.compose.foundation.BorderStroke(1.dp, palette.border),
@@ -204,6 +222,7 @@ fun FlatToggle(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    accessibilityLabel: String? = null,
 ) {
     val palette = LocalAppPalette.current
 
@@ -219,18 +238,28 @@ fun FlatToggle(
     )
     Box(
         modifier = modifier
-            .size(width = 44.dp, height = 26.dp)
-            .clip(RoundedCornerShape(13.dp))
-            .background(track)
-            .clickable { onCheckedChange(!checked) }
-            .padding(3.dp),
+            .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
+            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
+            .semantics {
+                stateDescription = if (checked) "Aktif" else "Nonaktif"
+                if (accessibilityLabel != null) contentDescription = accessibilityLabel
+            },
+        contentAlignment = Alignment.Center,
     ) {
         Box(
             modifier = Modifier
-                .offset(x = thumbOffset)
-                .size(20.dp)
-                .clip(CircleShape)
-                .background(Color.White),
-        )
+                .size(width = 44.dp, height = 26.dp)
+                .clip(RoundedCornerShape(13.dp))
+                .background(track)
+                .padding(3.dp),
+        ) {
+            Box(
+                modifier = Modifier
+                    .offset(x = thumbOffset)
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .background(if (checked) palette.onPrimary else palette.surface),
+            )
+        }
     }
 }

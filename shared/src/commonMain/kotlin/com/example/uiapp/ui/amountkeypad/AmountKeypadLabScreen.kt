@@ -33,6 +33,8 @@ import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.uiapp.HapticKind
+import com.example.uiapp.PerformHapticFeedback
 import com.example.uiapp.theme.LocalAppPalette
 import com.example.uiapp.ui.components.UiTopBar
 
@@ -264,6 +266,7 @@ fun AmountKeypadLabScreen(onBack: () -> Unit) {
                             row.forEach { key ->
                                 Surface(
                                     onClick = {
+                                        PerformHapticFeedback(HapticKind.SELECTION)
                                         when (key) {
                                             "DEL" -> amount = amount / 10L
                                             else -> appendDigits(key)

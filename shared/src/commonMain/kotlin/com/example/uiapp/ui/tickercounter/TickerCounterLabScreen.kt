@@ -186,7 +186,7 @@ fun TickerCounterLabScreen(onBack: () -> Unit) {
                                 text = if (isPriceUp) "▲ +2.4%" else "▼ -1.8%",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White,
+                                color = if (isPriceUp) palette.onSuccess else palette.onDanger,
                             )
                         }
                     }

@@ -18,3 +18,12 @@ expect fun getPlatform(): Platform
  */
 @Composable
 expect fun ApplySystemBarAppearance(isDark: Boolean)
+
+/** Jenis umpan balik haptic yang didukung aplikasi. */
+enum class HapticKind { LIGHT, MEDIUM, HEAVY, SUCCESS, WARNING, SELECTION }
+
+/**
+ * Memicu getaran haptic nyata perangkat (bukan simulasi).
+ * Aman dipanggil dari thread utama; diabaikan bila layanan getar belum tersedia.
+ */
+expect fun PerformHapticFeedback(kind: HapticKind)

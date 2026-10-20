@@ -83,7 +83,7 @@ fun SystemPlatformLabScreen(onBack: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
         ) {
             Row(
                 modifier = Modifier

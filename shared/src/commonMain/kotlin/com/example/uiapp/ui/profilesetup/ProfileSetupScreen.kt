@@ -465,7 +465,11 @@ private fun PreferenceRow(
                 )
             }
             Spacer(modifier = Modifier.width(10.dp))
-            FlatToggle(checked = checked, onCheckedChange = onCheckedChange)
+            FlatToggle(
+                checked = checked,
+                onCheckedChange = onCheckedChange,
+                accessibilityLabel = label,
+            )
         }
     }
 }

@@ -56,6 +56,7 @@ import com.example.uiapp.ui.components.FlatToggle
 import com.example.uiapp.ui.components.LabCard
 import com.example.uiapp.ui.components.LabIntroCard
 import com.example.uiapp.ui.components.LabSectionTitle
+import com.example.uiapp.ui.components.StatusPill
 import com.example.uiapp.ui.components.UiTopBar
 import kotlinx.coroutines.delay
 
@@ -406,28 +407,6 @@ private fun SimulasiPill() {
             fontWeight = FontWeight.Bold,
             color = palette.info,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-        )
-    }
-}
-
-@Composable
-private fun StatusPill(text: String, color: Color) {
-    val palette = LocalAppPalette.current
-    Surface(
-        shape = RoundedCornerShape(999.dp),
-        color = color.copy(alpha = 0.15f),
-        border = BorderStroke(1.dp, color),
-        shadowElevation = 0.dp,
-        tonalElevation = 0.dp,
-    ) {
-        Text(
-            text = text,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            color = color,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
         )
     }
 }

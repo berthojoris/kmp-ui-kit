@@ -353,3 +353,103 @@ fun SplitBillMenuIcon(
         drawCircle(color = tint, radius = w * 0.06f, center = Offset(w * 0.64f, h * 0.5f))
     }
 }
+
+// Ikon floating dock: kapsul dock dengan satu tombol menonjol ( minimized ).
+@Composable
+fun FloatingDockMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        // Dock pill lebar di bawah
+        drawRoundRect(
+            color = tint.copy(alpha = 0.55f),
+            topLeft = Offset(w * 0.06f, h * 0.62f),
+            size = Size(w * 0.88f, h * 0.3f),
+            cornerRadius = CornerRadius(h * 0.15f),
+            style = stroke,
+        )
+        drawCircle(color = tint.copy(alpha = 0.55f), radius = w * 0.05f, center = Offset(w * 0.22f, h * 0.77f))
+        drawCircle(color = tint.copy(alpha = 0.55f), radius = w * 0.05f, center = Offset(w * 0.5f, h * 0.77f))
+        // Tombol aktif terlepas ke atas ( menandakan minimize ke satu tombol )
+        drawRoundRect(
+            color = tint,
+            topLeft = Offset(w * 0.62f, h * 0.06f),
+            size = Size(w * 0.32f, h * 0.3f),
+            cornerRadius = CornerRadius(h * 0.15f),
+            style = stroke,
+        )
+        drawCircle(color = tint, radius = w * 0.05f, center = Offset(w * 0.78f, h * 0.21f))
+        drawLine(
+            color = tint,
+            start = Offset(w * 0.2f, h * 0.44f),
+            end = Offset(w * 0.8f, h * 0.44f),
+            strokeWidth = stroke.width,
+            cap = StrokeCap.Round,
+        )
+    }
+}
+
+@Composable
+fun BudgetEnvelopesMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawCircle(color = tint, radius = w*0.32f, center = Offset(w*0.5f,h*0.5f), style = stroke)
+        drawLine(color = tint, start = Offset(w*0.2f,h*0.5f), end = Offset(w*0.8f,h*0.5f), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
+    }
+}
+
+@Composable
+fun QuestPathMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawCircle(color = tint, radius = w*0.32f, center = Offset(w*0.5f,h*0.5f), style = stroke)
+        drawLine(color = tint, start = Offset(w*0.2f,h*0.5f), end = Offset(w*0.8f,h*0.5f), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
+    }
+}
+
+@Composable
+fun SentenceBuilderMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawCircle(color = tint, radius = w*0.32f, center = Offset(w*0.5f,h*0.5f), style = stroke)
+        drawLine(color = tint, start = Offset(w*0.2f,h*0.5f), end = Offset(w*0.8f,h*0.5f), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
+    }
+}
+
+@Composable
+fun PredictiveBackMenuIcon(
+    modifier: Modifier = Modifier,
+    size: Dp = 22.dp,
+    tint: Color = LightAppPalette.textPrimary,
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val w = this.size.width
+        val h = this.size.height
+        val stroke = Stroke(width = 1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        drawCircle(color = tint, radius = w*0.32f, center = Offset(w*0.5f,h*0.5f), style = stroke)
+        drawLine(color = tint, start = Offset(w*0.2f,h*0.5f), end = Offset(w*0.8f,h*0.5f), strokeWidth = 1.6.dp.toPx(), cap = StrokeCap.Round)
+    }
+}

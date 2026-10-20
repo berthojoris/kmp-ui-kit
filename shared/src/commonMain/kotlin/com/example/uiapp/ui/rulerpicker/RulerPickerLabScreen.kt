@@ -255,7 +255,11 @@ fun RulerPickerLabScreen(onBack: () -> Unit) {
                         color = palette.textMuted,
                         modifier = Modifier.weight(1f),
                     )
-                    FlatToggle(checked = hapticAktif, onCheckedChange = { hapticAktif = it })
+                    FlatToggle(
+                        checked = hapticAktif,
+                        onCheckedChange = { hapticAktif = it },
+                        accessibilityLabel = "Umpan haptic per tick",
+                    )
                 }
             }
 
@@ -568,7 +572,11 @@ fun RulerPickerLabScreen(onBack: () -> Unit) {
                             color = palette.textSecondary,
                         )
                     }
-                    FlatToggle(checked = terkunci, onCheckedChange = { terkunci = it })
+                    FlatToggle(
+                        checked = terkunci,
+                        onCheckedChange = { terkunci = it },
+                        accessibilityLabel = "Kunci ruler",
+                    )
                 }
                 if (terkunci) {
                     Box(

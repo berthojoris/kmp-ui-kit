@@ -1,10 +1,11 @@
 package com.example.uiapp.ui.home
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,10 +26,16 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,6 +43,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.uiapp.getPlatform
 import com.example.uiapp.theme.LocalAppPalette
+import com.example.uiapp.theme.AppPalette
 import com.example.uiapp.ui.components.icons.AccessibilityLabMenuIcon
 import com.example.uiapp.ui.components.icons.ActivityInboxMenuIcon
 import com.example.uiapp.ui.components.icons.AdaptiveMenuIcon
@@ -50,6 +69,10 @@ import com.example.uiapp.ui.components.icons.AdvancedInputMenuIcon
 import com.example.uiapp.ui.components.icons.AdvancedListMenuIcon
 import com.example.uiapp.ui.components.icons.AiChatMenuIcon
 import com.example.uiapp.ui.components.icons.AiVoiceOrbMenuIcon
+import com.example.uiapp.ui.components.icons.StaggeredRevealMenuIcon
+import com.example.uiapp.ui.components.icons.SuccessCheckMenuIcon
+import com.example.uiapp.ui.components.icons.PillToolbarMenuIcon
+import com.example.uiapp.ui.components.icons.SearchMorphMenuIcon
 import com.example.uiapp.ui.components.icons.AmountKeypadMenuIcon
 import com.example.uiapp.ui.components.icons.AuthMenuIcon
 import com.example.uiapp.ui.components.icons.AutoBlurScrollMenuIcon
@@ -157,28 +180,89 @@ import com.example.uiapp.ui.components.icons.GanttRoadmapMenuIcon
 import com.example.uiapp.ui.components.icons.PhotoCropperMenuIcon
 import com.example.uiapp.ui.components.icons.SeatSelectorMenuIcon
 import com.example.uiapp.ui.components.icons.SplitBillMenuIcon
+import com.example.uiapp.ui.components.icons.FloatingDockMenuIcon
 import com.example.uiapp.ui.components.icons.SyncedLyricsMenuIcon
 import com.example.uiapp.ui.components.icons.TreeExplorerMenuIcon
 import com.example.uiapp.ui.components.icons.TripTrackerMenuIcon
+import com.example.uiapp.ui.components.icons.BudgetEnvelopesMenuIcon
+import com.example.uiapp.ui.components.icons.QuestPathMenuIcon
+import com.example.uiapp.ui.components.icons.SentenceBuilderMenuIcon
+import com.example.uiapp.ui.components.icons.PredictiveBackMenuIcon
+import com.example.uiapp.ui.components.icons.AiInlineEditMenuIcon
+import com.example.uiapp.ui.components.icons.DesignTokensMenuIcon
+import com.example.uiapp.ui.components.icons.PerfhudMenuIcon
+import com.example.uiapp.ui.components.icons.AppointmentSlotsMenuIcon
+import com.example.uiapp.ui.components.icons.FlowVizMenuIcon
+import com.example.uiapp.ui.components.icons.GraphExplorerMenuIcon
+import com.example.uiapp.ui.components.icons.StoreLocatorMenuIcon
+import com.example.uiapp.ui.components.icons.PaymentFormMenuIcon
+import com.example.uiapp.ui.components.icons.AddressInputMenuIcon
+import com.example.uiapp.ui.components.icons.RecurrencePickerMenuIcon
+import com.example.uiapp.ui.components.icons.LiveAuctionMenuIcon
+import com.example.uiapp.ui.components.icons.FlashSaleMenuIcon
+import com.example.uiapp.ui.components.icons.SubscriptionMgmtMenuIcon
+import com.example.uiapp.ui.components.icons.QueueTicketMenuIcon
+import com.example.uiapp.ui.components.icons.PostComposerMenuIcon
+import com.example.uiapp.ui.components.icons.StoryCreatorMenuIcon
+import com.example.uiapp.ui.components.icons.DocScannerMenuIcon
+import com.example.uiapp.ui.components.icons.PdfViewerMenuIcon
+import com.example.uiapp.ui.components.icons.CodeEditorMenuIcon
+import com.example.uiapp.ui.components.icons.VersionHistoryMenuIcon
+import com.example.uiapp.ui.components.icons.RtlPreviewMenuIcon
+import com.example.uiapp.ui.components.icons.A11yAuditMenuIcon
+import com.example.uiapp.ui.components.icons.GettingStartedMenuIcon
+import com.example.uiapp.ui.components.icons.WhatsNewMenuIcon
+import com.example.uiapp.ui.components.icons.ReferralInviteMenuIcon
+import com.example.uiapp.ui.components.icons.NpsSurveyMenuIcon
+import com.example.uiapp.ui.components.icons.ReportFlowMenuIcon
+import com.example.uiapp.ui.components.icons.SecureVaultMenuIcon
+import com.example.uiapp.ui.components.icons.MedicationPlanMenuIcon
+import com.example.uiapp.ui.components.icons.NutritionDiaryMenuIcon
+import com.example.uiapp.ui.components.icons.SleepStagesMenuIcon
+import com.example.uiapp.ui.components.icons.QrisPayMenuIcon
+import com.example.uiapp.ui.components.icons.VirtualCardMenuIcon
+import com.example.uiapp.ui.components.icons.CurrencyExchangeMenuIcon
+import com.example.uiapp.ui.components.icons.LoanSimulatorMenuIcon
+import com.example.uiapp.ui.components.icons.DragDropMenuIcon
+import com.example.uiapp.ui.components.icons.CollabPresenceMenuIcon
+import com.example.uiapp.ui.components.icons.LiveDashboardMenuIcon
+import com.example.uiapp.ui.components.icons.OfflineResilienceMenuIcon
+import com.example.uiapp.ui.components.icons.AiAgentStepsMenuIcon
 import kotlinx.coroutines.launch
 
 enum class HomeSection(
     val title: String,
     val shortLabel: String,
 ) {
-    ALL("Semua Lab", "Semua (117)"),
+    ALL("Semua Lab", "Semua (166)"),
     CORE("1. Labs Eksperimen Inti", "Inti (19)"),
     AUTH("2. Onboarding & Auth Flow", "Auth (7)"),
     ADVANCED("3. Komponen Lanjutan Baru", "Lanjutan (9)"),
     WORLD_CLASS("4. Komponen World-Class UI", "World-Class (12)"),
-    TRENDING("5. Trending Mobile UI 2025/2026", "Trending (6)"),
+    TRENDING("5. Trending Mobile UI 2025/2026", "Trending (10)"),
     MODERN("6. Ide Komponen UI Modern 2026", "Modern UI (9)"),
     PRO("7. Komponen Modern & Profesional", "Pro (5)"),
     NEW_LABS("8. Gamifikasi, Viz & Media", "Baru (4)"),
     IOS_PATTERN("9. Pola Khas iOS Modern", "iOS (16)"),
     IOS_APPS("10. Ide Lab Khas iOS Lanjutan", "iOS+ (20)"),
-    INDUSTRY("11. Komponen Industri & Produktivitas", "Industri (10)"),
+    INDUSTRY("11. Komponen Industri & Produktivitas", "Industri (15)"),
+    IDEA2026("12. Ide Komponen Baru", "Idea 2026 (40)"),
 }
+
+private val HomeSectionOrder = listOf(
+    HomeSection.CORE,
+    HomeSection.AUTH,
+    HomeSection.ADVANCED,
+    HomeSection.WORLD_CLASS,
+    HomeSection.TRENDING,
+    HomeSection.MODERN,
+    HomeSection.PRO,
+    HomeSection.NEW_LABS,
+    HomeSection.IOS_PATTERN,
+    HomeSection.IOS_APPS,
+    HomeSection.INDUSTRY,
+    HomeSection.IDEA2026,
+)
 
 data class MenuEntry(
     val id: String,
@@ -244,13 +328,17 @@ val MenuEntries = listOf(
     MenuEntry("scratch_card", "Scratch Card", "Touch erase & reward card reveal", true, HomeSection.WORLD_CLASS),
     MenuEntry("streak_heatmap", "Streak & Heatmap", "Duolingo flame & GitHub activity grid", true, HomeSection.WORLD_CLASS),
 
-    // 5. Trending Mobile UI 2025/2026 (6)
+    // 5. Trending Mobile UI 2025/2026 (10)
     MenuEntry("hold_to_confirm", "Hold to Confirm", "Long-press progress & anti-mistake action", true, HomeSection.TRENDING),
     MenuEntry("slide_to_confirm", "Slide to Confirm", "Draggable pill & track lock snap", true, HomeSection.TRENDING),
     MenuEntry("split_comparison", "Split Comparison", "Before & after interactive divider slider", true, HomeSection.TRENDING),
     MenuEntry("bento_grid", "Bento Grid Dashboard", "Apple & SaaS modular interactive cards", true, HomeSection.TRENDING),
     MenuEntry("perforated_ticket", "Perforated Ticket", "Boarding pass, cutouts & tear perforation", true, HomeSection.TRENDING),
     MenuEntry("ai_voice_orb", "AI Voice Orb", "ChatGPT Voice & Siri fluid organic intelligence", true, HomeSection.TRENDING),
+    MenuEntry("staggered_reveal", "Staggered Reveal", "Kartu muncul berurutan dengan delay bertingkat", true, HomeSection.TRENDING),
+    MenuEntry("success_check", "Success Check", "Centang sukses menggambar diri lalu berpindah", true, HomeSection.TRENDING),
+    MenuEntry("pill_toolbar", "Pill Toolbar", "Toolbar pill melayang dengan aksi melebar", true, HomeSection.TRENDING),
+    MenuEntry("search_morph", "Search Morph", "Ikon cari berubah wujud jadi kolom pencarian", true, HomeSection.TRENDING),
 
     // 6. Ide Komponen UI Modern 2026 (9)
     MenuEntry("ai_chat", "AI Chat Composer", "Composer adaptif, streaming & citation", true, HomeSection.MODERN),
@@ -327,6 +415,53 @@ val MenuEntries = listOf(
     MenuEntry("gantt_roadmap", "Gantt Roadmap", "Linimasa proyek & ketergantungan", true, HomeSection.INDUSTRY),
     MenuEntry("tree_explorer", "Tree Explorer", "Pohon berkas & folder hierarkis", true, HomeSection.INDUSTRY),
     MenuEntry("split_bill", "Split Bill", "Bagi tagihan per item & per orang", true, HomeSection.INDUSTRY),
+    MenuEntry("floating_dock", "Floating Dock", "Tab bar mengecil jadi pill saat scroll", true, HomeSection.INDUSTRY),
+    MenuEntry("budget_envelopes", "Budget Envelopes", "Alokasi amplop anggaran & geser uang", true, HomeSection.INDUSTRY),
+    MenuEntry("quest_path", "Quest Path", "Peta level permainan berkelok & progres", true, HomeSection.INDUSTRY),
+    MenuEntry("sentence_builder", "Sentence Builder", "Rakit kalimat dari ubin kata", true, HomeSection.INDUSTRY),
+    MenuEntry("predictive_back", "Predictive Back", "Simulator back gesture & animasi pratinjau", true, HomeSection.INDUSTRY),
+
+    // 12. Ide Komponen Baru (40)
+    MenuEntry("ai_inline_edit", "Ai Inline Edit", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("design_tokens", "Design Tokens", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("perfhud", "Perfhud", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("appointment_slots", "Appointment Slots", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("flow_viz", "Flow Viz", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("graph_explorer", "Graph Explorer", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("store_locator", "Store Locator", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("payment_form", "Payment Form", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("address_input", "Address Input", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("recurrence_picker", "Recurrence Picker", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("live_auction", "Live Auction", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("flash_sale", "Flash Sale", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("subscription_mgmt", "Subscription Mgmt", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("queue_ticket", "Queue Ticket", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("post_composer", "Post Composer", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("story_creator", "Story Creator", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("doc_scanner", "Doc Scanner", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("pdf_viewer", "Pdf Viewer", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("code_editor", "Code Editor", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("version_history", "Version History", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("rtl_preview", "Rtl Preview", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("a11y_audit", "A11y Audit", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("getting_started", "Getting Started", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("whats_new", "Whats New", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("referral_invite", "Referral Invite", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("nps_survey", "Nps Survey", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("report_flow", "Report Flow", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("secure_vault", "Secure Vault", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("medication_plan", "Medication Plan", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("nutrition_diary", "Nutrition Diary", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("sleep_stages", "Sleep Stages", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("qris_pay", "Qris Pay", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("virtual_card", "Virtual Card", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("currency_exchange", "Currency Exchange", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("loan_simulator", "Loan Simulator", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("drag_drop", "Drag Drop", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("collab_presence", "Collab Presence", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("live_dashboard", "Live Dashboard", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("offline_resilience", "Offline Resilience", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
+    MenuEntry("ai_agent_steps", "Ai Agent Steps", "Lab komponen ide 2026", true, HomeSection.IDEA2026),
 )
 
 @Composable
@@ -336,33 +471,65 @@ fun HomeMenuScreen(
     selectedSection: HomeSection = HomeSection.ALL,
     onSectionSelected: (HomeSection) -> Unit = {},
     lastTestedRoute: String? = null,
+    recentRouteIds: List<String> = emptyList(),
+    searchQuery: String = "",
+    onSearchQueryChange: (String) -> Unit = {},
 ) {
     val platform = remember { getPlatform().name }
     val palette = LocalAppPalette.current
     val scope = rememberCoroutineScope()
-
-    val displayedEntries = remember(selectedSection) {
-        if (selectedSection == HomeSection.ALL) {
-            MenuEntries
-        } else {
-            MenuEntries.filter { it.section == selectedSection }
+    val fontScale = LocalDensity.current.fontScale
+    val normalizedQuery = searchQuery.trim().lowercase()
+    val displayedEntries = remember(selectedSection, normalizedQuery) {
+        MenuEntries.filter { entry ->
+            (selectedSection == HomeSection.ALL || entry.section == selectedSection) &&
+                (normalizedQuery.isEmpty() || entry.title.lowercase().contains(normalizedQuery) ||
+                    entry.subtitle.lowercase().contains(normalizedQuery) || entry.id.contains(normalizedQuery))
         }
     }
 
-    Scaffold(containerColor = palette.background) { innerPadding ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            state = gridState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 28.dp),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-        ) {
+    val recentEntries = remember(recentRouteIds) {
+        recentRouteIds.mapNotNull { route -> MenuEntries.firstOrNull { it.id == route } }
+    }
+    val entriesBySection = remember {
+        HomeSectionOrder.associateWith { section -> MenuEntries.filter { it.section == section } }
+    }
+
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val cardAspectRatio = when {
+            fontScale >= 1.5f && maxWidth < 480.dp -> 0.82f
+            fontScale >= 1.5f && maxWidth < 760.dp -> 1.05f
+            fontScale >= 1.5f -> 1.2f
+            fontScale >= 1.2f && maxWidth < 480.dp -> 0.9f
+            fontScale >= 1.2f && maxWidth < 760.dp -> 1.08f
+            fontScale >= 1.2f -> 1.28f
+            maxWidth >= 760.dp -> 1.35f
+            maxWidth >= 480.dp -> 1.15f
+            else -> 1f
+        }
+        Scaffold(containerColor = palette.background) { innerPadding ->
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                state = gridState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 8.dp, bottom = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
             // Header
             item(span = { GridItemSpan(maxLineSpan) }) {
                 HomeHeader(platform, palette, MenuEntries.size)
+            }
+
+            item(span = { GridItemSpan(maxLineSpan) }, key = "catalog_search") {
+                HomeSearchField(
+                    value = searchQuery,
+                    palette = palette,
+                    onValueChange = onSearchQueryChange,
+                    onClear = { onSearchQueryChange("") },
+                )
             }
 
             // Section Filter Chips Bar
@@ -379,24 +546,37 @@ fun HomeMenuScreen(
                 )
             }
 
-            // Content Items: All sections with headers vs Single section
-            if (selectedSection == HomeSection.ALL) {
-                val sections = listOf(
-                    HomeSection.CORE,
-                    HomeSection.AUTH,
-                    HomeSection.ADVANCED,
-                    HomeSection.WORLD_CLASS,
-                    HomeSection.TRENDING,
-                    HomeSection.MODERN,
-                    HomeSection.PRO,
-                    HomeSection.NEW_LABS,
-                    HomeSection.IOS_PATTERN,
-                    HomeSection.IOS_APPS,
-                    HomeSection.INDUSTRY,
-                )
+            if (selectedSection == HomeSection.ALL && normalizedQuery.isEmpty() && recentEntries.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }, key = "recent_labs") {
+                    RecentLabsRow(entries = recentEntries, palette = palette, onMenuClick = onMenuClick)
+                }
+            }
 
-                sections.forEach { sec ->
-                    val secEntries = MenuEntries.filter { it.section == sec }
+            // Content Items: All sections with headers vs Single section
+            if (displayedEntries.isEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }, key = "empty_search") {
+                    EmptyCatalogResults(
+                        query = searchQuery,
+                        palette = palette,
+                        onClear = { onSearchQueryChange(""); onSectionSelected(HomeSection.ALL) },
+                    )
+                }
+            } else if (normalizedQuery.isNotEmpty()) {
+                item(span = { GridItemSpan(maxLineSpan) }, key = "search_result_header") {
+                    SectionHeader(title = "Hasil pencarian", count = displayedEntries.size, palette = palette)
+                }
+                items(displayedEntries, key = { it.id }) { entry ->
+                    MenuGridCard(
+                        entry = entry,
+                        palette = palette,
+                        isLastTested = entry.id == lastTestedRoute,
+                        aspectRatio = cardAspectRatio,
+                        onClick = { onMenuClick(entry.id) },
+                    )
+                }
+            } else if (selectedSection == HomeSection.ALL) {
+                HomeSectionOrder.forEach { sec ->
+                    val secEntries = entriesBySection[sec].orEmpty()
                     if (secEntries.isNotEmpty()) {
                         item(span = { GridItemSpan(maxLineSpan) }, key = "sec_header_${sec.name}") {
                             SectionHeader(
@@ -416,6 +596,7 @@ fun HomeMenuScreen(
                                 entry = entry,
                                 palette = palette,
                                 isLastTested = entry.id == lastTestedRoute,
+                                aspectRatio = cardAspectRatio,
                                 onClick = { onMenuClick(entry.id) },
                             )
                         }
@@ -441,11 +622,119 @@ fun HomeMenuScreen(
                         entry = entry,
                         palette = palette,
                         isLastTested = entry.id == lastTestedRoute,
+                        aspectRatio = cardAspectRatio,
                         onClick = { onMenuClick(entry.id) },
                     )
                 }
             }
         }
+        }
+    }
+}
+
+@Composable
+private fun HomeSearchField(
+    value: String,
+    palette: AppPalette,
+    onValueChange: (String) -> Unit,
+    onClear: () -> Unit,
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text("Cari lab") },
+        placeholder = { Text("Nama komponen atau fitur") },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
+        trailingIcon = if (value.isNotEmpty()) {
+            {
+                IconButton(
+                    onClick = onClear,
+                    modifier = Modifier.semantics { contentDescription = "Hapus pencarian" },
+                ) {
+                    Canvas(modifier = Modifier.size(20.dp)) { drawClearMark(palette.textSecondary) }
+                }
+            }
+        } else {
+            null
+        },
+        shape = RoundedCornerShape(14.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = palette.primary,
+            unfocusedBorderColor = palette.border,
+            focusedLabelColor = palette.primary,
+            unfocusedLabelColor = palette.textSecondary,
+            cursorColor = palette.primary,
+            focusedTextColor = palette.textPrimary,
+            unfocusedTextColor = palette.textPrimary,
+            focusedContainerColor = palette.surface,
+            unfocusedContainerColor = palette.surface,
+        ),
+    )
+}
+
+private fun DrawScope.drawClearMark(color: androidx.compose.ui.graphics.Color) {
+    val path = Path().apply {
+        moveTo(size.width * 0.25f, size.height * 0.25f)
+        lineTo(size.width * 0.75f, size.height * 0.75f)
+        moveTo(size.width * 0.75f, size.height * 0.25f)
+        lineTo(size.width * 0.25f, size.height * 0.75f)
+    }
+    drawPath(path, color, style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+}
+
+@Composable
+private fun RecentLabsRow(
+    entries: List<MenuEntry>,
+    palette: AppPalette,
+    onMenuClick: (String) -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text("Baru dibuka", fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = palette.textPrimary)
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(entries, key = { "recent_${it.id}" }) { entry ->
+                Surface(
+                    onClick = { onMenuClick(entry.id) },
+                    shape = RoundedCornerShape(14.dp),
+                    color = palette.surface,
+                    border = BorderStroke(1.dp, palette.border),
+                    shadowElevation = 0.dp,
+                    tonalElevation = 0.dp,
+                ) {
+                    Text(
+                        text = entry.title,
+                        modifier = Modifier.heightIn(min = 48.dp).padding(horizontal = 14.dp, vertical = 15.dp),
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = palette.textPrimary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyCatalogResults(query: String, palette: AppPalette, onClear: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text("Lab tidak ditemukan", fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = palette.textPrimary)
+        Text(
+            text = "Tidak ada hasil untuk “${query.trim()}”. Coba kata kunci lain atau tampilkan semua lab.",
+            fontSize = 13.sp,
+            color = palette.textSecondary,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+        )
+        androidx.compose.material3.TextButton(onClick = onClear) { Text("Tampilkan semua lab") }
     }
 }
 
@@ -493,6 +782,7 @@ private fun SectionFilterChipsBar(
             val isSelected = selectedSection == section
             Surface(
                 onClick = { onSectionSelected(section) },
+                modifier = Modifier.heightIn(min = 48.dp),
                 shape = RoundedCornerShape(12.dp),
                 color = if (isSelected) palette.primary else palette.surface,
                 border = BorderStroke(1.dp, if (isSelected) palette.primary else palette.border),
@@ -500,7 +790,7 @@ private fun SectionFilterChipsBar(
                 tonalElevation = 0.dp,
             ) {
                 Box(
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp),
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 15.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -561,21 +851,13 @@ private fun SectionHeader(
         }
 
         if (isFiltered && onClearFilter != null) {
-            Text(
-                text = "Tampilkan Semua",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Bold,
-                color = palette.primary,
-                modifier = Modifier.clickable { onClearFilter() },
-            )
+            TextButton(onClick = onClearFilter) {
+                Text("Tampilkan Semua", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = palette.primary)
+            }
         } else if (onQuickFilter != null) {
-            Text(
-                text = "Fokus Section",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Medium,
-                color = palette.primary,
-                modifier = Modifier.clickable { onQuickFilter() },
-            )
+            TextButton(onClick = onQuickFilter) {
+                Text("Fokus Section", fontSize = 12.sp, fontWeight = FontWeight.Medium, color = palette.primary)
+            }
         }
     }
 }
@@ -585,6 +867,7 @@ private fun MenuGridCard(
     entry: MenuEntry,
     palette: com.example.uiapp.theme.AppPalette,
     isLastTested: Boolean = false,
+    aspectRatio: Float = 1f,
     onClick: () -> Unit,
 ) {
     Surface(
@@ -592,7 +875,7 @@ private fun MenuGridCard(
         enabled = entry.enabled,
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1f)
+            .aspectRatio(aspectRatio)
             .graphicsLayer { alpha = if (entry.enabled) 1f else 0.55f },
         shape = RoundedCornerShape(20.dp),
         color = if (isLastTested) palette.primaryContainer.copy(alpha = 0.35f) else palette.surface,
@@ -672,6 +955,10 @@ private fun MenuGridCard(
                         "bento_grid" -> BentoGridMenuIcon(tint = palette.textPrimary)
                         "perforated_ticket" -> PerforatedTicketMenuIcon(tint = palette.textPrimary)
                         "ai_voice_orb" -> AiVoiceOrbMenuIcon(tint = palette.textPrimary)
+                        "staggered_reveal" -> StaggeredRevealMenuIcon(tint = palette.textPrimary)
+                        "success_check" -> SuccessCheckMenuIcon(tint = palette.textPrimary)
+                        "pill_toolbar" -> PillToolbarMenuIcon(tint = palette.textPrimary)
+                        "search_morph" -> SearchMorphMenuIcon(tint = palette.textPrimary)
                         "ai_chat" -> AiChatMenuIcon(tint = palette.textPrimary)
                         "selection_toolbar" -> SelectionToolbarMenuIcon(tint = palette.textPrimary)
                         "undo_queue" -> UndoQueueMenuIcon(tint = palette.textPrimary)
@@ -736,6 +1023,51 @@ private fun MenuGridCard(
                         "gantt_roadmap" -> GanttRoadmapMenuIcon(tint = palette.textPrimary)
                         "tree_explorer" -> TreeExplorerMenuIcon(tint = palette.textPrimary)
                         "split_bill" -> SplitBillMenuIcon(tint = palette.textPrimary)
+                        "floating_dock" -> FloatingDockMenuIcon(tint = palette.textPrimary)
+                        "budget_envelopes" -> BudgetEnvelopesMenuIcon(tint = palette.textPrimary)
+                        "quest_path" -> QuestPathMenuIcon(tint = palette.textPrimary)
+                        "sentence_builder" -> SentenceBuilderMenuIcon(tint = palette.textPrimary)
+                        "predictive_back" -> PredictiveBackMenuIcon(tint = palette.textPrimary)
+                        "ai_inline_edit" -> AiInlineEditMenuIcon(tint = palette.textPrimary)
+                        "design_tokens" -> DesignTokensMenuIcon(tint = palette.textPrimary)
+                        "perfhud" -> PerfhudMenuIcon(tint = palette.textPrimary)
+                        "appointment_slots" -> AppointmentSlotsMenuIcon(tint = palette.textPrimary)
+                        "flow_viz" -> FlowVizMenuIcon(tint = palette.textPrimary)
+                        "graph_explorer" -> GraphExplorerMenuIcon(tint = palette.textPrimary)
+                        "store_locator" -> StoreLocatorMenuIcon(tint = palette.textPrimary)
+                        "payment_form" -> PaymentFormMenuIcon(tint = palette.textPrimary)
+                        "address_input" -> AddressInputMenuIcon(tint = palette.textPrimary)
+                        "recurrence_picker" -> RecurrencePickerMenuIcon(tint = palette.textPrimary)
+                        "live_auction" -> LiveAuctionMenuIcon(tint = palette.textPrimary)
+                        "flash_sale" -> FlashSaleMenuIcon(tint = palette.textPrimary)
+                        "subscription_mgmt" -> SubscriptionMgmtMenuIcon(tint = palette.textPrimary)
+                        "queue_ticket" -> QueueTicketMenuIcon(tint = palette.textPrimary)
+                        "post_composer" -> PostComposerMenuIcon(tint = palette.textPrimary)
+                        "story_creator" -> StoryCreatorMenuIcon(tint = palette.textPrimary)
+                        "doc_scanner" -> DocScannerMenuIcon(tint = palette.textPrimary)
+                        "pdf_viewer" -> PdfViewerMenuIcon(tint = palette.textPrimary)
+                        "code_editor" -> CodeEditorMenuIcon(tint = palette.textPrimary)
+                        "version_history" -> VersionHistoryMenuIcon(tint = palette.textPrimary)
+                        "rtl_preview" -> RtlPreviewMenuIcon(tint = palette.textPrimary)
+                        "a11y_audit" -> A11yAuditMenuIcon(tint = palette.textPrimary)
+                        "getting_started" -> GettingStartedMenuIcon(tint = palette.textPrimary)
+                        "whats_new" -> WhatsNewMenuIcon(tint = palette.textPrimary)
+                        "referral_invite" -> ReferralInviteMenuIcon(tint = palette.textPrimary)
+                        "nps_survey" -> NpsSurveyMenuIcon(tint = palette.textPrimary)
+                        "report_flow" -> ReportFlowMenuIcon(tint = palette.textPrimary)
+                        "secure_vault" -> SecureVaultMenuIcon(tint = palette.textPrimary)
+                        "medication_plan" -> MedicationPlanMenuIcon(tint = palette.textPrimary)
+                        "nutrition_diary" -> NutritionDiaryMenuIcon(tint = palette.textPrimary)
+                        "sleep_stages" -> SleepStagesMenuIcon(tint = palette.textPrimary)
+                        "qris_pay" -> QrisPayMenuIcon(tint = palette.textPrimary)
+                        "virtual_card" -> VirtualCardMenuIcon(tint = palette.textPrimary)
+                        "currency_exchange" -> CurrencyExchangeMenuIcon(tint = palette.textPrimary)
+                        "loan_simulator" -> LoanSimulatorMenuIcon(tint = palette.textPrimary)
+                        "drag_drop" -> DragDropMenuIcon(tint = palette.textPrimary)
+                        "collab_presence" -> CollabPresenceMenuIcon(tint = palette.textPrimary)
+                        "live_dashboard" -> LiveDashboardMenuIcon(tint = palette.textPrimary)
+                        "offline_resilience" -> OfflineResilienceMenuIcon(tint = palette.textPrimary)
+                        "ai_agent_steps" -> AiAgentStepsMenuIcon(tint = palette.textPrimary)
                         else -> PlaceholderMenuIcon(tint = palette.textPrimary)
                     }
                 }
@@ -745,11 +1077,11 @@ private fun MenuGridCard(
                         modifier = Modifier
                             .clip(RoundedCornerShape(6.dp))
                             .background(palette.primary)
-                            .padding(horizontal = 6.dp, vertical = 3.dp),
+                            .padding(horizontal = 7.dp, vertical = 4.dp),
                     ) {
                         Text(
-                            text = "DIUJI",
-                            fontSize = 8.sp,
+                            text = "TERAKHIR",
+                            fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             color = palette.onPrimary,
                         )
@@ -763,7 +1095,7 @@ private fun MenuGridCard(
                     ) {
                         Text(
                             text = "SEGERA",
-                            fontSize = 9.sp,
+                            fontSize = 10.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = palette.textMuted,
                         )
